@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'graphql_devise'
   spec.version       = GraphqlDevise::VERSION
   spec.authors       = ['Mario Celi', 'David Revelo']
-  spec.email         = ['mcelicalderon@gmail.com']
+  spec.email         = ['mcelicalderon@gmail.com', 'david.revelo.uio@gmail.com']
 
   spec.summary       = 'GraphQL queries and mutations on top of devise_token_auth'
   spec.description   = 'GraphQL queries and mutations on top of devise_token_auth'
@@ -23,7 +23,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'devise_token_auth'
+
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'sqlite3'
 end
