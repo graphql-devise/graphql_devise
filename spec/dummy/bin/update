@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require 'pathname'
 require 'fileutils'
+require 'pathname'
 include FileUtils
 
 # path to your application root.
