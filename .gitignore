@@ -11,3 +11,7 @@
 .rspec_status
 /spec/dummy/log/
 /spec/dummy/tmp/
+/Gemfile.lock
+/*.sqlite3
+/spec/dummy/db/development.sqlite3
+/spec/dummy/db/test.sqlite3
