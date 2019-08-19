@@ -1,4 +1,3 @@
 Rails.application.routes.draw do
-  resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount_graphql_devise_for 'User', at: 'api/v1'
 end

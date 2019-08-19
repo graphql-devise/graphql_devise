@@ -1,10 +1,10 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENGINE_ROOT = File.join(File.dirname(__FILE__), '../')
 
-require File.expand_path('../dummy/config/environment.rb', __FILE__)
+require File.expand_path('dummy/config/environment.rb', __dir__)
 
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 require 'spec_helper'
 require 'rspec/rails'
@@ -16,9 +16,7 @@ Dir[File.join(ENGINE_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
 
 # Load migrations from the dummy app.
 
-RSpec.configure do |config|
-  config.infer_spec_type_from_file_location!
-end
+RSpec.configure(&:infer_spec_type_from_file_location!)
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin

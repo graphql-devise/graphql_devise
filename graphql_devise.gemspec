@@ -21,9 +21,11 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-  spec.test_files    = Dir["spec/**/*"]
+  spec.test_files    = Dir['spec/**/*']
 
   spec.add_dependency 'devise_token_auth'
+  spec.add_dependency 'graphql'
+  spec.add_dependency 'rails', '~> 5.0'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 10.0'

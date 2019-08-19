@@ -1,3 +1,11 @@
 class User < ApplicationRecord
-  include GraphqlDevise::Concerns::Models::Testable
+  devise :database_authenticatable,
+    :registerable,
+    :recoverable,
+    :rememberable,
+    :trackable,
+    :validatable,
+    :confirmable
+
+  include DeviseTokenAuth::Concerns::User
 end
