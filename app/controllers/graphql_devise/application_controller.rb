@@ -1,4 +1,4 @@
 module GraphqlDevise
-  class ApplicationController < ActionController::API
+  class ApplicationController < DeviseTokenAuth::ApplicationController
   end
 end
