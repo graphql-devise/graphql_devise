@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = Dir['spec/**/*']
 
   spec.add_dependency 'devise_token_auth'
+  spec.add_dependency 'graphql'
   spec.add_dependency 'rails', '~> 5.0'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
