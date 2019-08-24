@@ -23,9 +23,8 @@ module GraphqlDevise
         operation_name: item[:operationName],
         variables:      ensure_hash(item[:variables]),
         context:        {
-          current_user: user,
-          request: request,
-          response: response,
+          current_user:   user,
+          controller:     self,
           resource_class: resource_class
         }
       }
