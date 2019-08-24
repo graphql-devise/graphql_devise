@@ -1,4 +1,5 @@
 # GraphqlDevise
+[![Build Status](https://travis-ci.org/graphql-device/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-device/graphql_devise)
 
 ## Installation
 

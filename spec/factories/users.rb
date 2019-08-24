@@ -6,5 +6,13 @@ FactoryBot.define do
     trait :confirmed do
       confirmed_at { Time.now }
     end
+
+    trait :locked do
+      locked_at { Time.now }
+    end
+
+    trait :auth_unavailable do
+      auth_available { false }
+    end
   end
 end

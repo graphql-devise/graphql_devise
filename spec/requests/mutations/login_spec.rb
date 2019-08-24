@@ -20,18 +20,73 @@ RSpec.describe 'Login Requests' do
     GRAPHQL
   end
 
+  before { post '/api/v1/graphql_auth', params: grapqhl_params }
+
   context 'when user is able to login' do
-    it 'return credentials in headers and user information' do
-      post '/api/v1/graphql_auth', params: grapqhl_params
+    context 'when credentials are valid' do
+      it 'return credentials in headers and user information' do
+        expect(response).to include_auth_headers
+        expect(user.reload.tokens.keys).to include(response.headers['client'])
+        expect(json_response.dig(:data, :login)).to match(
+          success:       true,
+          errors:        [],
+          authenticable: { email: user.email }
+        )
+      end
+    end
 
-      auth_headers = %w[uid access-token client].map { |key| response.headers[key] }
+    context 'when credentials are invalid' do
+      let(:user) { create(:user, :confirmed, password: 'not guessing it ;)') }
 
-      expect(auth_headers).to all(be_present)
-      expect(user.reload.tokens.keys).to include(response.headers['client'])
+      it 'returns bad credentials error' do
+        expect(response).not_to include_auth_headers
+        expect(json_response.dig(:data, :login)).to match(
+          success:       false,
+          errors:        ['Invalid login credentials. Please try again.'],
+          authenticable: nil
+        )
+      end
+    end
+  end
+
+  context 'when user is not confirmed' do
+    let(:user) { create(:user, password: password) }
+
+    it 'returns a must confirm account message' do
+      expect(response).not_to include_auth_headers
       expect(json_response.dig(:data, :login)).to match(
-        success:       true,
-        errors:        [],
-        authenticable: { email: user.email }
+        success:       false,
+        errors:        [
+          "A confirmation email was sent to your account at '#{user.email}'. You must follow the instructions in the " \
+          "email before your account can be activated"
+        ],
+        authenticable: nil
+      )
+    end
+  end
+
+  context 'when user is locked' do
+    let(:user) { create(:user, :confirmed, :locked, password: password) }
+
+    it 'returns a must confirm account message' do
+      expect(response).not_to include_auth_headers
+      expect(json_response.dig(:data, :login)).to match(
+        success:       false,
+        errors:        ['Your account has been locked due to an excessive number of unsuccessful sign in attempts.'],
+        authenticable: nil
+      )
+    end
+  end
+
+  context 'when invalid for authentication' do
+    let(:user) { create(:user, :confirmed, :auth_unavailable, password: password) }
+
+    it 'returns a must confirm account message' do
+      expect(response).not_to include_auth_headers
+      expect(json_response.dig(:data, :login)).to match(
+        success:       false,
+        errors:        ['Invalid login credentials. Please try again.'  ],
+        authenticable: nil
       )
     end
   end
