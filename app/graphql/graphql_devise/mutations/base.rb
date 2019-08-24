@@ -22,6 +22,10 @@ module GraphqlDevise
       def resource_class
         context[:resource_class]
       end
+
+      def current_resource
+        context[:current_resource]
+      end
     end
   end
 end

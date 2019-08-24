@@ -2,6 +2,8 @@ require_dependency 'graphql_devise/application_controller'
 
 module GraphqlDevise
   class GraphqlController < ApplicationController
+    before_action :set_user_by_token
+
     def auth
       result = if params[:_json]
         GraphqlDevise::Schema.multiplex(
@@ -18,14 +20,14 @@ module GraphqlDevise
 
     private
 
-    def execute_params(item, user = current_user)
+    def execute_params(item)
       {
         operation_name: item[:operationName],
         variables:      ensure_hash(item[:variables]),
         context:        {
-          current_user:   user,
-          controller:     self,
-          resource_class: resource_class
+          current_resource: @resource,
+          controller:       self,
+          resource_class:   resource_class
         }
       }
     end
