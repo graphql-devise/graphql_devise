@@ -23,11 +23,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.test_files    = Dir['spec/**/*']
 
-  spec.add_dependency 'devise_token_auth'
-  spec.add_dependency 'graphql'
-  spec.add_dependency 'rails', '~> 5.0'
+  spec.add_dependency 'devise_token_auth', '>= 0.1.37'
+  spec.add_dependency 'graphql', '> 1.8'
+  spec.add_dependency 'rails', '> 4.0'
 
-  spec.add_development_dependency 'bundler', '~> 2.0'
+  spec.add_development_dependency 'appraisal'
   spec.add_development_dependency 'factory_bot'
   spec.add_development_dependency 'faker'
   spec.add_development_dependency 'pry'
@@ -36,5 +36,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-performance'
   spec.add_development_dependency 'rubocop-rspec'
-  spec.add_development_dependency 'sqlite3'
+  spec.add_development_dependency 'sqlite3', '~> 1.3.6'
 end

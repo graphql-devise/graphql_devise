@@ -5,9 +5,9 @@ require File.expand_path('dummy/config/environment.rb', __dir__)
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
-require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'spec_helper'
 require 'factory_bot'
 require 'faker'
 
@@ -25,7 +25,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{ENGINE_ROOT}/spec/fixtures"
 
   config.use_transactional_fixtures = true
 
