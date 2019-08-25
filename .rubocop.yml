@@ -1,0 +1,117 @@
+require: rubocop-rspec
+require: rubocop-performance
+
+Rails:
+  Enabled: true
+
+AllCops:
+  TargetRubyVersion: 2.5
+  DisplayCopNames: true
+  Exclude:
+    - bin/**/*
+    - db/**/*
+    - vendor/**/*
+    - tmp/**/*
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/RepeatedDescription:
+  Enabled: false
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+Style/AndOr:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+Style/CollectionMethods:
+  Enabled: true
+
+Style/SymbolArray:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Style/StringLiterals:
+  ConsistentQuotesInMultiline: true
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+  SupportedStyles:
+    - compact
+    - expanded
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/StringMethods:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/BlockLength:
+  Enabled: false
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+  SupportedStyles:
+    - with_first_parameter
+    - with_fixed_indentation
+
+Lint/EndAlignment:
+  EnforcedStyleAlignWith: variable
+  SupportedStylesAlignWith:
+    - keyword
+    - variable
+
+Lint/MissingCopEnableDirective:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 7
+
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+    - and
