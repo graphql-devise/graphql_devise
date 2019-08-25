@@ -12,6 +12,7 @@
 /spec/dummy/log/
 /spec/dummy/tmp/
 /Gemfile.lock
+*.gemfile.lock
 /*.sqlite3
 /spec/dummy/db/development.sqlite3
 /spec/dummy/db/test.sqlite3

@@ -1,7 +1,29 @@
 ---
-sudo: false
 language: ruby
+sudo: false
 cache: bundler
+before_install: gem install bundler -v 1.17
+before_script: RAILS_ENV=test bundle exec rake db:create db:schema:load
+
 rvm:
+  - 2.2.10
+  - 2.3.8
+  - 2.4.6
+  - 2.5.5
   - 2.6.3
-before_install: gem install bundler -v 2.0.2
+
+gemfile:
+  - gemfiles/rails4.2_graphql1.8.gemfile
+  - gemfiles/rails5.0_graphql1.8.gemfile
+  - gemfiles/rails5.0_graphql1.9.gemfile
+  - gemfiles/rails5.1_graphql1.8.gemfile
+  - gemfiles/rails5.1_graphql1.9.gemfile
+  - gemfiles/rails5.2_graphql1.8.gemfile
+  - gemfiles/rails5.2_graphql1.9.gemfile
+
+matrix:
+  include:
+    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+      rvm: 2.5.5
+    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+      rvm: 2.6.3
