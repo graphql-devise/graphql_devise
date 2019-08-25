@@ -6,7 +6,7 @@ RSpec.describe 'Login Requests' do
   let(:password) { '12345678' }
   let(:user)     { create(:user, :confirmed, password: password) }
   let(:query) do
-    <<~GRAPHQL
+    <<-GRAPHQL
       mutation {
         login(
           email: "#{user.email}",
@@ -27,7 +27,7 @@ RSpec.describe 'Login Requests' do
       it 'return credentials in headers and user information' do
         expect(response).to include_auth_headers
         expect(user.reload.tokens.keys).to include(response.headers['client'])
-        expect(json_response.dig(:data, :login)).to match(
+        expect(json_response[:data][:login]).to match(
           success:       true,
           errors:        [],
           authenticable: { email: user.email }
@@ -40,7 +40,7 @@ RSpec.describe 'Login Requests' do
 
       it 'returns bad credentials error' do
         expect(response).not_to include_auth_headers
-        expect(json_response.dig(:data, :login)).to match(
+        expect(json_response[:data][:login]).to match(
           success:       false,
           errors:        ['Invalid login credentials. Please try again.'],
           authenticable: nil
@@ -54,7 +54,7 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response.dig(:data, :login)).to match(
+      expect(json_response[:data][:login]).to match(
         success:       false,
         errors:        [
           "A confirmation email was sent to your account at '#{user.email}'. You must follow the instructions in the " \
@@ -70,7 +70,7 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response.dig(:data, :login)).to match(
+      expect(json_response[:data][:login]).to match(
         success:       false,
         errors:        ['Your account has been locked due to an excessive number of unsuccessful sign in attempts.'],
         authenticable: nil
@@ -83,7 +83,7 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response.dig(:data, :login)).to match(
+      expect(json_response[:data][:login]).to match(
         success:       false,
         errors:        ['Invalid login credentials. Please try again.'  ],
         authenticable: nil
