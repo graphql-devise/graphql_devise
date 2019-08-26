@@ -26,6 +26,7 @@ module GraphqlDevise
         variables:      ensure_hash(item[:variables]),
         context:        {
           current_resource: @resource,
+          token:            @token,
           controller:       self,
           resource_class:   resource_class
         }

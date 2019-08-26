@@ -3,28 +3,42 @@
 module ActionDispatch::Routing
   class Mapper
     def mount_graphql_devise_for(resource, opts = {})
-      options = {
-        skip: [
-          :sessions,
-          :registrations,
-          :passwords,
-          :confirmations,
-          :token_validations,
-          :omniauth_callbacks,
-          :unlocks
-        ]
-      }.merge(opts)
+      mutation_options = opts[:mutations] || {}
 
       path         = opts.fetch(:at, '/')
       mapping_name = resource.underscore.tr('/', '_')
 
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
-        class_name: resource,
-        module:     :devise,
-        path:       path,
-        skip:       options[:skip] + [:omniauth_callbacks]
+        module: :devise,
+        skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks]
       )
+
+      authenticable_type = opts[:authenticable_type] ||
+                           GraphqlDevise::Util::ClassGetter.call("Types::#{resource}Type") ||
+                           GraphqlDevise::Types::AuthenticableType
+
+      default_mutations = {
+        login:  GraphqlDevise::Mutations::Login,
+        logout: GraphqlDevise::Mutations::Logout
+      }.freeze
+
+      default_mutations.each do |action, mutation|
+        used_mutation = if mutation_options[action].present?
+          mutation_options[action]
+        else
+          new_mutation = Class.new(mutation)
+          new_mutation.graphql_name("#{resource}#{action.to_s.titleize}")
+          new_mutation.field(
+            :authenticable,
+            authenticable_type,
+            null: true
+          )
+          new_mutation
+        end
+
+        GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
+      end
 
       devise_scope mapping_name.to_sym do
         post "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'

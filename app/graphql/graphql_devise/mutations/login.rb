@@ -4,9 +4,8 @@ module GraphqlDevise
       argument :email,    String, required: true
       argument :password, String, required: true
 
-      field :authenticable, GraphqlDevise::Types::AuthenticableType, null: true
-      field :success,       Boolean,                                 null: false
-      field :errors,        [String],                                null: false
+      field :success, Boolean,  null: false
+      field :errors,  [String], null: false
 
       def resolve(email:, password:)
         resource = resource_class.find_by(email: email)

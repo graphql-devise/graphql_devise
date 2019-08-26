@@ -8,11 +8,11 @@ RSpec.describe 'Login Requests' do
   let(:query) do
     <<-GRAPHQL
       mutation {
-        login(
+        userLogin(
           email: "#{user.email}",
           password: "#{password}"
         ) {
-          authenticable { email }
+          user { email name signInCount }
           success
           errors
         }
@@ -27,10 +27,10 @@ RSpec.describe 'Login Requests' do
       it 'return credentials in headers and user information' do
         expect(response).to include_auth_headers
         expect(user.reload.tokens.keys).to include(response.headers['client'])
-        expect(json_response[:data][:login]).to match(
-          success:       true,
-          errors:        [],
-          authenticable: { email: user.email }
+        expect(json_response[:data][:userLogin]).to match(
+          success: true,
+          errors:  [],
+          user:    { email: user.email, name: user.name, signInCount: 1 }
         )
       end
     end
@@ -40,10 +40,10 @@ RSpec.describe 'Login Requests' do
 
       it 'returns bad credentials error' do
         expect(response).not_to include_auth_headers
-        expect(json_response[:data][:login]).to match(
-          success:       false,
-          errors:        ['Invalid login credentials. Please try again.'],
-          authenticable: nil
+        expect(json_response[:data][:userLogin]).to match(
+          success: false,
+          errors:  ['Invalid login credentials. Please try again.'],
+          user:    nil
         )
       end
     end
@@ -54,13 +54,13 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response[:data][:login]).to match(
-        success:       false,
-        errors:        [
+      expect(json_response[:data][:userLogin]).to match(
+        success: false,
+        errors:  [
           "A confirmation email was sent to your account at '#{user.email}'. You must follow the instructions in the " \
           "email before your account can be activated"
         ],
-        authenticable: nil
+        user:    nil
       )
     end
   end
@@ -70,10 +70,10 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response[:data][:login]).to match(
-        success:       false,
-        errors:        ['Your account has been locked due to an excessive number of unsuccessful sign in attempts.'],
-        authenticable: nil
+      expect(json_response[:data][:userLogin]).to match(
+        success: false,
+        errors:  ['Your account has been locked due to an excessive number of unsuccessful sign in attempts.'],
+        user:    nil
       )
     end
   end
@@ -83,10 +83,10 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response[:data][:login]).to match(
-        success:       false,
-        errors:        ['Invalid login credentials. Please try again.'  ],
-        authenticable: nil
+      expect(json_response[:data][:userLogin]).to match(
+        success: false,
+        errors:  ['Invalid login credentials. Please try again.'],
+        user:    nil
       )
     end
   end

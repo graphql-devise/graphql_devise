@@ -8,11 +8,11 @@ module GraphqlDevise
       end
 
       def request
-        context[:controller].request
+        controller.request
       end
 
       def response
-        context[:controller].response
+        controller.response
       end
 
       def controller
@@ -25,6 +25,10 @@ module GraphqlDevise
 
       def current_resource
         context[:current_resource]
+      end
+
+      def token
+        context[:token]
       end
     end
   end
