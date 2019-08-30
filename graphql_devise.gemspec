@@ -26,8 +26,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.2.0'
 
   spec.add_dependency 'devise_token_auth', '>= 0.1.37'
-  spec.add_dependency 'graphql', '> 1.8'
-  spec.add_dependency 'rails', '> 4.0'
+  spec.add_dependency 'graphql', '>= 1.8'
+  spec.add_dependency 'rails', '>= 4.2'
 
   spec.add_development_dependency 'appraisal'
   spec.add_development_dependency 'factory_bot'
