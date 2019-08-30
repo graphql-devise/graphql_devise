@@ -18,6 +18,8 @@ module GraphqlDevise
       render json: result
     end
 
+    attr_accessor :client_id, :token, :resource
+
     private
 
     def execute_params(item)
@@ -26,7 +28,6 @@ module GraphqlDevise
         variables:      ensure_hash(item[:variables]),
         context:        {
           current_resource: @resource,
-          token:            @token,
           controller:       self,
           resource_class:   resource_class
         }

@@ -29,11 +29,8 @@ module ActionDispatch::Routing
         else
           new_mutation = Class.new(mutation)
           new_mutation.graphql_name("#{resource}#{action.to_s.titleize}")
-          new_mutation.field(
-            :authenticable,
-            authenticable_type,
-            null: true
-          )
+          new_mutation.field(:authenticable, authenticable_type, null: true)
+
           new_mutation
         end
 

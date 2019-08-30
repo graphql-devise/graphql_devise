@@ -2,7 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "listen"
 gem "sqlite3", "~> 1.4"
 gem "devise_token_auth", github: "lynndylanhurley/devise_token_auth", branch: "master"
 gem "devise", ">= 4.7"

@@ -2,7 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "listen"
 gem "rails", github: "rails/rails", branch: "5-2-stable"
 gem "graphql", "~> 1.9.0"
 

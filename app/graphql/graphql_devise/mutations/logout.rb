@@ -5,15 +5,15 @@ module GraphqlDevise
       field :errors,  [String], null: false
 
       def resolve
-        client = token.client if token.client
+        if current_resource && client && current_resource.tokens[client]
+          current_resource.tokens.delete(client)
+          current_resource.save!
 
-        if current_user && token.client && current_user.tokens[client]
-          user.tokens.delete(client)
-          user.save!
+          remove_resource
 
-          yield user if block_given?
+          yield current_resource if block_given?
 
-          { success: true, errors: [] }
+          { success: true, errors: [], authenticable: current_resource }
         else
           { success: false, errors: [I18n.t('graphql_devise.user_not_found')] }
         end
