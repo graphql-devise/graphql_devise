@@ -1,18 +1,26 @@
+require 'devise_token_auth/version'
+
 module GraphqlDevise
   module Mutations
     class Base < GraphQL::Schema::Mutation
       private
+
+      def remove_resource
+        controller.resource = nil
+        controller.client_id = nil
+        controller.token = nil
+      end
 
       def single_error_object(error)
         { success: false, errors: [error] }
       end
 
       def request
-        context[:controller].request
+        controller.request
       end
 
       def response
-        context[:controller].response
+        controller.response
       end
 
       def controller
@@ -25,6 +33,14 @@ module GraphqlDevise
 
       def current_resource
         context[:current_resource]
+      end
+
+      def client
+        if Gem::Version.new(DeviseTokenAuth::VERSION) <= Gem::Version.new('1.1.0')
+          controller.client_id
+        else
+          controller.token.client if controller.token.present?
+        end
       end
     end
   end

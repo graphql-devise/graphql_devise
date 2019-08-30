@@ -18,6 +18,8 @@ module GraphqlDevise
       render json: result
     end
 
+    attr_accessor :client_id, :token, :resource
+
     private
 
     def execute_params(item)

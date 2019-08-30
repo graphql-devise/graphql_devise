@@ -5,13 +5,16 @@ Rails:
   Enabled: true
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.2
   DisplayCopNames: true
   Exclude:
     - bin/**/*
     - db/**/*
     - vendor/**/*
     - tmp/**/*
+
+Rails/HttpPositionalArguments:
+  Enabled: false
 
 Rails/HasAndBelongsToMany:
   Enabled: false
