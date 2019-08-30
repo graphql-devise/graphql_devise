@@ -15,7 +15,7 @@ module ActionDispatch::Routing
       )
 
       authenticable_type = opts[:authenticable_type] ||
-                           GraphqlDevise::Util::ClassGetter.call("Types::#{resource}Type") ||
+                           "Types::#{resource}Type".safe_constantize ||
                            GraphqlDevise::Types::AuthenticableType
 
       default_mutations = {
