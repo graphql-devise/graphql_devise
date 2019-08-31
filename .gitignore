@@ -16,3 +16,4 @@
 /*.sqlite3
 /spec/dummy/db/development.sqlite3
 /spec/dummy/db/test.sqlite3
+/graphql_devise-0.1.0.gem

@@ -1,6 +1,6 @@
 require 'rails'
-require 'graphql_devise/engine'
 require 'devise_token_auth'
+require 'graphql_devise/engine'
 require 'graphql'
 require 'graphql_devise/version'
 require 'graphql_devise/error_codes'
