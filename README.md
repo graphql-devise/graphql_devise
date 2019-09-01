@@ -1,5 +1,5 @@
 # GraphqlDevise
-[![Build Status](https://travis-ci.org/graphql-device/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-device/graphql_devise)
+[![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
 
 ## Installation
 
@@ -27,7 +27,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/graphql-device/graphql_devise.
+Bug reports and pull requests are welcome on GitHub at https://github.com/graphql-devise/graphql_devise.
 
 ## License
 

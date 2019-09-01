@@ -10,11 +10,11 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'GraphQL queries and mutations on top of devise_token_auth'
   spec.description   = 'GraphQL queries and mutations on top of devise_token_auth'
-  spec.homepage      = 'https://github.com/graphql-device/graphql_devise'
+  spec.homepage      = 'https://github.com/graphql-devise/graphql_devise'
   spec.license       = 'MIT'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/graphql-device/graphql_devise'
+  spec.metadata['source_code_uri'] = 'https://github.com/graphql-devise/graphql_devise'
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
