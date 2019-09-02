@@ -3,9 +3,10 @@ require 'graphql_devise/engine'
 require 'devise_token_auth'
 require 'graphql'
 require 'graphql_devise/version'
+require 'graphql_devise/error_codes'
+require 'graphql_devise/user_error'
+require 'graphql_devise/detailed_user_error'
 
 module GraphqlDevise
   class Error < StandardError; end
 end
-
-require 'graphql_devise/user_error'

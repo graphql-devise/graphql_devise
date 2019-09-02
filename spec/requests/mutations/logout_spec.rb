@@ -7,14 +7,14 @@ RSpec.describe 'Logout Requests' do
   let(:query) do
     <<-GRAPHQL
       mutation {
-        userLogout{
+        userLogout {
           authenticable { email }
         }
       }
     GRAPHQL
   end
 
-  before { post '/api/v1/graphql_auth', *graphql_params }
+  before { post_request }
 
   context 'when user is logged in' do
     let(:headers) { user.create_new_auth_token }

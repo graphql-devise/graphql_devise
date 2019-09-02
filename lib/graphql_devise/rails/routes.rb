@@ -19,8 +19,9 @@ module ActionDispatch::Routing
                            GraphqlDevise::Types::AuthenticableType
 
       default_mutations = {
-        login:  GraphqlDevise::Mutations::Login,
-        logout: GraphqlDevise::Mutations::Logout
+        login:           GraphqlDevise::Mutations::Login,
+        logout:          GraphqlDevise::Mutations::Logout,
+        update_password: GraphqlDevise::Mutations::UpdatePassword
       }.freeze
 
       default_mutations.each do |action, mutation|
@@ -28,7 +29,7 @@ module ActionDispatch::Routing
           mutation_options[action]
         else
           new_mutation = Class.new(mutation)
-          new_mutation.graphql_name("#{resource}#{action.to_s.titleize}")
+          new_mutation.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
           new_mutation.field(:authenticable, authenticable_type, null: true)
 
           new_mutation

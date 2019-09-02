@@ -17,7 +17,7 @@ module GraphqlDevise
 
           yield resource if block_given?
 
-          { success: true, authenticable: resource, errors: [] }
+          { authenticable: resource}
         elsif resource && !active_for_authentication?(resource)
           if locked?(resource)
             raise_user_error(I18n.t('graphql_devise.mailer.unlock_instructions.account_lock_msg'))

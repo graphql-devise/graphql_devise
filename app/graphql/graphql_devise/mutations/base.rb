@@ -9,6 +9,10 @@ module GraphqlDevise
         raise GraphqlDevise::UserError, message
       end
 
+      def raise_user_error_list(message, errors:)
+        raise GraphqlDevise::DetailedUserError.new(message, errors: errors)
+      end
+
       def remove_resource
         controller.resource = nil
         controller.client_id = nil
@@ -29,6 +33,10 @@ module GraphqlDevise
 
       def resource_class
         context[:resource_class]
+      end
+
+      def recoverable_enabled?
+        resource_class.devise_modules.include?(:recoverable)
       end
 
       def current_resource
