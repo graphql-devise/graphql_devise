@@ -8,7 +8,7 @@ module GraphqlDevise
     end
 
     def to_h
-      super.merge(extensions: { code: 'USER_ERROR', detailed_errors: @errors })
+      super.merge(extensions: { code: ERROR_CODES.fetch(:user_error), detailed_errors: @errors })
     end
   end
 end

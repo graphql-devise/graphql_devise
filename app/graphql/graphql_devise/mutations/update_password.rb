@@ -14,7 +14,7 @@ module GraphqlDevise
           )
         end
 
-        if update_cresource_password(current_password, attrs)
+        if update_resource_password(current_password, attrs)
           current_resource.allow_password_change = false if recoverable_enabled?
           current_resource.save!
 
@@ -31,7 +31,7 @@ module GraphqlDevise
 
       private
 
-      def update_cresource_password(current_password, attrs)
+      def update_resource_password(current_password, attrs)
         allow_password_change = recoverable_enabled? && current_resource.allow_password_change == true
         if DeviseTokenAuth.check_current_password_before_update == false || allow_password_change
           current_resource.public_send(:update, attrs)

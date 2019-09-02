@@ -13,6 +13,7 @@ RSpec.describe 'Update Password Requests' do
         authenticable: { email: user.email }
       )
       expect(json_response[:errors]).to be_nil
+      expect(user).to be_valid_password(password)
     end
   end
 
