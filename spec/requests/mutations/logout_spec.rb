@@ -9,8 +9,6 @@ RSpec.describe 'Logout Requests' do
       mutation {
         userLogout{
           authenticable { email }
-          success
-          errors
         }
       }
     GRAPHQL
@@ -25,10 +23,9 @@ RSpec.describe 'Logout Requests' do
       expect(response).not_to include_auth_headers
       expect(user.reload.tokens.keys).to be_empty
       expect(json_response[:data][:userLogout]).to match(
-        success:       true,
-        errors:        [],
         authenticable: { email: user.email }
       )
+      expect(json_response[:errors]).to be_nil
     end
   end
 
@@ -36,10 +33,9 @@ RSpec.describe 'Logout Requests' do
     it 'returns an error' do
       expect(response).not_to include_auth_headers
       expect(user.reload.tokens.keys).to be_empty
-      expect(json_response[:data][:userLogout]).to match(
-        success:       false,
-        errors:        ['User was not found or was not logged in.'],
-        authenticable: nil
+      expect(json_response[:data][:userLogout]).to be_nil
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(message: 'User was not found or was not logged in.', extensions: { code: 'USER_ERROR' })
       )
     end
   end
