@@ -18,7 +18,7 @@ RSpec.describe 'Login Requests' do
     GRAPHQL
   end
 
-  before { post '/api/v1/graphql_auth', *graphql_params }
+  before { post_request }
 
   context 'when user is able to login' do
     context 'when credentials are valid' do
