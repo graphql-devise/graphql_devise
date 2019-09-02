@@ -7,7 +7,7 @@ end
 appraise 'rails5.0-graphql1.8' do
   gem 'rails', github: 'rails/rails', branch: '5-0-stable'
   gem 'graphql', '~> 1.8.0'
-  gem 'devise_token_auth', '0.1.37'
+  gem 'devise_token_auth', '0.1.43'
   gem 'devise', '>= 4.0'
 end
 
@@ -19,7 +19,7 @@ end
 appraise 'rails5.1-graphql1.8' do
   gem 'rails', github: 'rails/rails', branch: '5-1-stable'
   gem 'graphql', '~> 1.8.0'
-  gem 'devise_token_auth', '0.1.42'
+  gem 'devise_token_auth', '0.1.43'
   gem 'devise', '>= 4.3'
 end
 

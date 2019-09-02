@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 gem "rails", github: "rails/rails", branch: "5-1-stable"
 gem "graphql", "~> 1.8.0"
-gem "devise_token_auth", "0.1.42"
+gem "devise_token_auth", "0.1.43"
 gem "devise", ">= 4.3"
 
 gemspec path: "../"
