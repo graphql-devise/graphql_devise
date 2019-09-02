@@ -5,14 +5,14 @@ module GraphqlDevise
     class Base < GraphQL::Schema::Mutation
       private
 
+      def raise_user_error(message)
+        raise GraphqlDevise::UserError, message
+      end
+
       def remove_resource
         controller.resource = nil
         controller.client_id = nil
         controller.token = nil
-      end
-
-      def single_error_object(error)
-        { success: false, errors: [error] }
       end
 
       def request

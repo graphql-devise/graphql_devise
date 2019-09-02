@@ -13,8 +13,6 @@ RSpec.describe 'Login Requests' do
           password: "#{password}"
         ) {
           user { email name signInCount }
-          success
-          errors
         }
       }
     GRAPHQL
@@ -28,10 +26,9 @@ RSpec.describe 'Login Requests' do
         expect(response).to include_auth_headers
         expect(user.reload.tokens.keys).to include(response.headers['client'])
         expect(json_response[:data][:userLogin]).to match(
-          success: true,
-          errors:  [],
-          user:    { email: user.email, name: user.name, signInCount: 1 }
+          user: { email: user.email, name: user.name, signInCount: 1 }
         )
+        expect(json_response[:errors]).to be_nil
       end
     end
 
@@ -40,10 +37,9 @@ RSpec.describe 'Login Requests' do
 
       it 'returns bad credentials error' do
         expect(response).not_to include_auth_headers
-        expect(json_response[:data][:userLogin]).to match(
-          success: false,
-          errors:  ['Invalid login credentials. Please try again.'],
-          user:    nil
+        expect(json_response[:data][:userLogin]).to be_nil
+        expect(json_response[:errors]).to contain_exactly(
+          hash_including(message: 'Invalid login credentials. Please try again.', extensions: { code: 'USER_ERROR' })
         )
       end
     end
@@ -54,13 +50,13 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response[:data][:userLogin]).to match(
-        success: false,
-        errors:  [
-          "A confirmation email was sent to your account at '#{user.email}'. You must follow the instructions in the " \
-          "email before your account can be activated"
-        ],
-        user:    nil
+      expect(json_response[:data][:userLogin]).to be_nil
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(
+          message:    "A confirmation email was sent to your account at '#{user.email}'. You must follow the " \
+                      "instructions in the email before your account can be activated",
+          extensions: { code: 'USER_ERROR' }
+        )
       )
     end
   end
@@ -70,10 +66,12 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response[:data][:userLogin]).to match(
-        success: false,
-        errors:  ['Your account has been locked due to an excessive number of unsuccessful sign in attempts.'],
-        user:    nil
+      expect(json_response[:data][:userLogin]).to be_nil
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(
+          message:    'Your account has been locked due to an excessive number of unsuccessful sign in attempts.',
+          extensions: { code: 'USER_ERROR' }
+        )
       )
     end
   end
@@ -83,10 +81,9 @@ RSpec.describe 'Login Requests' do
 
     it 'returns a must confirm account message' do
       expect(response).not_to include_auth_headers
-      expect(json_response[:data][:userLogin]).to match(
-        success: false,
-        errors:  ['Invalid login credentials. Please try again.'],
-        user:    nil
+      expect(json_response[:data][:userLogin]).to be_nil
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(message: 'Invalid login credentials. Please try again.', extensions: { code: 'USER_ERROR' })
       )
     end
   end

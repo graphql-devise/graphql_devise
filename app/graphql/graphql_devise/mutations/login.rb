@@ -4,15 +4,12 @@ module GraphqlDevise
       argument :email,    String, required: true
       argument :password, String, required: true
 
-      field :success, Boolean,  null: false
-      field :errors,  [String], null: false
-
       def resolve(email:, password:)
         resource = resource_class.find_by(email: email)
 
         if resource && active_for_authentication?(resource)
           if invalid_for_authentication?(resource, password)
-            return single_error_object(I18n.t('graphql_devise.sessions.bad_credentials'))
+            raise_user_error(I18n.t('graphql_devise.sessions.bad_credentials'))
           end
 
           set_auth_headers(resource)
@@ -23,12 +20,12 @@ module GraphqlDevise
           { success: true, authenticable: resource, errors: [] }
         elsif resource && !active_for_authentication?(resource)
           if locked?(resource)
-            single_error_object(I18n.t('graphql_devise.mailer.unlock_instructions.account_lock_msg'))
+            raise_user_error(I18n.t('graphql_devise.mailer.unlock_instructions.account_lock_msg'))
           else
-            single_error_object(I18n.t('devise_token_auth.sessions.not_confirmed', email: resource.email))
+            raise_user_error(I18n.t('devise_token_auth.sessions.not_confirmed', email: resource.email))
           end
         else
-          single_error_object(I18n.t('graphql_devise.sessions.bad_credentials'))
+          raise_user_error(I18n.t('graphql_devise.sessions.bad_credentials'))
         end
       end
 
