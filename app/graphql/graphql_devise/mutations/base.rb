@@ -31,12 +31,21 @@ module GraphqlDevise
         context[:controller]
       end
 
+      def set_auth_headers(resource)
+        auth_headers = resource.create_new_auth_token
+        response.headers.merge!(auth_headers)
+      end
+
       def resource_class
         context[:resource_class]
       end
 
       def recoverable_enabled?
         resource_class.devise_modules.include?(:recoverable)
+      end
+
+      def confirmable_enabled?
+        resource_class.devise_modules.include?(:confirmable)
       end
 
       def current_resource

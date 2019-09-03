@@ -15,7 +15,7 @@ module GraphqlDevise
         GraphqlDevise::Schema.execute(params[:query], execute_params(params))
       end
 
-      render json: result
+      render json: result unless performed?
     end
 
     attr_accessor :client_id, :token, :resource

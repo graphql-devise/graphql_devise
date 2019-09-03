@@ -17,10 +17,11 @@ module ActionDispatch::Routing
                            GraphqlDevise::Types::AuthenticableType
 
       default_mutations = {
-        login:           GraphqlDevise::Mutations::Login,
-        logout:          GraphqlDevise::Mutations::Logout,
-        sign_up:         GraphqlDevise::Mutations::SignUp,
-        update_password: GraphqlDevise::Mutations::UpdatePassword
+        login:                GraphqlDevise::Mutations::Login,
+        logout:               GraphqlDevise::Mutations::Logout,
+        sign_up:              GraphqlDevise::Mutations::SignUp,
+        update_password:      GraphqlDevise::Mutations::UpdatePassword,
+        check_password_token: GraphqlDevise::Mutations::CheckPasswordToken
       }.freeze
 
       default_mutations.each do |action, mutation|
@@ -41,6 +42,7 @@ module ActionDispatch::Routing
 
       devise_scope mapping_name.to_sym do
         post "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'
+        get  "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'
       end
     end
   end
