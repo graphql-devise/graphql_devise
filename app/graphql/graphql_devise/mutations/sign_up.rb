@@ -8,10 +8,6 @@ module GraphqlDevise
       argument :confirm_success_url,   String, required: false
       argument :config_name,           String, required: false
 
-      field :authenticable, GraphqlDevise::Types::AuthenticableType, null: true
-      field :success,       Boolean,                                 null: false
-      field :errors,        [String],                                null: false
-
       def resolve(email:, **attrs)
         redirect_url = attrs.delete(:confirm_success_url)
         resource     = resource_class.new(email: email, provider: :email, **attrs)
@@ -32,13 +28,16 @@ module GraphqlDevise
 
             set_auth_headers(resource) if active_for_authentication?(resource)
 
-            { success: true, authenticable: resource, errors: [] }
+            { authenticable: resource }
           else
             clean_up_passwords(resource)
-            resource_errors(resource)
+            raise_user_error_list(
+              I18n.t('graphql_devise.registration_failed'),
+              errors: resource.errors.full_messages
+            )
           end
         else
-          single_error_object("Resource couldn't be built, execution stopped.")
+          raise_user_error(I18n.t('graphql_devise.resource_build_failed'))
         end
       end
 
