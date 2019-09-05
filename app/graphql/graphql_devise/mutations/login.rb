@@ -31,11 +31,6 @@ module GraphqlDevise
 
       private
 
-      def set_auth_headers(resource)
-        auth_headers = resource.create_new_auth_token
-        response.headers.merge!(auth_headers)
-      end
-
       def invalid_for_authentication?(resource, password)
         valid_password = resource.valid_password?(password)
 

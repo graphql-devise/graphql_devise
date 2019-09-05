@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount_graphql_devise_for 'User', at: 'api/v1', mutations: {
-    login: Mutations::Login
+    login:   Mutations::Login,
+    sign_up: Mutations::SignUp
   }
 end

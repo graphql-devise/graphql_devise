@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ActionDispatch::Routing
   class Mapper
     def mount_graphql_devise_for(resource, opts = {})
@@ -21,6 +19,7 @@ module ActionDispatch::Routing
       default_mutations = {
         login:           GraphqlDevise::Mutations::Login,
         logout:          GraphqlDevise::Mutations::Logout,
+        sign_up:         GraphqlDevise::Mutations::SignUp,
         update_password: GraphqlDevise::Mutations::UpdatePassword
       }.freeze
 
@@ -37,6 +36,8 @@ module ActionDispatch::Routing
 
         GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
+
+      Devise.mailer.send(:add_template_helper, GraphqlDevise::MailerHelper)
 
       devise_scope mapping_name.to_sym do
         post "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'

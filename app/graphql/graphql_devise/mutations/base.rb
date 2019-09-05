@@ -50,6 +50,11 @@ module GraphqlDevise
           controller.token.client if controller.token.present?
         end
       end
+
+      def set_auth_headers(resource)
+        auth_headers = resource.create_new_auth_token
+        response.headers.merge!(auth_headers)
+      end
     end
   end
 end
