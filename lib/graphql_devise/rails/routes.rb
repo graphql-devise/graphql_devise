@@ -19,7 +19,7 @@ module ActionDispatch::Routing
       default_mutations = {
         login:           GraphqlDevise::Mutations::Login,
         logout:          GraphqlDevise::Mutations::Logout,
-        signUp:          GraphqlDevise::Mutations::SignUp,
+        sign_up:         GraphqlDevise::Mutations::SignUp,
         update_password: GraphqlDevise::Mutations::UpdatePassword
       }.freeze
 
@@ -34,7 +34,7 @@ module ActionDispatch::Routing
           new_mutation
         end
 
-        GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action.to_s.underscore}", mutation: used_mutation)
+        GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
 
       Devise.mailer.send(:add_template_helper, GraphqlDevise::MailerHelper)

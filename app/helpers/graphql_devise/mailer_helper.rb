@@ -1,9 +1,5 @@
 module GraphqlDevise
   module MailerHelper
-    extend ActiveSupport::Concern
-
-    protected
-
     def confirmation_query(token:, config:, redirect_url:)
       raw = <<-GRAPHQL
         confirmAccount($token:ID!,$clientConfig:String,redirect:String!){

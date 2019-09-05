@@ -2,15 +2,13 @@ module GraphqlDevise
   module Mutations
     class SignUp < Base
       argument :email,                 String, required: true
-      argument :name,                  String, required: false
       argument :password,              String, required: true
       argument :password_confirmation, String, required: true
       argument :confirm_success_url,   String, required: false
       argument :config_name,           String, required: false
 
-      def resolve(email:, **attrs)
-        redirect_url = attrs.delete(:confirm_success_url)
-        resource     = resource_class.new(email: email, provider: :email, **attrs)
+      def resolve(confirm_success_url: nil, config_name: nil, **attrs)
+        resource = resource_class.new(provider: provider, **attrs)
 
         if resource.present?
           resource.skip_confirmation_notification! if resource.respond_to?(:skip_confirmation_notification!)
@@ -21,8 +19,8 @@ module GraphqlDevise
             if confirmable_enabled?(resource) && !resource.confirmed?
               # user will require email authentication
               resource.send_confirmation_instructions(
-                client_config: attrs[:config_name],
-                redirect_url: redirect_url
+                client_config: config_name,
+                redirect_url:  confirm_success_url
               )
             end
 
@@ -55,9 +53,8 @@ module GraphqlDevise
         :email
       end
 
-      # NOTE: Devise controller method, find a way to re use it
       def clean_up_passwords(resource)
-        resource.clean_up_passwords if object.respond_to?(:clean_up_passwords)
+        controller.send(:clean_up_passwords, resource)
       end
     end
   end
