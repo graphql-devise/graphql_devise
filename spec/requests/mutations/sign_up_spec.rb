@@ -34,6 +34,7 @@ RSpec.describe '' do
       )
 
       user = User.last
+
       expect(user).not_to be_active_for_authentication
       expect(user.confirmed_at).to be_nil
       expect(user.valid_password?(password)).to be_truthy

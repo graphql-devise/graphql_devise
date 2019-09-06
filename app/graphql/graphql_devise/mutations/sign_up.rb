@@ -16,15 +16,14 @@ module GraphqlDevise
           if resource.save
             yield resource if block_given?
 
-            if confirmable_enabled?(resource) && !resource.confirmed?
-              # user will require email authentication
+            if requires_confirmation?(resource)
               resource.send_confirmation_instructions(
                 client_config: config_name,
                 redirect_url:  confirm_success_url
               )
             end
 
-            set_auth_headers(resource) if active_for_authentication?(resource)
+            set_auth_headers(resource) if resource.active_for_authentication?
 
             { authenticable: resource }
           else
@@ -45,8 +44,8 @@ module GraphqlDevise
         resource.respond_to?(:confirmed_at)
       end
 
-      def active_for_authentication?(resource)
-        resource.active_for_authentication?
+      def requires_confirmation?(resource)
+        resource.active_for_authentication? || !resource.confirmed?
       end
 
       def provider
