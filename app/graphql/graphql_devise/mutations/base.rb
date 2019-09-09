@@ -39,6 +39,10 @@ module GraphqlDevise
         resource_class.devise_modules.include?(:recoverable)
       end
 
+      def confirmable_enabled?
+        resource_class.devise_modules.include?(:confirmable)
+      end
+
       def current_resource
         context[:current_resource]
       end
