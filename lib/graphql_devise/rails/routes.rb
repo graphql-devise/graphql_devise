@@ -22,6 +22,7 @@ module ActionDispatch::Routing
         logout:               GraphqlDevise::Mutations::Logout,
         sign_up:              GraphqlDevise::Mutations::SignUp,
         update_password:      GraphqlDevise::Mutations::UpdatePassword,
+        send_reset_password:  GraphqlDevise::Mutations::SendPasswordReset,
         check_password_token: GraphqlDevise::Mutations::CheckPasswordToken
       }.freeze
 
@@ -57,7 +58,7 @@ module ActionDispatch::Routing
         GraphqlDevise::Types::QueryType.field("#{mapping_name}_#{action}", resolver: used_query)
       end
 
-      Devise.mailer.send(:add_template_helper, GraphqlDevise::MailerHelper)
+      Devise.mailer.helper(GraphqlDevise::MailerHelper)
 
       devise_scope mapping_name.to_sym do
         post "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'
