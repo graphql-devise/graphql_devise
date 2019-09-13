@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '' do
+RSpec.describe 'Sign Up process' do
   include_context 'with graphql query request'
 
   let(:name)     { Faker::Name.name }
