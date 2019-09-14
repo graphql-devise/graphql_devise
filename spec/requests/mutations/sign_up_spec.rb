@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '' do
+RSpec.describe 'Sign Up process' do
   include_context 'with graphql query request'
 
   let(:name)     { Faker::Name.name }
@@ -34,6 +34,7 @@ RSpec.describe '' do
       )
 
       user = User.last
+
       expect(user).not_to be_active_for_authentication
       expect(user.confirmed_at).to be_nil
       expect(user.valid_password?(password)).to be_truthy
@@ -44,9 +45,13 @@ RSpec.describe '' do
         }
       )
 
-      email = ActionMailer::Base.deliveries.last
-      query = ERB::Util.url_encode("confirmAccount($token:ID!,$clientConfig:String,redirect:String!){userConfirmAccount(token:$token,clientConfig:$clientConfig,redirect:$redirect){success,errors}}&variables={token:\"#{user.confirmation_token}\",clientConfig:\"default\",redirect:\"#{redirect}\"}").html_safe
-      expect(email.body.encoded).to match(/query="#{query}"/)
+      email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+      link  = email.css('a').first
+
+      expect do
+        get link['href']
+        user.reload
+      end.to change { user.active_for_authentication? }.to(true)
     end
   end
 

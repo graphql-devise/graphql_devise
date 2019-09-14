@@ -1,15 +1,15 @@
 module GraphqlDevise
   module MailerHelper
-    def confirmation_query(token:, config:, redirect_url:)
+    def confirmation_query(resource_name)
+      name = "#{resource_name.camelize(:lower)}ConfirmAccount"
       raw = <<-GRAPHQL
-        confirmAccount($token:ID!,$clientConfig:String,redirect:String!){
-          userConfirmAccount(token:$token,clientConfig:$clientConfig,redirect:$redirect
-            ){
-            success,errors
+        query($token:String!,$redirect:String!){
+          #{name}(confirmationToken:$token,redirectUrl:$redirect){
+            email
           }
-        }&variables={token:"#{token}",clientConfig:"#{config}",redirect:"#{redirect_url}"}
+        }
       GRAPHQL
-      ERB::Util.url_encode(raw.gsub("\n", '').gsub(' ', ''))
+      raw.delete("\n").delete(' ')
     end
   end
 end
