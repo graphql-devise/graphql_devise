@@ -45,9 +45,13 @@ RSpec.describe 'Sign Up process' do
         }
       )
 
-      email = ActionMailer::Base.deliveries.last
-      query = ERB::Util.url_encode("confirmAccount($token:ID!,$clientConfig:String,redirect:String!){userConfirmAccount(token:$token,clientConfig:$clientConfig,redirect:$redirect){success,errors}}&variables={token:\"#{user.confirmation_token}\",clientConfig:\"default\",redirect:\"#{redirect}\"}").html_safe
-      expect(email.body.encoded).to match(/query="#{query}"/)
+      email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+      link  = email.css('a').first
+
+      expect do
+        get link['href']
+        user.reload
+      end.to change { user.active_for_authentication? }.to(true)
     end
   end
 
