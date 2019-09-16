@@ -5,5 +5,5 @@ class Admin < ApplicationRecord
          :validatable,
          :confirmable
 
-  include DeviseTokenAuth::Concerns::User
+  include GraphqlDevise::Concerns::Model
 end

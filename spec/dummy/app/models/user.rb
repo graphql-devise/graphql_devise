@@ -8,7 +8,7 @@ class User < ApplicationRecord
          :validatable,
          :confirmable
 
-  include DeviseTokenAuth::Concerns::User
+  include GraphqlDevise::Concerns::Model
 
   validates :name, presence: true
 
