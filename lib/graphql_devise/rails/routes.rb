@@ -18,12 +18,11 @@ module ActionDispatch::Routing
                            GraphqlDevise::Types::AuthenticableType
 
       default_mutations = {
-        login:                GraphqlDevise::Mutations::Login,
-        logout:               GraphqlDevise::Mutations::Logout,
-        sign_up:              GraphqlDevise::Mutations::SignUp,
-        update_password:      GraphqlDevise::Mutations::UpdatePassword,
-        send_reset_password:  GraphqlDevise::Mutations::SendPasswordReset,
-        check_password_token: GraphqlDevise::Mutations::CheckPasswordToken
+        login:               GraphqlDevise::Mutations::Login,
+        logout:              GraphqlDevise::Mutations::Logout,
+        sign_up:             GraphqlDevise::Mutations::SignUp,
+        update_password:     GraphqlDevise::Mutations::UpdatePassword,
+        send_reset_password: GraphqlDevise::Mutations::SendPasswordReset
       }.freeze
 
       default_mutations.each do |action, mutation|
@@ -41,7 +40,8 @@ module ActionDispatch::Routing
       end
 
       default_queries = {
-        confirm_account: GraphqlDevise::Resolvers::ConfirmAccount
+        confirm_account:      GraphqlDevise::Resolvers::ConfirmAccount,
+        check_password_token: GraphqlDevise::Resolvers::CheckPasswordToken
       }
 
       default_queries.each do |action, query|

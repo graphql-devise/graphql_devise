@@ -1,5 +1,5 @@
 module GraphqlDevise
-  module Mutations
+  module Resolvers
     class CheckPasswordToken < Base
       argument :reset_password_token, String, required: true
       argument :redirect_url,         String, required: false
@@ -32,7 +32,7 @@ module GraphqlDevise
             set_auth_headers(resource)
           end
 
-          { authenticable: resource }
+          resource
         else
           raise_user_error(I18n.t('graphql_devise.passwords.reset_token_expired'))
         end

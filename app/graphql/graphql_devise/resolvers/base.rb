@@ -41,6 +41,11 @@ module GraphqlDevise
         context[:current_resource]
       end
 
+      def set_auth_headers(resource)
+        auth_headers = resource.create_new_auth_token
+        response.headers.merge!(auth_headers)
+      end
+
       def client
         if Gem::Version.new(DeviseTokenAuth::VERSION) <= Gem::Version.new('1.1.0')
           controller.client_id
