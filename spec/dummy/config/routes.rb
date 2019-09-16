@@ -9,4 +9,6 @@ Rails.application.routes.draw do
     authenticable_type: Types::CustomAdminType,
     at:                 'api/v1/admin'
   )
+
+  post '/api/v1/graphql', to: 'api/v1/graphql#graphql'
 end

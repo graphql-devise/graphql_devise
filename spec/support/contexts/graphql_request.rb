@@ -9,11 +9,11 @@ RSpec.shared_context 'with graphql query request' do
     end
   end
 
-  def post_request(path = '/api/v1')
-    post "#{path}/graphql_auth", *graphql_params
+  def post_request(path = '/api/v1/graphql_auth')
+    post path, *graphql_params
   end
 
-  def get_request(path = '/api/v1')
-    get "#{path}/graphql_auth", *graphql_params
+  def get_request(path = '/api/v1/graphql_auth')
+    get path, *graphql_params
   end
 end

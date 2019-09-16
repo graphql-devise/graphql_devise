@@ -106,7 +106,7 @@ RSpec.describe 'Login Requests' do
       GRAPHQL
     end
 
-    before { post_request('/api/v1/admin') }
+    before { post_request('/api/v1/admin/graphql_auth') }
 
     it 'works alongside the user mount point' do
       expect(json_response[:data][:adminLogin]).to include(

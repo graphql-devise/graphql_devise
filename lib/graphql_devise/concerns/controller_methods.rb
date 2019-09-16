@@ -59,6 +59,23 @@ module GraphqlDevise
         auth_headers = resource.create_new_auth_token
         response.headers.merge!(auth_headers)
       end
+
+      def client_and_token(token)
+        if Gem::Version.new(DeviseTokenAuth::VERSION) <= Gem::Version.new('1.1.0')
+          { client_id: token.first, token: token.last }
+        else
+          { client_id: token.client, token: token.token }
+        end
+      end
+
+      def redirect_headers(token_info, redirect_header_options)
+        controller.send(
+          :build_redirect_headers,
+          token_info.fetch(:token),
+          token_info.fetch(:client_id),
+          redirect_header_options
+        )
+      end
     end
   end
 end

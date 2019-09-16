@@ -84,6 +84,22 @@ class User < ApplicationRecord
 end
 ```
 
+### Authenticating Controller Actions
+Just like with Devise or DTA, you will need to authenticate users in your controllers.
+For this you need to call `authenticate_<model>!` in a before_action hook of your controller.
+In our example our model is `User`, so it would look like this:
+```ruby
+# app/controllers/my_controller.rb
+
+class MyController < ApplicationController
+  before_action :authenticate_user!
+
+  def my_action
+    render json: { current_user: current_user }
+  end
+end
+```
+
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model
 is `User`.
