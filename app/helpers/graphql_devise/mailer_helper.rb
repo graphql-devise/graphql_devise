@@ -19,9 +19,9 @@ module GraphqlDevise
     def password_reset_query(token:, redirect_url:, resource_name:)
       name = "#{resource_name.camelize(:lower)}CheckPasswordToken"
       raw = <<-GRAPHQL
-        mutation($token:String!,$redirectUrl:String!){
+        query($token:String!,$redirectUrl:String!){
           #{name}(resetPasswordToken:$token,redirectUrl:$redirectUrl){
-            authenticable{ email }
+            email
           }
         }
       GRAPHQL

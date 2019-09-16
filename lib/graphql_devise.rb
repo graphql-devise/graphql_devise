@@ -6,6 +6,7 @@ require 'graphql_devise/version'
 require 'graphql_devise/error_codes'
 require 'graphql_devise/user_error'
 require 'graphql_devise/detailed_user_error'
+require 'graphql_devise/concerns/controller_methods'
 
 module GraphqlDevise
   class Error < StandardError; end

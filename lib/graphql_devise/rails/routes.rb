@@ -1,8 +1,7 @@
 module ActionDispatch::Routing
   class Mapper
     def mount_graphql_devise_for(resource, opts = {})
-      mutation_options = opts[:mutations] || {}
-      query_options    = opts[:queries] || {}
+      custom_operations = opts[:operations] || {}
 
       path         = opts.fetch(:at, '/')
       mapping_name = resource.underscore.tr('/', '_')
@@ -18,17 +17,16 @@ module ActionDispatch::Routing
                            GraphqlDevise::Types::AuthenticableType
 
       default_mutations = {
-        login:                GraphqlDevise::Mutations::Login,
-        logout:               GraphqlDevise::Mutations::Logout,
-        sign_up:              GraphqlDevise::Mutations::SignUp,
-        update_password:      GraphqlDevise::Mutations::UpdatePassword,
-        send_reset_password:  GraphqlDevise::Mutations::SendPasswordReset,
-        check_password_token: GraphqlDevise::Mutations::CheckPasswordToken
+        login:               GraphqlDevise::Mutations::Login,
+        logout:              GraphqlDevise::Mutations::Logout,
+        sign_up:             GraphqlDevise::Mutations::SignUp,
+        update_password:     GraphqlDevise::Mutations::UpdatePassword,
+        send_reset_password: GraphqlDevise::Mutations::SendPasswordReset
       }.freeze
 
       default_mutations.each do |action, mutation|
-        used_mutation = if mutation_options[action].present?
-          mutation_options[action]
+        used_mutation = if custom_operations[action].present?
+          custom_operations[action]
         else
           new_mutation = Class.new(mutation)
           new_mutation.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
@@ -41,12 +39,13 @@ module ActionDispatch::Routing
       end
 
       default_queries = {
-        confirm_account: GraphqlDevise::Resolvers::ConfirmAccount
+        confirm_account:      GraphqlDevise::Resolvers::ConfirmAccount,
+        check_password_token: GraphqlDevise::Resolvers::CheckPasswordToken
       }
 
       default_queries.each do |action, query|
-        used_query = if query_options[action].present?
-          query_options[action]
+        used_query = if custom_operations[action].present?
+          custom_operations[action]
         else
           new_query = Class.new(query)
           new_query.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")

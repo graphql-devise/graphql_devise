@@ -7,12 +7,12 @@ RSpec.describe 'Check Password Token Requests' do
   let(:redirect_url) { 'https://google.com' }
   let(:query) do
     <<-GRAPHQL
-      mutation {
+      query {
         userCheckPasswordToken(
           resetPasswordToken: "#{token}",
           redirectUrl: "#{redirect_url}"
         ) {
-          authenticable { email }
+          email
         }
       }
     GRAPHQL
@@ -29,7 +29,7 @@ RSpec.describe 'Check Password Token Requests' do
 
         expect(response).to include_auth_headers
         expect(json_response[:data][:userCheckPasswordToken]).to match(
-          authenticable: { email: user.email }
+          email: user.email
         )
       end
     end
