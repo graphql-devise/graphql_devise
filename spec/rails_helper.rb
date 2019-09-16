@@ -1,13 +1,13 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENGINE_ROOT = File.join(File.dirname(__FILE__), '../')
 
+require 'spec_helper'
 require File.expand_path('dummy/config/environment.rb', __dir__)
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'spec_helper'
 require 'factory_bot'
 require 'faker'
 

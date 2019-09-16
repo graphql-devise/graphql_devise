@@ -1,6 +1,6 @@
+require 'pry'
 require 'bundler/setup'
 require 'graphql_devise'
-require 'pry'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -1,8 +1,7 @@
 module ActionDispatch::Routing
   class Mapper
     def mount_graphql_devise_for(resource, opts = {})
-      mutation_options = opts[:mutations] || {}
-      query_options    = opts[:queries] || {}
+      custom_operations = opts[:operations] || {}
 
       path         = opts.fetch(:at, '/')
       mapping_name = resource.underscore.tr('/', '_')
@@ -26,8 +25,8 @@ module ActionDispatch::Routing
       }.freeze
 
       default_mutations.each do |action, mutation|
-        used_mutation = if mutation_options[action].present?
-          mutation_options[action]
+        used_mutation = if custom_operations[action].present?
+          custom_operations[action]
         else
           new_mutation = Class.new(mutation)
           new_mutation.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
@@ -45,8 +44,8 @@ module ActionDispatch::Routing
       }
 
       default_queries.each do |action, query|
-        used_query = if query_options[action].present?
-          query_options[action]
+        used_query = if custom_operations[action].present?
+          custom_operations[action]
         else
           new_query = Class.new(query)
           new_query.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
