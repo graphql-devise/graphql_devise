@@ -14,6 +14,14 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+require 'github_changelog_generator/task'
+
+GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+  config.user = 'graphql-devise'
+  config.project = 'graphql_devise'
+  config.future_release = ENV['FUTURE_RELEASE']
+end
+
 APP_RAKEFILE = File.expand_path('spec/dummy/Rakefile', __dir__)
 load 'rails/tasks/engine.rake'
 
