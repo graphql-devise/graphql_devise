@@ -39,4 +39,27 @@ RSpec.describe 'Logout Requests' do
       )
     end
   end
+
+  context 'when using the admin model' do
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          adminLogout {
+            authenticable { email }
+          }
+        }
+      GRAPHQL
+    end
+    let(:admin)   { create(:admin, :confirmed) }
+    let(:headers) { admin.create_new_auth_token }
+
+    it 'logs out the admin' do
+      expect(response).not_to include_auth_headers
+      expect(admin.reload.tokens.keys).to be_empty
+      expect(json_response[:data][:adminLogout]).to match(
+        authenticable: { email: admin.email }
+      )
+      expect(json_response[:errors]).to be_nil
+    end
+  end
 end
