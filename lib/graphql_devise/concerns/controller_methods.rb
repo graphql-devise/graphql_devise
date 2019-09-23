@@ -31,8 +31,12 @@ module GraphqlDevise
         context[:controller]
       end
 
+      def resource_name
+        self.class.instance_variable_get(:@resource_name)
+      end
+
       def resource_class
-        context[:resource_class]
+        controller.send(:resource_class, resource_name)
       end
 
       def recoverable_enabled?
@@ -44,7 +48,7 @@ module GraphqlDevise
       end
 
       def current_resource
-        context[:current_resource]
+        @current_resource ||= controller.send(:set_user_by_token, resource_name)
       end
 
       def client

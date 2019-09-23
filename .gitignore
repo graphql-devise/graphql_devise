@@ -21,3 +21,5 @@
 # rvm config files
 .ruby-version
 .ruby-gemset
+
+.env

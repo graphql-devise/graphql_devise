@@ -30,12 +30,6 @@ module GraphqlDevise
           raise_user_error(I18n.t('graphql_devise.confirmations.invalid_token'))
         end
       end
-
-      private
-
-      def resource_name
-        resource_class.to_s.underscore.tr('/', '_')
-      end
     end
   end
 end
