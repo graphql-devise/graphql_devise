@@ -3,7 +3,7 @@ module ActionDispatch::Routing
     def mount_graphql_devise_for(resource, opts = {})
       custom_operations = opts[:operations] || {}
 
-      path         = opts.fetch(:at, '/')
+      path         = opts.fetch(:at, '/graphql_auth')
       mapping_name = resource.underscore.tr('/', '_').to_sym
 
       devise_for(
@@ -62,8 +62,8 @@ module ActionDispatch::Routing
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
 
       devise_scope mapping_name do
-        post "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'
-        get  "#{path}/graphql_auth", to: 'graphql_devise/graphql#auth'
+        post path, to: 'graphql_devise/graphql#auth'
+        get  path, to: 'graphql_devise/graphql#auth'
       end
     end
   end
