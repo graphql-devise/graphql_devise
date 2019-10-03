@@ -22,7 +22,7 @@ RSpec.describe 'Account confirmation' do
   context 'when confirmation token is correct' do
     let(:token) { user.confirmation_token }
 
-    before { user.send_confirmation_instructions }
+    before { user.send_confirmation_instructions(template_path: ['graphql_devise/mailer']) }
 
     it 'confirms the resource and redirects to the sent url' do
       expect do

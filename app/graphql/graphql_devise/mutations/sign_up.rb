@@ -19,7 +19,8 @@ module GraphqlDevise
             if requires_confirmation?(resource)
               resource.send_confirmation_instructions(
                 client_config: config_name,
-                redirect_url:  confirm_success_url
+                redirect_url:  confirm_success_url,
+                template_path: ['graphql_devise/mailer']
               )
             end
 
