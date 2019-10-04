@@ -1,5 +1,16 @@
 # Change Log
 
+## [v0.3.0](https://github.com/graphql-devise/graphql_devise/tree/v0.3.0) (2019-10-04)
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.2.0...v0.3.0)
+
+**Implemented enhancements:**
+
+- Use new dir for email templates [\#17](https://github.com/graphql-devise/graphql_devise/pull/17) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- Fix separate resource mounts [\#16](https://github.com/graphql-devise/graphql_devise/pull/16) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.2.0](https://github.com/graphql-devise/graphql_devise/tree/v0.2.0) (2019-09-16)
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.1.1...v0.2.0)
 
@@ -9,6 +20,7 @@
 
 **Merged pull requests:**
 
+- Add changelog generator [\#15](https://github.com/graphql-devise/graphql_devise/pull/15) ([mcelicalderon](https://github.com/mcelicalderon))
 - General Improvements [\#14](https://github.com/graphql-devise/graphql_devise/pull/14) ([mcelicalderon](https://github.com/mcelicalderon))
 - Create user confirmation query [\#13](https://github.com/graphql-devise/graphql_devise/pull/13) ([00dav00](https://github.com/00dav00))
 - Send password reset email [\#12](https://github.com/graphql-devise/graphql_devise/pull/12) ([mcelicalderon](https://github.com/mcelicalderon))
