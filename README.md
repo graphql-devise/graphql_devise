@@ -84,6 +84,15 @@ class User < ApplicationRecord
 end
 ```
 
+### Customizing Email Templates
+The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
+so if you want to change them, place yours on the same dir structure on your Rails project. You can customize these two templates:
+1. `app/views/graphql_devise/mailer/confirmation_instructions.html.erb`
+1. `app/views/graphql_devise/mailer/reset_password_instructions.html.erb`
+
+The main reason for this difference is just to make it easier to have both Standard `Devise` and this gem running at the same time.
+Check [these files](app/views/graphql_devise/mailer) to see the available helper methods you can use in the views.
+
 ### Authenticating Controller Actions
 Just like with Devise or DTA, you will need to authenticate users in your controllers.
 For this you need to call `authenticate_<model>!` in a before_action hook of your controller.
@@ -124,6 +133,13 @@ We will continue to build better docs for the gem after this first release, but 
 you can use [our specs](https://github.com/graphql-devise/graphql_devise/tree/b5985036e01ea064e43e457b4f0c8516f172471c/spec/requests) to better understand how to use the gem.
 Also, the [dummy app](https://github.com/graphql-devise/graphql_devise/tree/b5985036e01ea064e43e457b4f0c8516f172471c/spec/dummy) used in our specs will give you
 a clear idea on how to configure the gem on your Rails application.
+
+### Using Alongside Standard Devise
+The DeviseTokenAuth gem allows experimental use of the standard Devise gem to be configured at the same time, for more
+information you can check [this answer here](https://github.com/lynndylanhurley/devise_token_auth/blob/2a32f18ccce15638a74e72f6cfde5cf15a808d3f/docs/faq.md#can-i-use-this-gem-alongside-standard-devise).
+
+This gem supports the same and should be easier to handle email templates due to the fact we don't override standard Devise
+templates.
 
 ## Future Work
 We will continue to improve the gem and add better docs.

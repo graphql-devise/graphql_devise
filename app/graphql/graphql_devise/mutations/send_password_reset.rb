@@ -10,9 +10,10 @@ module GraphqlDevise
         if resource
           yield resource if block_given?
           resource.send_reset_password_instructions(
-            email:        email,
-            provider:     'email',
-            redirect_url: redirect_url
+            email:         email,
+            provider:      'email',
+            redirect_url:  redirect_url,
+            template_path: ['graphql_devise/mailer']
           )
 
           if resource.errors.empty?

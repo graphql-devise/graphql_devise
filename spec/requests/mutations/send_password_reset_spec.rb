@@ -32,7 +32,7 @@ RSpec.describe 'Send Password Reset Requests' do
       expect do
         get link['href']
         user.reload
-      end.to change { user.allow_password_change }.from(false).to(true)
+      end.to change(user, :allow_password_change).from(false).to(true)
     end
   end
 
