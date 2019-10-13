@@ -8,9 +8,9 @@ before_script: RAILS_ENV=test bundle exec rake db:create db:schema:load
 rvm:
   - 2.2.10
   - 2.3.8
-  - 2.4.7
-  - 2.5.6
-  - 2.6.4
+  - 2.4.9
+  - 2.5.7
+  - 2.6.5
 
 gemfile:
   - gemfiles/rails4.2_graphql1.8.gemfile
@@ -23,11 +23,11 @@ gemfile:
 
 matrix:
   include:
-    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
-      rvm: 2.5.6
-    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
-      rvm: 2.6.4
     - gemfile: gemfiles/rails6.0_graphql1.8.gemfile
-      rvm: 2.5.6
+      rvm: 2.5.7
     - gemfile: gemfiles/rails6.0_graphql1.9.gemfile
-      rvm: 2.6.4
+      rvm: 2.6.5
+    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+      rvm: 2.5.7
+    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+      rvm: 2.6.5

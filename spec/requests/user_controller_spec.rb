@@ -22,7 +22,7 @@ RSpec.describe 'Integrations with the user controller' do
   context 'when user is authenticated' do
     let(:headers) { user.create_new_auth_token }
 
-    it 'allow to perform tue query' do
+    it 'allow to perform the query' do
       expect(json_response[:data][:user]).to match(
         email: user.email,
         id:    user.id
