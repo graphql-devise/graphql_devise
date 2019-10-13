@@ -11,5 +11,11 @@ Rails.application.routes.draw do
     at:                 '/api/v1/admin/graphql_auth'
   )
 
+  mount_graphql_devise_for(
+    'Guest',
+    only: [:login, :logout],
+    at:   '/api/v1/guest/graphql_auth'
+  )
+
   post '/api/v1/graphql', to: 'api/v1/graphql#graphql'
 end

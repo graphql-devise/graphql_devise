@@ -3,6 +3,11 @@ module ActionDispatch::Routing
     def mount_graphql_devise_for(resource, opts = {})
       custom_operations  = opts[:operations] || {}
       skipped_operations = opts.fetch(:skip, [])
+      only_operations    = opts.fetch(:only, [])
+
+      if [skipped_operations, only_operations].all?(&:any?)
+        raise GraphqlDevise::Error, "Can't specify both `skip` and `only` options when mounting the route."
+      end
 
       default_mutations = {
         login:               GraphqlDevise::Mutations::Login,
@@ -20,6 +25,9 @@ module ActionDispatch::Routing
       unless skipped_operations.all? { |skipped| supported_operations.include?(skipped) }
         raise GraphqlDevise::Error, 'Trying to skip a non supported operation. Check for typos.'
       end
+      unless only_operations.all? { |only| supported_operations.include?(only) }
+        raise GraphqlDevise::Error, 'One of the `only` operations is not supported. Check for typos.'
+      end
 
       path         = opts.fetch(:at, '/graphql_auth')
       mapping_name = resource.underscore.tr('/', '_').to_sym
@@ -34,7 +42,12 @@ module ActionDispatch::Routing
                            "Types::#{resource}Type".safe_constantize ||
                            GraphqlDevise::Types::AuthenticableType
 
-      default_mutations.except(*skipped_operations).each do |action, mutation|
+      used_mutations = if only_operations.present?
+        default_mutations.slice(*only_operations)
+      else
+        default_mutations.except(*skipped_operations)
+      end
+      used_mutations.each do |action, mutation|
         used_mutation = if custom_operations[action].present?
           custom_operations[action]
         else
@@ -49,7 +62,12 @@ module ActionDispatch::Routing
         GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
 
-      default_queries.except(*skipped_operations).each do |action, query|
+      used_queries = if only_operations.present?
+        default_queries.slice(*only_operations)
+      else
+        default_queries.except(*skipped_operations)
+      end
+      used_queries.each do |action, query|
         used_query = if custom_operations[action].present?
           custom_operations[action]
         else

@@ -103,4 +103,31 @@ RSpec.describe 'Sign Up process' do
       )
     end
   end
+
+  context 'when using the guest model' do
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          guestSignUp(
+            email:                "#{email}"
+            password:             "#{password}"
+            passwordConfirmation: "#{password}"
+            confirmSuccessUrl:    "#{redirect}"
+          ) {
+            authenticable {
+              email
+            }
+          }
+        }
+      GRAPHQL
+    end
+
+    before { post_request }
+
+    it 'skips the sign up mutation' do
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(message: "Field 'guestSignUp' doesn't exist on type 'Mutation'")
+      )
+    end
+  end
 end

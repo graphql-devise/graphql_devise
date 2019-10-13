@@ -105,4 +105,28 @@ RSpec.describe 'Check Password Token Requests' do
       )
     end
   end
+
+  context 'when using the guest model' do
+    let(:token) { 'not_important' }
+    let(:query) do
+      <<-GRAPHQL
+        query {
+          guestCheckPasswordToken(
+            resetPasswordToken: "#{token}",
+            redirectUrl: "#{redirect_url}"
+          ) {
+            email
+          }
+        }
+      GRAPHQL
+    end
+
+    before { post_request }
+
+    it 'skips the sign up mutation' do
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(message: "Field 'guestCheckPasswordToken' doesn't exist on type 'Query'")
+      )
+    end
+  end
 end

@@ -114,4 +114,28 @@ RSpec.describe 'Login Requests' do
       )
     end
   end
+
+  context 'when using the guest model' do
+    let(:guest) { create(:guest, :confirmed, password: password) }
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          guestLogin(
+            email: "#{guest.email}",
+            password: "#{password}"
+          ) {
+            authenticable { email }
+          }
+        }
+      GRAPHQL
+    end
+
+    before { post_request }
+
+    it 'works alongside the user mount point' do
+      expect(json_response[:data][:guestLogin]).to include(
+        authenticable: { email: guest.email }
+      )
+    end
+  end
 end
