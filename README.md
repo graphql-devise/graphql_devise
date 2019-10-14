@@ -41,7 +41,8 @@ First, you need to mount the gem in the routes file like this
 Rails.application.routes.draw do
   mount_graphql_devise_for 'User', at: 'api/v1', authenticable_type: Types::CustomUserType, operations: {
     login: Mutations::Login
-  }
+  }, skip: [:sign_up]
+end
 ```
 If you used DTA's installer you will have to remove the `mount_devise_token_auth_for`
 line.
@@ -49,7 +50,7 @@ line.
 Here are the option for the mount method:
 
 1. `at`: Route where the GraphQL schema will be mounted on the Rails server. In the
-example your API will have this two routes `POST /api/v1//graphql_auth` `GET /api/v1//graphql_auth`.
+example your API will have this two routes `POST /api/v1/graphql_auth` and `GET /api/v1/graphql_auth`.
 If no this option is not specified, the schema will be mounted at `/graphql_auth`.
 1. `operations`: Specifying this one is optional. Here you can override default
 behavior by specifying your own mutations and queries for every GraphQL operation.
@@ -62,6 +63,23 @@ our default classes and yielding your customized code after calling `super`, exa
 and an `authenticable` type to every query. Gem will try to use `Types::<model>Type` by
 default, so in our example you could define `Types::UserType` and every query and mutation
 will use it. But, you can override this type with this option like in the example.
+1. `skip`: An array of the operations that should not be available in the authentication schema. All these operations are
+symbols and should belong to the list of available operations in the gem.
+1. `only`: An array of the operations that should be available in the authentication schema. The `skip` and `only` options are
+mutually exclusive, an error will be raised if you pass both to the mount method.
+
+#### Available Operations
+The following is a list of the symbols you can provide to the `operations`, `skip` and `only` options of the mount method:
+```ruby
+:login
+:logout
+:sign_up
+:update_password
+:send_reset_password
+:confirm_account
+:check_password_token
+```
+
 
 ### Configuring Model
 Just like with Devise and DTA, you need to include a module in your authenticable model,
@@ -145,8 +163,7 @@ templates.
 We will continue to improve the gem and add better docs.
 
 1. Add install generator.
-1. Support more options on the mount method.
-1. Better support for multiple mounted models (it already works by mounting in different routes).
+1. Add mount option that will create a separate schema for the mounted resource.
 1. Make sure this gem can correctly work alongside DTA and the original Devise gem.
 1. Improve DOCS.
 1. Add support for unlockable and other Devise modules.
