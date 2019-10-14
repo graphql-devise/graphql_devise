@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
-GraphqlDevise combines the power of Devise authentication with the simplicity of JWT and GraphQL API calls.
+GraphqlDevise combines the power of Devise authentication with the simplicity of GraphQL API calls using JWT through DeviseTokenAuth.
 
 ## Installation
 
