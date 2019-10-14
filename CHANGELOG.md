@@ -1,15 +1,23 @@
 # Change Log
 
+## [v0.4.0](https://github.com/graphql-devise/graphql_devise/tree/v0.4.0) (2019-10-13)
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.3.0...v0.4.0)
+
+**Merged pull requests:**
+
+- Support `skip` and `only` when mounting routes [\#19](https://github.com/graphql-devise/graphql_devise/pull/19) ([mcelicalderon](https://github.com/mcelicalderon))
+- Test with latest ruby versions [\#18](https://github.com/graphql-devise/graphql_devise/pull/18) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.3.0](https://github.com/graphql-devise/graphql_devise/tree/v0.3.0) (2019-10-04)
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.2.0...v0.3.0)
-
-**Implemented enhancements:**
-
-- Use new dir for email templates [\#17](https://github.com/graphql-devise/graphql_devise/pull/17) ([mcelicalderon](https://github.com/mcelicalderon))
 
 **Fixed bugs:**
 
 - Fix separate resource mounts [\#16](https://github.com/graphql-devise/graphql_devise/pull/16) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Merged pull requests:**
+
+- Use new dir for email templates [\#17](https://github.com/graphql-devise/graphql_devise/pull/17) ([mcelicalderon](https://github.com/mcelicalderon))
 
 ## [v0.2.0](https://github.com/graphql-devise/graphql_devise/tree/v0.2.0) (2019-09-16)
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.1.1...v0.2.0)
