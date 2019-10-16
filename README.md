@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
-GraphqlDevise combines the power of Devise authentication with the simplicity of JWT and GraphQL API calls.
+GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
 
 ## Installation
 
@@ -19,8 +19,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install graphql_devise
-
-GraphQL's interface is on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
 
 ## Usage
 All configurations for [Devise](https://github.com/plataformatec/devise) and
@@ -41,13 +39,15 @@ First, you need to mount the gem in the routes file like this
 # config/routes.rb
 
 Rails.application.routes.draw do
-  mount_graphql_devise_for 'User',
+  mount_graphql_devise_for(
+    'User',
     at: 'api/v1',
     authenticable_type: Types::MyCustomUserType,
     operations: {
       login: Mutations::Login
     },
     skip: [:sign_up]
+  )
 end
 ```
 If you used DTA's installer you will have to remove the `mount_devise_token_auth_for`
@@ -59,8 +59,8 @@ Here are the options for the mount method:
 If this option is not specified, the schema will be mounted at `/graphql_auth`.
 1. `operations`: Specifying this is optional. Here you can override default
 behavior by specifying your own mutations and queries for every GraphQL operation.
-Check available operations in the [mutation](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L19)
-and [query](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L41) files.
+Check available operations in this file [mutations](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L19)
+and [queries](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L41).
 All mutations and queries are built so you can extend default behavior just by extending
 our default classes and yielding your customized code after calling `super`, example
 [here](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/spec/dummy/app/graphql/mutations/login.rb#L6).
