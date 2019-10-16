@@ -10,6 +10,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'factory_bot'
 require 'faker'
+require 'generator_spec'
 
 # Load RSpec helpers.
 Dir[File.join(ENGINE_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
