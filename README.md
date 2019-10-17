@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
+GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -17,8 +19,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install graphql_devise
-
-GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
 
 ## Usage
 All configurations for [Devise](https://github.com/plataformatec/devise) and
@@ -39,24 +39,29 @@ First, you need to mount the gem in the routes file like this
 # config/routes.rb
 
 Rails.application.routes.draw do
-  mount_graphql_devise_for 'User', at: 'api/v1', authenticable_type: Types::CustomUserType, operations: {
-    login: Mutations::Login
-  }, skip: [:sign_up]
+  mount_graphql_devise_for(
+    'User',
+    at: 'api/v1',
+    authenticable_type: Types::MyCustomUserType,
+    operations: {
+      login: Mutations::Login
+    },
+    skip: [:sign_up]
+  )
 end
 ```
 If you used DTA's installer you will have to remove the `mount_devise_token_auth_for`
 line.
 
-Here are the option for the mount method:
+Here are the options for the mount method:
 
-1. `at`: Route where the GraphQL schema will be mounted on the Rails server. In the
-example your API will have this two routes `POST /api/v1/graphql_auth` and `GET /api/v1/graphql_auth`.
-If no this option is not specified, the schema will be mounted at `/graphql_auth`.
-1. `operations`: Specifying this one is optional. Here you can override default
+1. `at`: Route where the GraphQL schema will be mounted on the Rails server. In this example your API will have these two routes: `POST /api/v1/graphql_auth` and `GET /api/v1/graphql_auth`.
+If this option is not specified, the schema will be mounted at `/graphql_auth`.
+1. `operations`: Specifying this is optional. Here you can override default
 behavior by specifying your own mutations and queries for every GraphQL operation.
 Check available operations in this file [mutations](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L19)
 and [queries](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L41).
-All mutations and queries are build so you can extend default behavior just by extending
+All mutations and queries are built so you can extend default behavior just by extending
 our default classes and yielding your customized code after calling `super`, example
 [here](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/spec/dummy/app/graphql/mutations/login.rb#L6).
 1. `authenticable_type`: By default, the gem will add an `authenticable` field to every mutation
@@ -82,8 +87,8 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 
 
 ### Configuring Model
-Just like with Devise and DTA, you need to include a module in your authenticable model,
-so as for our example, your user model will have to look like this:
+Just like with Devise and DTA, you need to include a module in your authenticatable model,
+so with our example, your user model will have to look like this:
 ```ruby
 # app/models/user.rb
 
@@ -109,7 +114,7 @@ so if you want to change them, place yours on the same dir structure on your Rai
 1. `app/views/graphql_devise/mailer/reset_password_instructions.html.erb`
 
 The main reason for this difference is just to make it easier to have both Standard `Devise` and this gem running at the same time.
-Check [these files](app/views/graphql_devise/mailer) to see the available helper methods you can use in the views.
+Check [these files](app/views/graphql_devise/mailer) to see the available helper methods you can use in your views.
 
 ### Authenticating Controller Actions
 Just like with Devise or DTA, you will need to authenticate users in your controllers.
@@ -147,7 +152,7 @@ the confirmation and reset password email urls. There is no limitation for makin
 requests using the `GET` method on the Rails side, but looks like there might be a limitation
 on the [Apollo Client](https://www.apollographql.com/docs/apollo-server/v1/requests/#get-requests).
 
-We will continue to build better docs for the gem after this first release, but on the mean time
+We will continue to build better docs for the gem after this first release, but in the mean time
 you can use [our specs](https://github.com/graphql-devise/graphql_devise/tree/b5985036e01ea064e43e457b4f0c8516f172471c/spec/requests) to better understand how to use the gem.
 Also, the [dummy app](https://github.com/graphql-devise/graphql_devise/tree/b5985036e01ea064e43e457b4f0c8516f172471c/spec/dummy) used in our specs will give you
 a clear idea on how to configure the gem on your Rails application.
