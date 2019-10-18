@@ -122,12 +122,8 @@ RSpec.describe 'Sign Up process' do
       GRAPHQL
     end
 
-    before { post_request }
-
-    it 'skips the sign up mutation' do
-      expect(json_response[:errors]).to contain_exactly(
-        hash_including(message: "Field 'guestSignUp' doesn't exist on type 'Mutation'")
-      )
+    it 'works without the confirmable module' do
+      expect { post_request }.to change(Guest, :count).from(0).to(1)
     end
   end
 end
