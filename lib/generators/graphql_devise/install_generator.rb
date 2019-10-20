@@ -25,6 +25,10 @@ module GraphqlDevise
       end
     end
 
+    def create_devise_initializer
+      generate 'devise:install'
+    end
+
     private
 
     def insert_text_after_line(filename, line, str)
