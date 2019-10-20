@@ -47,6 +47,10 @@ module GraphqlDevise
         resource_class.devise_modules.include?(:confirmable)
       end
 
+      def blacklisted_redirect_url?(redirect_url)
+        DeviseTokenAuth.redirect_whitelist && !DeviseTokenAuth::Url.whitelisted?(redirect_url)
+      end
+
       def current_resource
         @current_resource ||= controller.send(:set_user_by_token, resource_name)
       end

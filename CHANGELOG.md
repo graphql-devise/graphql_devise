@@ -1,11 +1,30 @@
 # Change Log
 
-## [v0.4.0](https://github.com/graphql-devise/graphql_devise/tree/v0.4.0) (2019-10-13)
-[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.3.0...v0.4.0)
+## [v0.4.1](https://github.com/graphql-devise/graphql_devise/tree/v0.4.1) (2019-10-17)
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.4.0...v0.4.1)
+
+**Fixed bugs:**
+
+- NoMethodError generate\_confirmation\_token! but not supporting confirmable [\#24](https://github.com/graphql-devise/graphql_devise/issues/24)
+- Refactor signUp mutation, fix confirmable disabled [\#26](https://github.com/graphql-devise/graphql_devise/pull/26) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Closed issues:**
+
+- Trying to access /graphql\#execute app claims action could not be found [\#21](https://github.com/graphql-devise/graphql_devise/issues/21)
 
 **Merged pull requests:**
 
+- Grammar fixes in README.md documentation. [\#23](https://github.com/graphql-devise/graphql_devise/pull/23) ([aarona](https://github.com/aarona))
+
+## [v0.4.0](https://github.com/graphql-devise/graphql_devise/tree/v0.4.0) (2019-10-14)
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.3.0...v0.4.0)
+
+**Implemented enhancements:**
+
 - Support `skip` and `only` when mounting routes [\#19](https://github.com/graphql-devise/graphql_devise/pull/19) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Merged pull requests:**
+
 - Test with latest ruby versions [\#18](https://github.com/graphql-devise/graphql_devise/pull/18) ([mcelicalderon](https://github.com/mcelicalderon))
 
 ## [v0.3.0](https://github.com/graphql-devise/graphql_devise/tree/v0.3.0) (2019-10-04)

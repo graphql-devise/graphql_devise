@@ -20,6 +20,7 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.user = 'graphql-devise'
   config.project = 'graphql_devise'
   config.future_release = ENV['FUTURE_RELEASE']
+  config.add_issues_wo_labels = false
 end
 
 APP_RAKEFILE = File.expand_path('spec/dummy/Rakefile', __dir__)

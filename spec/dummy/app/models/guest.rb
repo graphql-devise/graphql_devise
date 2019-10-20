@@ -2,8 +2,7 @@ class Guest < ApplicationRecord
   devise :database_authenticatable,
          :registerable,
          :recoverable,
-         :validatable,
-         :confirmable
+         :validatable
 
   include GraphqlDevise::Concerns::Model
 end
