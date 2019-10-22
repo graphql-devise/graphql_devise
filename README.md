@@ -44,7 +44,7 @@ Will do the following:
   - Find or create `Admin` model
   - Add `devise` modules to `Admin` model
   - Other changes that you can find [here](https://devise-token-auth.gitbook.io/devise-token-auth/config)
-- Add the following line to `config/routes.rb`
+- Add the route to `config/routes.rb`
   - `mount_graphql_devise_for 'Admin', at: 'api/auth'
 
 `Admin` could be any model name you are going to be using for authentication,
@@ -152,7 +152,8 @@ class MyController < ApplicationController
 end
 ```
 
-The install generator can do this for you because it executes DTA installer. See above for details.
+The install generator can do this for you because it executes DTA installer.
+See [Installation](#Installation) for details.
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model
@@ -189,7 +190,6 @@ templates.
 ## Future Work
 We will continue to improve the gem and add better docs.
 
-1. Add install generator.
 1. Add mount option that will create a separate schema for the mounted resource.
 1. Make sure this gem can correctly work alongside DTA and the original Devise gem.
 1. Improve DOCS.
