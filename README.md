@@ -31,7 +31,7 @@ work correctly. All configurations for [Devise](https://github.com/plataformatec
 so you can read the docs there to customize your options.
 Configurations are done via initializer files as usual, one per gem.
 
-The generator accepts 2 params: `user_class` and `route`. The params
+The generator accepts 2 params: `user_class` and `mount_path`. The params
 will be used mount the route in `config/routes.rb`. For instance the executing:
 
 ```bash
@@ -48,10 +48,10 @@ Will do the following:
   - `mount_graphql_devise_for 'Admin', at: 'api/auth'
 
 `Admin` could be any model name you are going to be using for authentication,
-and `api/auth` could be any route you would like to for auth.
+and `api/auth` could be any mount path you would like to use for auth.
 
 ### Mounting Routes manually
-Routes can be created using the initializer or can be added manually.
+Routes can be added using the initializer or manually.
 You can add a route in the following way:
 
 ```ruby
@@ -124,7 +124,8 @@ class User < ApplicationRecord
 end
 ```
 
-The install generator can do this for you if you specify the `user_class` option. See above for details.
+The install generator can do this for you if you specify the `user_class` option.
+See [Installation](#Installation) for details.
 
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
