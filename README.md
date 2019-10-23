@@ -141,10 +141,10 @@ is `User`.
 1. `userLogout: UserLogoutPayload`
 1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
 
-   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `current_resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
+   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
 1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
 
-    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `current_resource` model supports the `recoverable` Devise plugin and the `current_resource`'s `allow_password_change` attribute is set to true.
+    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
 1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
 
 #### Queries
