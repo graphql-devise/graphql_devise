@@ -32,7 +32,7 @@ so you can read the docs there to customize your options.
 Configurations are done via initializer files as usual, one per gem.
 
 The generator accepts 2 params: `user_class` and `mount_path`. The params
-will be used mount the route in `config/routes.rb`. For instance the executing:
+will be used to mount the route in `config/routes.rb`. For instance the executing:
 
 ```bash
 $ rails g graphql_devise:install Admin api/auth
@@ -52,7 +52,7 @@ and `api/auth` could be any mount path you would like to use for auth.
 
 ### Mounting Routes manually
 Routes can be added using the initializer or manually.
-You can add a route in the following way:
+You can add a route like this:
 
 ```ruby
 # config/routes.rb
