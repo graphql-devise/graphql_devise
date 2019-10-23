@@ -7,6 +7,8 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
   before do
     prepare_destination
+    allow_any_instance_of(described_class).to receive(:create_devise_initializer)
+    allow_any_instance_of(described_class).to receive(:execute_dta_installer)
   end
 
   let(:routes_path)    { "#{destination_root}/config/routes.rb" }
