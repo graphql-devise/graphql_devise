@@ -20,21 +20,40 @@ Or install it yourself as:
 
     $ gem install graphql_devise
 
-## Usage
-All configurations for [Devise](https://github.com/plataformatec/devise) and
-[Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) are
-available, so you can read the docs there to customize your options.
-Configurations are done via initializer files as usual, one per gem.
-You can generate most of the configuration by using DTA's installer while we work
-on our own generators like this
-```bash
-$ rails g devise_token_auth:install User auth
-```
-`User` could be any model name you are going to be using for authentication,
-and `auth` could be anything as we will be removing that from the routes file.
+Next, you need to run the generator:
 
-### Mounting Routes
-First, you need to mount the gem in the routes file like this
+    $ rails generate graphql_devise:install
+
+Graphql Devise generator will execute `Devise` and `Devise Token Auth`
+generators for you. These will make the required changes for the gems to
+work correctly. All configurations for [Devise](https://github.com/plataformatec/devise) and
+[Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) are available,
+so you can read the docs there to customize your options.
+Configurations are done via initializer files as usual, one per gem.
+
+The generator accepts 2 params: `user_class` and `mount_path`. The params
+will be used to mount the route in `config/routes.rb`. For instance the executing:
+
+```bash
+$ rails g graphql_devise:install Admin api/auth
+```
+
+Will do the following:
+- Execute `Devise` install generator
+- Execute `Devise Token Auth` install generator with `Admin` and `api/auth` as params
+  - Find or create `Admin` model
+  - Add `devise` modules to `Admin` model
+  - Other changes that you can find [here](https://devise-token-auth.gitbook.io/devise-token-auth/config)
+- Add the route to `config/routes.rb`
+  - `mount_graphql_devise_for 'Admin', at: 'api/auth'
+
+`Admin` could be any model name you are going to be using for authentication,
+and `api/auth` could be any mount path you would like to use for auth.
+
+### Mounting Routes manually
+Routes can be added using the initializer or manually.
+You can add a route like this:
+
 ```ruby
 # config/routes.rb
 
@@ -50,8 +69,6 @@ Rails.application.routes.draw do
   )
 end
 ```
-If you used DTA's installer you will have to remove the `mount_devise_token_auth_for`
-line.
 
 Here are the options for the mount method:
 
@@ -107,6 +124,9 @@ class User < ApplicationRecord
 end
 ```
 
+The install generator can do this for you if you specify the `user_class` option.
+See [Installation](#Installation) for details.
+
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
 so if you want to change them, place yours on the same dir structure on your Rails project. You can customize these two templates:
@@ -131,6 +151,9 @@ class MyController < ApplicationController
   end
 end
 ```
+
+The install generator can do this for you because it executes DTA installer.
+See [Installation](#Installation) for details.
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model
@@ -167,7 +190,6 @@ templates.
 ## Future Work
 We will continue to improve the gem and add better docs.
 
-1. Add install generator.
 1. Add mount option that will create a separate schema for the mounted resource.
 1. Make sure this gem can correctly work alongside DTA and the original Devise gem.
 1. Improve DOCS.

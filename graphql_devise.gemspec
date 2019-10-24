@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-rspec'
   spec.add_development_dependency 'sqlite3', '~> 1.3'
   spec.add_development_dependency 'github_changelog_generator'
+  spec.add_development_dependency 'generator_spec'
 end
