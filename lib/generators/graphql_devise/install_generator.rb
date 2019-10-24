@@ -5,7 +5,7 @@ module GraphqlDevise
     argument :user_class, type: :string, default: 'User'
     argument :mount_path, type: :string, default: 'auth'
 
-    def create_devise_initializer
+    def execute_devise_installer
       generate 'devise:install'
     end
 
