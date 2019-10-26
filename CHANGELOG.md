@@ -1,6 +1,17 @@
 # Change Log
 
-## [v0.4.1](https://github.com/graphql-devise/graphql_devise/tree/v0.4.1) (2019-10-17)
+## [v0.5.0](https://github.com/graphql-devise/graphql_devise/tree/v0.5.0) (2019-10-24)
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.4.1...v0.5.0)
+
+**Closed issues:**
+
+- Add fields when user Sign Up [\#28](https://github.com/graphql-devise/graphql_devise/issues/28)
+
+**Merged pull requests:**
+
+- Add routes generator [\#22](https://github.com/graphql-devise/graphql_devise/pull/22) ([00dav00](https://github.com/00dav00))
+
+## [v0.4.1](https://github.com/graphql-devise/graphql_devise/tree/v0.4.1) (2019-10-18)
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.4.0...v0.4.1)
 
 **Fixed bugs:**
