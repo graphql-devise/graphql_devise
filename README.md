@@ -156,8 +156,7 @@ The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
 
 ### Making Requests
-Here is a list of the available mutations queries, and types assuming your mounted model
-is `User`.
+Here is a list of the available mutations and queriess assuming your mounted model is `User`.
 
 #### Mutations
 1. `userLogin(email: String!, password: String!): UserLoginPayload`
@@ -178,15 +177,6 @@ The reason for having two queries is that these two are going to be accessed whe
 the confirmation and reset password email urls. There is no limitation for making mutation
 requests using the `GET` method on the Rails side, but looks like there might be a limitation
 on the [Apollo Client](https://www.apollographql.com/docs/apollo-server/v1/requests/#get-requests).
-
-#### Types
-1. `UserLoginPayload`
-1. `UserLogoutPayload`
-1. `UserSendResetPasswordPayload`
-1. `UserSignUpPayload`
-1. `UserUpdatePasswordPayload`
-
-By default, each payload type returned from the mutations have a single field of type `User` aliased as `authenticable`.
 
 We will continue to build better docs for the gem after this first release, but in the mean time
 you can use [our specs](https://github.com/graphql-devise/graphql_devise/tree/b5985036e01ea064e43e457b4f0c8516f172471c/spec/requests) to better understand how to use the gem.
