@@ -97,7 +97,7 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 :logout
 :sign_up
 :update_password
-:send_reset_password
+:send_password_reset
 :confirm_account
 :check_password_token
 ```
@@ -164,7 +164,7 @@ is `User`.
 1. userLogout
 1. userSignUp
 1. userUpdatePassword
-1. userSendResetPassword
+1. userSendPasswordReset
 
 #### Queries
 1. userConfirmAccount

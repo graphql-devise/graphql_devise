@@ -14,7 +14,7 @@ module ActionDispatch::Routing
         logout:              GraphqlDevise::Mutations::Logout,
         sign_up:             GraphqlDevise::Mutations::SignUp,
         update_password:     GraphqlDevise::Mutations::UpdatePassword,
-        send_reset_password: GraphqlDevise::Mutations::SendPasswordReset
+        send_password_reset: GraphqlDevise::Mutations::SendPasswordReset
       }.freeze
       default_queries = {
         confirm_account:      GraphqlDevise::Resolvers::ConfirmAccount,
