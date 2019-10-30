@@ -21,9 +21,13 @@ gemfile:
   - gemfiles/rails5.2_graphql1.8.gemfile
   - gemfiles/rails5.2_graphql1.9.gemfile
 
-matrix:
+jobs:
   include:
     - gemfile: gemfiles/rails6.0_graphql1.8.gemfile
+      rvm: 2.5.7
+    - gemfile: gemfiles/rails6.0_graphql1.8.gemfile
+      rvm: 2.6.5
+    - gemfile: gemfiles/rails6.0_graphql1.9.gemfile
       rvm: 2.5.7
     - gemfile: gemfiles/rails6.0_graphql1.9.gemfile
       rvm: 2.6.5
@@ -31,3 +35,8 @@ matrix:
       rvm: 2.5.7
     - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
       rvm: 2.6.5
+  allow_failures:
+    - rvm: 2.5.7
+      gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+    - rvm: 2.6.5
+      gemfile: gemfiles/rails_edge_graphql_edge.gemfile
