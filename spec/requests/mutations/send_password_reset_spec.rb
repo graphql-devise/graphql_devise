@@ -9,7 +9,7 @@ RSpec.describe 'Send Password Reset Requests' do
   let(:query) do
     <<-GRAPHQL
       mutation {
-        userSendResetPassword(
+        userSendPasswordReset(
           email:       "#{email}",
           redirectUrl: "#{redirect_url}"
         ) {
