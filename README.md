@@ -97,7 +97,7 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 :logout
 :sign_up
 :update_password
-:send_reset_password
+:send_password_reset
 :confirm_account
 :check_password_token
 ```
