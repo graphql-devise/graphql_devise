@@ -168,7 +168,9 @@ Here is a list of the available mutations and queriess assuming your mounted mod
 
     The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
 1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
+1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
 
+    The `UserResendConfirmationPayload` will return the `authenticable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them and a `success: Boolean!` to indicate success.
 #### Queries
 1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`
 1. `userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User`
