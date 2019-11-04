@@ -156,16 +156,15 @@ The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
 
 ### Making Requests
-Here is a list of the available mutations and queries assuming your mounted model is `User`.
+Here is a list of the available mutations and queries assuming your mounted model
+is `User`.
 
 #### Mutations
 1. userLogin
 1. userLogout
 1. userSignUp
 1. userUpdatePassword
-1. userSendResetPassword
-1. userUpdatePassword
-1. userSendResetPassword
+1. userSendPasswordReset
 1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
 
     The `UserResendConfirmationPayload` will return the `authenticable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them and a `success: Boolean!` to indicate success.
