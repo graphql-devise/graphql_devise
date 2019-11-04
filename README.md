@@ -156,21 +156,24 @@ The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
 
 ### Making Requests
-Here is a list of the available mutations and queries assuming your mounted model
-is `User`.
+Here is a list of the available mutations and queries assuming your mounted model is `User`.
 
 #### Mutations
-1. userLogin
-1. userLogout
-1. userSignUp
-1. userUpdatePassword
-1. userSendPasswordReset
+1. `userLogin(email: String!, password: String!): UserLoginPayload`
+1. `userLogout: UserLogoutPayload`
+1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
+
+   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
+1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
+
+    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
+1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
 
 #### Queries
-1. userConfirmAccount
-1. userCheckPasswordToken
+1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`
+1. `userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User`
 
-The reason for having 2 queries is that these 2 are going to be accessed when clicking on
+The reason for having two queries is that these two are going to be accessed when clicking on
 the confirmation and reset password email urls. There is no limitation for making mutation
 requests using the `GET` method on the Rails side, but looks like there might be a limitation
 on the [Apollo Client](https://www.apollographql.com/docs/apollo-server/v1/requests/#get-requests).
