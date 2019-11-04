@@ -156,11 +156,7 @@ The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
 
 ### Making Requests
-<<<<<<< HEAD
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
-=======
-Here is a list of the available mutations and queriess assuming your mounted model is `User`.
->>>>>>> 898a6529a43032ba0df6380c11941dbbe9dd7754
 
 #### Mutations
 1. `userLogin(email: String!, password: String!): UserLoginPayload`
