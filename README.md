@@ -172,15 +172,12 @@ Here is a list of the available mutations and queriess assuming your mounted mod
 
     The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
 1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
-<<<<<<< HEAD
 
    The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
 1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
 
     The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
 1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
-=======
->>>>>>> 898a6529a43032ba0df6380c11941dbbe9dd7754
 1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
 
     The `UserResendConfirmationPayload` will return the `authenticable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them and a `success: Boolean!` to indicate success.
