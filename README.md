@@ -156,19 +156,34 @@ The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
 
 ### Making Requests
+<<<<<<< HEAD
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
+=======
+Here is a list of the available mutations and queriess assuming your mounted model is `User`.
+>>>>>>> Added ResendConfirmation GraphQL method.
 
 #### Mutations
 1. `userLogin(email: String!, password: String!): UserLoginPayload`
 1. `userLogout: UserLogoutPayload`
 1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
+<<<<<<< HEAD
 
    The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
 1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
 
     The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
 1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
+=======
+>>>>>>> Added ResendConfirmation GraphQL method.
 
+   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
+1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
+
+    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
+1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
+1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
+
+    The `UserResendConfirmationPayload` will return the `authenticable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them and a `success: Boolean!` to indicate success.
 #### Queries
 1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`
 1. `userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User`
