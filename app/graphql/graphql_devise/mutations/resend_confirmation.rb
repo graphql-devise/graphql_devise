@@ -4,7 +4,7 @@ module GraphqlDevise
       argument :email,        String, required: true, prepare: ->(email, _) { email.downcase }
       argument :redirect_url, String, required: true
       
-      field :success, Boolean, null: false
+      field :authenticable, User, null: false
       field :message, String, null: false
       
       def resolve(email:, redirect_url:)
@@ -12,14 +12,17 @@ module GraphqlDevise
 
         if resource
           yield resource if block_given?
+
+          raise_user_error("Email #{I18n.t('errors.messages.already_confirmed')}") if resource.confirmed?
+
           resource.send_confirmation_instructions({
             redirect_url: redirect_url,
             template_path: ['graphql_devise/mailer']
           })
 
           {
-            success: true,
-            message: I18n.t('graphql_devise.confirmations.send_instructions', email: email)
+            authenticable: resource,
+            message: I18n.t('devise.confirmations.send_instructions', email: email)
           }
         else
           raise_user_error(I18n.t('graphql_devise.confirmations.user_not_found', email: email))
