@@ -26,7 +26,7 @@ RSpec.describe 'Resend confirmation' do
 
   context 'when params are correct' do
     it 'sends an email to the user with confirmation url and returns a success message' do
-      expect { post_request }.to(change(ActionMailer::Base.deliveries, :count).by(1))
+      expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by 1
       expect(json_response[:data][:userResendConfirmation]).to include(
         authenticable: {
           id: id,
@@ -54,7 +54,7 @@ RSpec.describe 'Resend confirmation' do
       before { user.confirm }
 
       it 'does *NOT* send an email and raises an error' do
-        expect { post_request }.to(change(ActionMailer::Base.deliveries, :count).by(0))
+        expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by 0
         expect(json_response[:data][:userResendConfirmation]).to be_nil
         expect(json_response[:errors]).to contain_exactly(
           hash_including(
@@ -66,11 +66,11 @@ RSpec.describe 'Resend confirmation' do
     end
   end
 
-  context 'when the email isn''t in the system' do
+  context "when the email isn't in the system" do
     let(:email) { 'nothere@gmail.com' }
 
     it 'does *NOT* send an email and raises an error' do
-      expect { post_request }.to(change(ActionMailer::Base.deliveries, :count).by(0))
+      expect { post_request }.to not_change(ActionMailer::Base.deliveries, :count)
       expect(json_response[:data][:userResendConfirmation]).to be_nil
       expect(json_response[:errors]).to contain_exactly(
         hash_including(

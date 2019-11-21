@@ -4,7 +4,6 @@ module GraphqlDevise
       argument :email,        String, required: true, prepare: ->(email, _) { email.downcase }
       argument :redirect_url, String, required: true
       
-      field :authenticable, User, null: false
       field :message, String, null: false
       
       def resolve(email:, redirect_url:)
