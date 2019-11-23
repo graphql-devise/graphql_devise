@@ -12,7 +12,7 @@ module GraphqlDevise
         if resource
           yield resource if block_given?
 
-          raise_user_error("Email #{I18n.t('errors.messages.already_confirmed')}") if resource.confirmed?
+          raise_user_error(I18n.t('errors.messages.already_confirmed')) if resource.confirmed?
 
           resource.send_confirmation_instructions({
             redirect_url: redirect_url,
@@ -21,7 +21,7 @@ module GraphqlDevise
 
           {
             authenticable: resource,
-            message: I18n.t('devise.confirmations.send_instructions', email: email)
+            message: I18n.t('graphql_devise.confirmations.send_instructions', email: email)
           }
         else
           raise_user_error(I18n.t('graphql_devise.confirmations.user_not_found', email: email))
