@@ -19,6 +19,14 @@ en:
       not_confirmed: "A confirmation email was sent to your account at '%{email}'. You must follow the instructions in the email before your account can be activated"
     confirmations:
       invalid_token: "Invalid confirmation token. Please try again"
+      user_not_found: "Unable to find user with email '%{email}'."
+      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
     mailer:
+      confirmation_instructions:
+        confirm_link_msg: "You can confirm your account email through the link below:"
+        confirm_account_link: "Confirm my account"
       unlock_instructions:
         account_lock_msg: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+  errors:
+    messages:
+      already_confirmed: "Email was already confirmed, please try signing in"
