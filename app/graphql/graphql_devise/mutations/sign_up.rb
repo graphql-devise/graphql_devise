@@ -33,7 +33,7 @@ module GraphqlDevise
 
           set_auth_headers(resource) if resource.active_for_authentication?
 
-          { authenticable: resource }
+          { authenticatable: resource }
         else
           clean_up_passwords(resource)
           raise_user_error_list(

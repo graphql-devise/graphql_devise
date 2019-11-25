@@ -17,7 +17,7 @@ module GraphqlDevise
           )
 
           if resource.errors.empty?
-            { authenticable: resource }
+            { authenticatable: resource }
           else
             raise_user_error_list(I18n.t('graphql_devise.invalid_resource'), errors: resource.errors.full_messages)
           end

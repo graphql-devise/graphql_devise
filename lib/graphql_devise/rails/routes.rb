@@ -39,9 +39,9 @@ module ActionDispatch::Routing
         skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks]
       )
 
-      authenticable_type = opts[:authenticable_type] ||
+      authenticatable_type = opts[:authenticatable_type] ||
                            "Types::#{resource}Type".safe_constantize ||
-                           GraphqlDevise::Types::AuthenticableType
+                           GraphqlDevise::Types::AuthenticatableType
 
       used_mutations = if only_operations.present?
         default_mutations.slice(*only_operations)
@@ -54,7 +54,7 @@ module ActionDispatch::Routing
         else
           new_mutation = Class.new(mutation)
           new_mutation.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
-          new_mutation.field(:authenticable, authenticable_type, null: true)
+          new_mutation.field(:authenticatable, authenticatable_type, null: true)
 
           new_mutation
         end
@@ -74,7 +74,7 @@ module ActionDispatch::Routing
         else
           new_query = Class.new(query)
           new_query.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
-          new_query.type(authenticable_type, null: true)
+          new_query.type(authenticatable_type, null: true)
 
           new_query
         end
