@@ -22,7 +22,7 @@ module GraphqlDevise
           if locked?(resource)
             raise_user_error(I18n.t('graphql_devise.mailer.unlock_instructions.account_lock_msg'))
           else
-            raise_user_error(I18n.t('devise_token_auth.sessions.not_confirmed', email: resource.email))
+            raise_user_error(I18n.t('graphql_devise.sessions.not_confirmed', email: resource.email))
           end
         else
           raise_user_error(I18n.t('graphql_devise.sessions.bad_credentials'))
