@@ -138,7 +138,7 @@ Check [these files](app/views/graphql_devise/mailer) to see the available helper
 
 #### Locale customization
 For your convenience, the `graphql_devise.confirmations.send_instructions` locale setting supports the `%{email}` variable in case
-you would like to include it in the resend confirmation intructions for the user.
+you would like to include it in the resend confirmation instructions for the user.
 
 ### Authenticating Controller Actions
 Just like with Devise or DTA, you will need to authenticate users in your controllers.
