@@ -1,6 +1,18 @@
 # Changelog
 
-## [v0.6.0](https://github.com/graphql-devise/graphql_devise/tree/v0.6.0) (2019-10-29)
+## [v0.7.0](https://github.com/graphql-devise/graphql_devise/tree/v0.7.0) (2019-11-25)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.6.0...v0.7.0)
+
+**Implemented enhancements:**
+
+- Added ResendConfirmation GraphQL method. [\#35](https://github.com/graphql-devise/graphql_devise/pull/35) ([aarona](https://github.com/aarona))
+
+**Fixed bugs:**
+
+- Add missing localized messages [\#41](https://github.com/graphql-devise/graphql_devise/pull/41) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.6.0](https://github.com/graphql-devise/graphql_devise/tree/v0.6.0) (2019-10-30)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.5.0...v0.6.0)
 
