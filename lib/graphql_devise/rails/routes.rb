@@ -40,8 +40,8 @@ module ActionDispatch::Routing
       )
 
       authenticatable_type = opts[:authenticatable_type] ||
-                           "Types::#{resource}Type".safe_constantize ||
-                           GraphqlDevise::Types::AuthenticatableType
+                             "Types::#{resource}Type".safe_constantize ||
+                             GraphqlDevise::Types::AuthenticatableType
 
       used_mutations = if only_operations.present?
         default_mutations.slice(*only_operations)

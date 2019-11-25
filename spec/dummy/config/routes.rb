@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   mount_graphql_devise_for(
     'Admin',
     authenticatable_type: Types::CustomAdminType,
-    skip:               [:sign_up, :check_password_token],
-    at:                 '/api/v1/admin/graphql_auth'
+    skip:                 [:sign_up, :check_password_token],
+    at:                   '/api/v1/admin/graphql_auth'
   )
 
   mount_graphql_devise_for(
