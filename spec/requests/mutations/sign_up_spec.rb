@@ -87,7 +87,7 @@ RSpec.describe 'Sign Up process' do
             passwordConfirmation: "#{password}"
             confirmSuccessUrl:    "#{redirect}"
           ) {
-            authenticable {
+            authenticatable {
               email
             }
           }
@@ -114,7 +114,7 @@ RSpec.describe 'Sign Up process' do
             passwordConfirmation: "#{password}"
             confirmSuccessUrl:    "#{redirect}"
           ) {
-            authenticable {
+            authenticatable {
               email
             }
           }

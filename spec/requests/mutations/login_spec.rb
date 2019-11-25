@@ -100,7 +100,7 @@ RSpec.describe 'Login Requests' do
             email: "#{admin.email}",
             password: "#{password}"
           ) {
-            authenticable { email customField }
+            authenticatable { email customField }
           }
         }
       GRAPHQL
@@ -110,7 +110,7 @@ RSpec.describe 'Login Requests' do
 
     it 'works alongside the user mount point' do
       expect(json_response[:data][:adminLogin]).to include(
-        authenticable: { email: admin.email, customField: "email: #{admin.email}" }
+        authenticatable: { email: admin.email, customField: "email: #{admin.email}" }
       )
     end
   end
@@ -124,7 +124,7 @@ RSpec.describe 'Login Requests' do
             email: "#{guest.email}",
             password: "#{password}"
           ) {
-            authenticable { email }
+            authenticatable { email }
           }
         }
       GRAPHQL
@@ -134,7 +134,7 @@ RSpec.describe 'Login Requests' do
 
     it 'works alongside the user mount point' do
       expect(json_response[:data][:guestLogin]).to include(
-        authenticable: { email: guest.email }
+        authenticatable: { email: guest.email }
       )
     end
   end

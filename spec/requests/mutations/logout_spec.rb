@@ -8,7 +8,7 @@ RSpec.describe 'Logout Requests' do
     <<-GRAPHQL
       mutation {
         userLogout {
-          authenticable { email }
+          authenticatable { email }
         }
       }
     GRAPHQL
@@ -23,7 +23,7 @@ RSpec.describe 'Logout Requests' do
       expect(response).not_to include_auth_headers
       expect(user.reload.tokens.keys).to be_empty
       expect(json_response[:data][:userLogout]).to match(
-        authenticable: { email: user.email }
+        authenticatable: { email: user.email }
       )
       expect(json_response[:errors]).to be_nil
     end
@@ -45,7 +45,7 @@ RSpec.describe 'Logout Requests' do
       <<-GRAPHQL
         mutation {
           adminLogout {
-            authenticable { email }
+            authenticatable { email }
           }
         }
       GRAPHQL
@@ -57,7 +57,7 @@ RSpec.describe 'Logout Requests' do
       expect(response).not_to include_auth_headers
       expect(admin.reload.tokens.keys).to be_empty
       expect(json_response[:data][:adminLogout]).to match(
-        authenticable: { email: admin.email }
+        authenticatable: { email: admin.email }
       )
       expect(json_response[:errors]).to be_nil
     end

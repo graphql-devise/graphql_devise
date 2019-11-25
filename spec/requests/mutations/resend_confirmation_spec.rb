@@ -15,7 +15,7 @@ RSpec.describe 'Resend confirmation' do
           redirectUrl:"#{redirect}"
         ) {
           message
-          authenticable {
+          authenticatable {
             id
             email
           }
@@ -28,7 +28,7 @@ RSpec.describe 'Resend confirmation' do
     it 'sends an email to the user with confirmation url and returns a success message' do
       expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
       expect(json_response[:data][:userResendConfirmation]).to include(
-        authenticable: {
+        authenticatable: {
           id: id,
           email: email
         },

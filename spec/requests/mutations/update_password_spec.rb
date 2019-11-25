@@ -10,7 +10,7 @@ RSpec.describe 'Update Password Requests' do
 
       expect(response).to include_auth_headers
       expect(json_response[:data][:userUpdatePassword]).to match(
-        authenticable: { email: user.email }
+        authenticatable: { email: user.email }
       )
       expect(json_response[:errors]).to be_nil
       expect(user).to be_valid_password(password)
@@ -33,7 +33,7 @@ RSpec.describe 'Update Password Requests' do
           passwordConfirmation: "#{password_confirmation}",
           currentPassword: "#{current_password}"
         ) {
-          authenticable { email }
+          authenticatable { email }
         }
       }
     GRAPHQL

@@ -61,7 +61,7 @@ Rails.application.routes.draw do
   mount_graphql_devise_for(
     'User',
     at: 'api/v1',
-    authenticable_type: Types::MyCustomUserType,
+    authenticatable_type: Types::MyCustomUserType,
     operations: {
       login: Mutations::Login
     },
@@ -81,8 +81,8 @@ and [queries](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01e
 All mutations and queries are built so you can extend default behavior just by extending
 our default classes and yielding your customized code after calling `super`, example
 [here](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/spec/dummy/app/graphql/mutations/login.rb#L6).
-1. `authenticable_type`: By default, the gem will add an `authenticable` field to every mutation
-and an `authenticable` type to every query. Gem will try to use `Types::<model>Type` by
+1. `authenticatable_type`: By default, the gem will add an `authenticatable` field to every mutation
+and an `authenticatable` type to every query. Gem will try to use `Types::<model>Type` by
 default, so in our example you could define `Types::UserType` and every query and mutation
 will use it. But, you can override this type with this option like in the example.
 1. `skip`: An array of the operations that should not be available in the authentication schema. All these operations are
@@ -170,7 +170,7 @@ Here is a list of the available mutations and queries assuming your mounted mode
 1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
 1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
 
-    The `UserResendConfirmationPayload` will return the `authenticable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them
+    The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them
 
 #### Queries
 1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`

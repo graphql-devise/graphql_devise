@@ -20,7 +20,7 @@ module GraphqlDevise
           )
 
           {
-            authenticable: resource,
+            authenticatable: resource,
             message:       I18n.t('graphql_devise.confirmations.send_instructions', email: email)
           }
         else

@@ -6,7 +6,7 @@ module Mutations
 
     def resolve(email:, **attrs)
       original_payload = super
-      original_payload.merge(user: original_payload[:authenticable])
+      original_payload.merge(user: original_payload[:authenticatable])
     end
   end
 end
