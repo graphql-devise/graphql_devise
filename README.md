@@ -136,6 +136,10 @@ so if you want to change them, place yours on the same dir structure on your Rai
 The main reason for this difference is just to make it easier to have both Standard `Devise` and this gem running at the same time.
 Check [these files](app/views/graphql_devise/mailer) to see the available helper methods you can use in your views.
 
+#### Locale customization
+For your convenience, the `graphql_devise.confirmations.send_instructions` locale supports the `%{email}` vairable in case you would
+like to include it in the resend confirmation intructions for the user.
+
 ### Authenticating Controller Actions
 Just like with Devise or DTA, you will need to authenticate users in your controllers.
 For this you need to call `authenticate_<model>!` in a before_action hook of your controller.
