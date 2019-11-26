@@ -36,7 +36,7 @@ module ActionDispatch::Routing
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
         module: :devise,
-        skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks]
+        skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks, :invitations]
       )
 
       authenticatable_type = opts[:authenticatable_type] ||
