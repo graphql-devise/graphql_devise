@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.0](https://github.com/graphql-devise/graphql_devise/tree/v0.8.0) (2019-11-26)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.7.0...v0.8.0)
+
+**Breaking changes:**
+
+- Set standard to use authenticatable per Devise's coding standard. [\#46](https://github.com/graphql-devise/graphql_devise/pull/46) ([aarona](https://github.com/aarona))
+
 ## [v0.7.0](https://github.com/graphql-devise/graphql_devise/tree/v0.7.0) (2019-11-25)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.6.0...v0.7.0)
