@@ -63,6 +63,8 @@ module ActionDispatch::Routing
         GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
 
+      GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType) if used_mutations.present?
+
       used_queries = if only_operations.present?
         default_queries.slice(*only_operations)
       else
@@ -81,6 +83,10 @@ module ActionDispatch::Routing
         used_query.instance_variable_set(:@resource_name, mapping_name)
 
         GraphqlDevise::Types::QueryType.field("#{mapping_name}_#{action}", resolver: used_query)
+      end
+
+      if used_queries.blank? && GraphqlDevise::Types::QueryType.fields.blank?
+        GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
