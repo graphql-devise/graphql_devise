@@ -1,6 +1,15 @@
 require 'pry'
 require 'bundler/setup'
 require 'graphql_devise'
+require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.start do
+  add_filter 'spec'
+  add_filter 'test'
+  add_filter 'lib/generators'
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

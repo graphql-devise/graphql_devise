@@ -1,5 +1,6 @@
 # GraphqlDevise
 [![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
+[![Coverage Status](https://coveralls.io/repos/github/graphql-devise/graphql_devise/badge.svg?branch=master)](https://coveralls.io/github/graphql-devise/graphql_devise?branch=master)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
 GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
