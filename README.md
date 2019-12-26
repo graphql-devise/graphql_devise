@@ -121,12 +121,16 @@ class User < ApplicationRecord
          :confirmable
 
   # including after calling the `devise` method is important.
+  # include DeviseTokenAuth::Concerns::User # is also valid (generator includes this one).
   include GraphqlDevise::Concerns::Model
 end
 ```
 
 The install generator can do this for you if you specify the `user_class` option.
 See [Installation](#Installation) for details.
+The generator will include a different module in your model, `DeviseTokenAuth::Concerns::User` which is also correct,
+we just made an alias on our namespace for consistency and possible extension.
+Generators have to be updated to generate our module.
 
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
@@ -145,6 +149,9 @@ In our example our model is `User`, so it would look like this:
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
+  # include DeviseTokenAuth::Concerns::SetUserByToken # is also valid (generator includes this one).
+  include GraphqlDevise::Concerns::SetUserByToken
+
   before_action :authenticate_user!
 
   def my_action
@@ -155,6 +162,9 @@ end
 
 The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
+The generator will include a different module in your model, `DeviseTokenAuth::Concerns::SetUserByToken` which is also correct,
+we just made an alias on our namespace for consistency and possible extension.
+Generators have to be updated to generate our module.
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
