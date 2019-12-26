@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.9.0](https://github.com/graphql-devise/graphql_devise/tree/v0.9.0) (2019-12-26)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.8.1...v0.9.0)
+
+**Implemented enhancements:**
+
+- Allow returning auth info as part to the response type [\#50](https://github.com/graphql-devise/graphql_devise/issues/50)
+- Return credentials field in login mutation [\#55](https://github.com/graphql-devise/graphql_devise/pull/55) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- Error when including this gem's controller concern [\#47](https://github.com/graphql-devise/graphql_devise/issues/47)
+- Fix concern aliases [\#54](https://github.com/graphql-devise/graphql_devise/pull/54) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.8.1](https://github.com/graphql-devise/graphql_devise/tree/v0.8.1) (2019-11-27)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.8.0...v0.8.1)
