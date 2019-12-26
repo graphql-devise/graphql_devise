@@ -66,6 +66,8 @@ module GraphqlDevise
       def set_auth_headers(resource)
         auth_headers = resource.create_new_auth_token
         response.headers.merge!(auth_headers)
+
+        auth_headers
       end
 
       def client_and_token(token)
