@@ -4,6 +4,8 @@ module GraphqlDevise
       argument :email,    String, required: true
       argument :password, String, required: true
 
+      field :credentials, Types::CredentialType, null: false
+
       def resolve(email:, password:)
         resource = resource_class.find_by(email: email)
 
@@ -12,12 +14,12 @@ module GraphqlDevise
             raise_user_error(I18n.t('graphql_devise.sessions.bad_credentials'))
           end
 
-          set_auth_headers(resource)
+          new_headers = set_auth_headers(resource)
           controller.sign_in(:user, resource, store: false, bypass: false)
 
           yield resource if block_given?
 
-          { authenticatable: resource}
+          { authenticatable: resource, credentials: new_headers }
         elsif resource && !active_for_authentication?(resource)
           if locked?(resource)
             raise_user_error(I18n.t('graphql_devise.mailer.unlock_instructions.account_lock_msg'))

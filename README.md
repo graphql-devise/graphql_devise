@@ -171,6 +171,10 @@ Here is a list of the available mutations and queries assuming your mounted mode
 
 #### Mutations
 1. `userLogin(email: String!, password: String!): UserLoginPayload`
+
+    This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.
+    Credentials are still returned in the headers of the response.
+
 1. `userLogout: UserLogoutPayload`
 1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
 
