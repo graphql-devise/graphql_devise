@@ -1,5 +1,6 @@
 # GraphqlDevise
 [![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
+[![Coverage Status](https://coveralls.io/repos/github/graphql-devise/graphql_devise/badge.svg?branch=master)](https://coveralls.io/github/graphql-devise/graphql_devise?branch=master)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
 GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
@@ -61,7 +62,7 @@ Rails.application.routes.draw do
   mount_graphql_devise_for(
     'User',
     at: 'api/v1',
-    authenticable_type: Types::MyCustomUserType,
+    authenticatable_type: Types::MyCustomUserType,
     operations: {
       login: Mutations::Login
     },
@@ -81,8 +82,8 @@ and [queries](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01e
 All mutations and queries are built so you can extend default behavior just by extending
 our default classes and yielding your customized code after calling `super`, example
 [here](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/spec/dummy/app/graphql/mutations/login.rb#L6).
-1. `authenticable_type`: By default, the gem will add an `authenticable` field to every mutation
-and an `authenticable` type to every query. Gem will try to use `Types::<model>Type` by
+1. `authenticatable_type`: By default, the gem will add an `authenticatable` field to every mutation
+and an `authenticatable` type to every query. Gem will try to use `Types::<model>Type` by
 default, so in our example you could define `Types::UserType` and every query and mutation
 will use it. But, you can override this type with this option like in the example.
 1. `skip`: An array of the operations that should not be available in the authentication schema. All these operations are
@@ -120,12 +121,16 @@ class User < ApplicationRecord
          :confirmable
 
   # including after calling the `devise` method is important.
+  # include DeviseTokenAuth::Concerns::User # is also valid (generator includes this one).
   include GraphqlDevise::Concerns::Model
 end
 ```
 
 The install generator can do this for you if you specify the `user_class` option.
 See [Installation](#Installation) for details.
+The generator will include a different module in your model, `DeviseTokenAuth::Concerns::User` which is also correct,
+we just made an alias on our namespace for consistency and possible extension.
+Generators have to be updated to generate our module.
 
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
@@ -148,6 +153,9 @@ In our example our model is `User`, so it would look like this:
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
+  # include DeviseTokenAuth::Concerns::SetUserByToken # is also valid (generator includes this one).
+  include GraphqlDevise::Concerns::SetUserByToken
+
   before_action :authenticate_user!
 
   def my_action
@@ -158,23 +166,34 @@ end
 
 The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
+The generator will include a different module in your model, `DeviseTokenAuth::Concerns::SetUserByToken` which is also correct,
+we just made an alias on our namespace for consistency and possible extension.
+Generators have to be updated to generate our module.
 
 ### Making Requests
-Here is a list of the available mutations and queries assuming your mounted model
-is `User`.
+Here is a list of the available mutations and queries assuming your mounted model is `User`.
 
 #### Mutations
-1. userLogin
-1. userLogout
-1. userSignUp
-1. userUpdatePassword
-1. userSendPasswordReset
+1. `userLogin(email: String!, password: String!): UserLoginPayload`
+
+    This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.
+    Credentials are still returned in the headers of the response.
+
+1. `userLogout: UserLogoutPayload`
+1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
+
+   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
+1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
+
+    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) or the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true.
+1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
 1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
 
-    The `UserResendConfirmationPayload` will return the `authenticable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them and a `success: Boolean!` to indicate success.
+    The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them
+
 #### Queries
-1. userConfirmAccount
-1. userCheckPasswordToken
+1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`
+1. `userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User`
 
 The reason for having 2 queries is that these 2 are going to be accessed when clicking on
 the confirmation and reset password email urls. There is no limitation for making mutation

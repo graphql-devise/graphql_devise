@@ -26,7 +26,7 @@ RSpec.describe 'Check Password Token Requests' do
       context 'when redirect_url is not provided' do
         let(:redirect_url) { nil }
 
-        it 'returns authenticable and credentials in the headers' do
+        it 'returns authenticatable and credentials in the headers' do
           get_request
 
           expect(response).to include_auth_headers

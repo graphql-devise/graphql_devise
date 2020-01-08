@@ -25,7 +25,7 @@ module GraphqlDevise
           end
 
           controller.redirect_to(redirect_to_link)
-          { authenticable: resource }
+          { authenticatable: resource }
         else
           raise_user_error(I18n.t('graphql_devise.confirmations.invalid_token'))
         end

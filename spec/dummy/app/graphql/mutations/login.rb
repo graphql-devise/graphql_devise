@@ -8,7 +8,7 @@ module Mutations
         user.reload
       end
 
-      original_payload.merge(user: original_payload[:authenticable])
+      original_payload.merge(user: original_payload[:authenticatable])
     end
   end
 end
