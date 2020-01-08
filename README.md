@@ -136,9 +136,10 @@ so if you want to change them, place yours on the same dir structure on your Rai
 The main reason for this difference is just to make it easier to have both Standard `Devise` and this gem running at the same time.
 Check [these files](app/views/graphql_devise/mailer) to see the available helper methods you can use in your views.
 
-#### Locale customization
-For your convenience, the `graphql_devise.confirmations.send_instructions` locale setting supports the `%{email}` variable in case
-you would like to include it in the resend confirmation instructions for the user.
+### I18n
+GraphQL Devise supports locales. For example, the `graphql_devise.confirmations.send_instructions` locale setting supports the `%{email}` variable in case you would like to include it in the resend confirmation instructions for the user. Take a look at our [locale file](https://github.com/graphql-devise/graphql_devise/blob/master/config/locales/en.yml) to see all of the available messages.
+
+Keep in mind that if your app uses multiple locales, you should set the `I18n.locale` accordingly. You can learn how to do this [here](https://guides.rubyonrails.org/i18n.html).
 
 ### Authenticating Controller Actions
 Just like with Devise or DTA, you will need to authenticate users in your controllers.
