@@ -13,7 +13,7 @@ RSpec.describe 'Send Password Reset Requests' do
           email:       "#{email}",
           redirectUrl: "#{redirect_url}"
         ) {
-          authenticable {
+          authenticatable {
             email
           }
         }

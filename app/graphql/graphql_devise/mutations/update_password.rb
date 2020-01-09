@@ -20,7 +20,7 @@ module GraphqlDevise
 
           yield current_resource if block_given?
 
-          { authenticable: current_resource }
+          { authenticatable: current_resource }
         else
           raise_user_error_list(
             I18n.t('graphql_devise.passwords.update_password_error'),

@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rails', '>= 4.2'
 
   spec.add_development_dependency 'appraisal'
+  spec.add_development_dependency 'coveralls'
   spec.add_development_dependency 'factory_bot'
   spec.add_development_dependency 'faker'
   spec.add_development_dependency 'generator_spec'

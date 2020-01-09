@@ -1,6 +1,48 @@
 # Changelog
 
-## [v0.6.0](https://github.com/graphql-devise/graphql_devise/tree/v0.6.0) (2019-10-29)
+## [v0.9.0](https://github.com/graphql-devise/graphql_devise/tree/v0.9.0) (2019-12-26)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.8.1...v0.9.0)
+
+**Implemented enhancements:**
+
+- Allow returning auth info as part to the response type [\#50](https://github.com/graphql-devise/graphql_devise/issues/50)
+- Return credentials field in login mutation [\#55](https://github.com/graphql-devise/graphql_devise/pull/55) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- Error when including this gem's controller concern [\#47](https://github.com/graphql-devise/graphql_devise/issues/47)
+- Fix concern aliases [\#54](https://github.com/graphql-devise/graphql_devise/pull/54) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.8.1](https://github.com/graphql-devise/graphql_devise/tree/v0.8.1) (2019-11-27)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.8.0...v0.8.1)
+
+**Fixed bugs:**
+
+- Add dummy query field if none is provided. Works when devise\_invitable is loaded [\#48](https://github.com/graphql-devise/graphql_devise/pull/48) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.8.0](https://github.com/graphql-devise/graphql_devise/tree/v0.8.0) (2019-11-26)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.7.0...v0.8.0)
+
+**Breaking changes:**
+
+- Set standard to use authenticatable per Devise's coding standard. [\#46](https://github.com/graphql-devise/graphql_devise/pull/46) ([aarona](https://github.com/aarona))
+
+## [v0.7.0](https://github.com/graphql-devise/graphql_devise/tree/v0.7.0) (2019-11-25)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.6.0...v0.7.0)
+
+**Implemented enhancements:**
+
+- Added ResendConfirmation GraphQL method. [\#35](https://github.com/graphql-devise/graphql_devise/pull/35) ([aarona](https://github.com/aarona))
+
+**Fixed bugs:**
+
+- Add missing localized messages [\#41](https://github.com/graphql-devise/graphql_devise/pull/41) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.6.0](https://github.com/graphql-devise/graphql_devise/tree/v0.6.0) (2019-10-30)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.5.0...v0.6.0)
 

@@ -18,6 +18,7 @@ en:
       bad_credentials: "Invalid login credentials. Please try again."
       not_confirmed: "A confirmation email was sent to your account at '%{email}'. You must follow the instructions in the email before your account can be activated"
     confirmations:
+      already_confirmed: "Email was already confirmed, please try signing in"
       invalid_token: "Invalid confirmation token. Please try again"
       user_not_found: "Unable to find user with email '%{email}'."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
@@ -25,8 +26,12 @@ en:
       confirmation_instructions:
         confirm_link_msg: "You can confirm your account email through the link below:"
         confirm_account_link: "Confirm my account"
+      reset_password_instructions:
+        request_reset_link_msg: "Someone has requested a link to change your password. You can do this through the link below."
+        password_change_link: "Change my password"
+        ignore_mail_msg: "If you didn't request this, please ignore this email."
+        no_changes_msg: "Your password won't change until you access the link above and create a new one."
       unlock_instructions:
         account_lock_msg: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
-  errors:
-    messages:
-      already_confirmed: "Email was already confirmed, please try signing in"
+  hello: "hello"
+  welcome: "welcome"

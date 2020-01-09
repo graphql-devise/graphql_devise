@@ -36,12 +36,12 @@ module ActionDispatch::Routing
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
         module: :devise,
-        skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks]
+        skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks, :invitations]
       )
 
-      authenticable_type = opts[:authenticable_type] ||
-                           "Types::#{resource}Type".safe_constantize ||
-                           GraphqlDevise::Types::AuthenticableType
+      authenticatable_type = opts[:authenticatable_type] ||
+                             "Types::#{resource}Type".safe_constantize ||
+                             GraphqlDevise::Types::AuthenticatableType
 
       used_mutations = if only_operations.present?
         default_mutations.slice(*only_operations)
@@ -54,7 +54,7 @@ module ActionDispatch::Routing
         else
           new_mutation = Class.new(mutation)
           new_mutation.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
-          new_mutation.field(:authenticable, authenticable_type, null: true)
+          new_mutation.field(:authenticatable, authenticatable_type, null: true)
 
           new_mutation
         end
@@ -62,6 +62,8 @@ module ActionDispatch::Routing
 
         GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
+
+      GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType) if used_mutations.present?
 
       used_queries = if only_operations.present?
         default_queries.slice(*only_operations)
@@ -74,13 +76,17 @@ module ActionDispatch::Routing
         else
           new_query = Class.new(query)
           new_query.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
-          new_query.type(authenticable_type, null: true)
+          new_query.type(authenticatable_type, null: true)
 
           new_query
         end
         used_query.instance_variable_set(:@resource_name, mapping_name)
 
         GraphqlDevise::Types::QueryType.field("#{mapping_name}_#{action}", resolver: used_query)
+      end
+
+      if used_queries.blank? && GraphqlDevise::Types::QueryType.fields.blank?
+        GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
