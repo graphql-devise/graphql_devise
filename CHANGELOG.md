@@ -1,5 +1,25 @@
 # Changelog
 
+## [v0.9.2](https://github.com/graphql-devise/graphql_devise/tree/v0.9.2) (2020-02-03)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.9.1...v0.9.2)
+
+**Implemented enhancements:**
+
+- Fix bug with GQL 1.10 [\#62](https://github.com/graphql-devise/graphql_devise/pull/62) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- mutation': Second definition of 'mutation\(...\)' \(GraphqlDevise::Types::MutationType\) is invalid [\#59](https://github.com/graphql-devise/graphql_devise/issues/59)
+
+**Merged pull requests:**
+
+- Add mailer locale doc [\#44](https://github.com/graphql-devise/graphql_devise/pull/44) ([aarona](https://github.com/aarona))
+
+## [v0.9.1](https://github.com/graphql-devise/graphql_devise/tree/v0.9.1) (2019-12-26)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.9.0...v0.9.1)
+
 ## [v0.9.0](https://github.com/graphql-devise/graphql_devise/tree/v0.9.0) (2019-12-26)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.8.1...v0.9.0)
