@@ -20,6 +20,7 @@ gemfile:
   - gemfiles/rails5.1_graphql1.9.gemfile
   - gemfiles/rails5.2_graphql1.8.gemfile
   - gemfiles/rails5.2_graphql1.9.gemfile
+  - gemfiles/rails5.2_graphql1.10.gemfile
 
 jobs:
   include:
@@ -30,6 +31,10 @@ jobs:
     - gemfile: gemfiles/rails6.0_graphql1.9.gemfile
       rvm: 2.5.7
     - gemfile: gemfiles/rails6.0_graphql1.9.gemfile
+      rvm: 2.6.5
+    - gemfile: gemfiles/rails6.0_graphql1.10.gemfile
+      rvm: 2.5.7
+    - gemfile: gemfiles/rails6.0_graphql1.10.gemfile
       rvm: 2.6.5
     - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
       rvm: 2.5.7
