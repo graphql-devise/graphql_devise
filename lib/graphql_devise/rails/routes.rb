@@ -63,7 +63,10 @@ module ActionDispatch::Routing
         GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
 
-      GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType) if used_mutations.present?
+      if used_mutations.present? &&
+         (Gem::Version.new(GraphQL::VERSION) <= Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
+        GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
+      end
 
       used_queries = if only_operations.present?
         default_queries.slice(*only_operations)

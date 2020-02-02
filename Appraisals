@@ -47,6 +47,12 @@ appraise 'rails5.2-graphql1.9' do
   gem 'graphql', '~> 1.9.0'
 end
 
+appraise 'rails5.2-graphql1.10' do
+  gem 'sqlite3', '~> 1.3.6'
+  gem 'rails', github: 'rails/rails', branch: '5-2-stable'
+  gem 'graphql', '~> 1.10.0'
+end
+
 appraise 'rails6.0-graphql1.8' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
@@ -59,6 +65,13 @@ appraise 'rails6.0-graphql1.9' do
   gem 'devise', '>= 4.7'
   gem 'rails', github: 'rails/rails', branch: '6-0-stable'
   gem 'graphql', '~> 1.9.0'
+end
+
+appraise 'rails6.0-graphql1.10' do
+  gem 'sqlite3', '~> 1.4'
+  gem 'devise', '>= 4.7'
+  gem 'rails', github: 'rails/rails', branch: '6-0-stable'
+  gem 'graphql', '~> 1.10.0'
 end
 
 appraise 'rails_edge-graphql_edge' do
