@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   mount_graphql_devise_for 'User', at: '/api/v1/graphql_auth', operations: {
     login:   Mutations::Login,
     sign_up: Mutations::SignUp
+  }, additional_mutations: {
+    register_confirmed_user: Mutations::RegisterConfirmedUser
+  }, additional_queries: {
+    public_user: Resolvers::PublicUser
   }
 
   mount_graphql_devise_for(
