@@ -36,12 +36,19 @@ jobs:
       rvm: 2.5.7
     - gemfile: gemfiles/rails6.0_graphql1.10.gemfile
       rvm: 2.6.5
-    - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+    - gemfile: gemfiles/rails6.0_graphql_edge.gemfile
       rvm: 2.5.7
+      env: SKIP_COVERALLS=true
+    - gemfile: gemfiles/rails6.0_graphql_edge.gemfile
+      rvm: 2.6.5
+      env: SKIP_COVERALLS=true
     - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
       rvm: 2.6.5
+      env: SKIP_COVERALLS=true
   allow_failures:
     - rvm: 2.5.7
-      gemfile: gemfiles/rails_edge_graphql_edge.gemfile
+      gemfile: gemfiles/rails6.0_graphql_edge.gemfile
+    - rvm: 2.6.5
+      gemfile: gemfiles/rails6.0_graphql_edge.gemfile
     - rvm: 2.6.5
       gemfile: gemfiles/rails_edge_graphql_edge.gemfile
