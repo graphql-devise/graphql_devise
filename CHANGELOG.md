@@ -1,6 +1,14 @@
 # Changelog
 
-## [v0.9.2](https://github.com/graphql-devise/graphql_devise/tree/v0.9.2) (2020-02-03)
+## [v0.10.0](https://github.com/graphql-devise/graphql_devise/tree/v0.10.0) (2020-02-04)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.9.2...v0.10.0)
+
+**Implemented enhancements:**
+
+- Add additional mutations and queries option [\#64](https://github.com/graphql-devise/graphql_devise/pull/64) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.9.2](https://github.com/graphql-devise/graphql_devise/tree/v0.9.2) (2020-02-02)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.9.1...v0.9.2)
 
