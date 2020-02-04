@@ -1,9 +1,11 @@
 module ActionDispatch::Routing
   class Mapper
     def mount_graphql_devise_for(resource, opts = {})
-      custom_operations  = opts[:operations] || {}
-      skipped_operations = opts.fetch(:skip, [])
-      only_operations    = opts.fetch(:only, [])
+      custom_operations    = opts.fetch(:operations, {})
+      skipped_operations   = opts.fetch(:skip, [])
+      only_operations      = opts.fetch(:only, [])
+      additional_mutations = opts.fetch(:additional_mutations, {})
+      additional_queries   = opts.fetch(:additional_queries, {})
 
       if [skipped_operations, only_operations].all?(&:any?)
         raise GraphqlDevise::Error, "Can't specify both `skip` and `only` options when mounting the route."
@@ -62,8 +64,11 @@ module ActionDispatch::Routing
 
         GraphqlDevise::Types::MutationType.field("#{mapping_name}_#{action}", mutation: used_mutation)
       end
+      additional_mutations.each do |action, mutation|
+        GraphqlDevise::Types::MutationType.field(action, mutation: mutation)
+      end
 
-      if used_mutations.present? &&
+      if (used_mutations.present? || additional_mutations.present?) &&
          (Gem::Version.new(GraphQL::VERSION) <= Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
         GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
       end
@@ -87,8 +92,11 @@ module ActionDispatch::Routing
 
         GraphqlDevise::Types::QueryType.field("#{mapping_name}_#{action}", resolver: used_query)
       end
+      additional_queries.each do |action, resolver|
+        GraphqlDevise::Types::QueryType.field(action, resolver: resolver)
+      end
 
-      if used_queries.blank? && GraphqlDevise::Types::QueryType.fields.blank?
+      if (used_queries.blank? || additional_queries.present?) && GraphqlDevise::Types::QueryType.fields.blank?
         GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 

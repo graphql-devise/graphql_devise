@@ -7,7 +7,7 @@ module GraphqlDevise
       argument :confirm_success_url,   String, required: false
 
       def resolve(confirm_success_url: nil, **attrs)
-        resource = resource_class.new(provider: provider, **attrs)
+        resource = build_resource(attrs.merge(provider: provider))
         raise_user_error(I18n.t('graphql_devise.resource_build_failed')) if resource.blank?
 
         redirect_url = confirm_success_url || DeviseTokenAuth.default_confirm_success_url
@@ -44,6 +44,10 @@ module GraphqlDevise
       end
 
       private
+
+      def build_resource(attrs)
+        resource_class.new(attrs)
+      end
 
       def provider
         :email
