@@ -1,7 +1,8 @@
+require 'spec_helper'
+
 ENV['RAILS_ENV'] ||= 'test'
 ENGINE_ROOT = File.join(File.dirname(__FILE__), '../')
 
-require 'spec_helper'
 require File.expand_path('dummy/config/environment.rb', __dir__)
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?

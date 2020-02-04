@@ -1,18 +1,16 @@
-require 'pry'
-require 'bundler/setup'
-require 'graphql_devise'
-
 if ENV['CI'] && !ENV['SKIP_COVERALLS']
   require 'simplecov'
   require 'coveralls'
 
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  SimpleCov.start do
-    add_filter 'spec'
-    add_filter 'test'
-    add_filter 'lib/generators'
+  SimpleCov.start 'rails' do
+    add_filter ['spec', 'lib/generators']
   end
 end
+
+require 'pry'
+require 'bundler/setup'
+require 'graphql_devise'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
