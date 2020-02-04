@@ -46,7 +46,7 @@ Will do the following:
   - Add `devise` modules to `Admin` model
   - Other changes that you can find [here](https://devise-token-auth.gitbook.io/devise-token-auth/config)
 - Add the route to `config/routes.rb`
-  - `mount_graphql_devise_for 'Admin', at: 'api/auth'
+  - `mount_graphql_devise_for 'Admin', at: 'api/auth'`
 
 `Admin` could be any model name you are going to be using for authentication,
 and `api/auth` could be any mount path you would like to use for auth.
@@ -66,7 +66,15 @@ Rails.application.routes.draw do
     operations: {
       login: Mutations::Login
     },
-    skip: [:sign_up]
+    skip: [:sign_up],
+    additional_mutations: {
+      # generates mutation { adminUserSignUp }
+      admin_user_sign_up: Mutations::AdminUserSignUp
+    },
+    additional_queries: {
+      # generates query { publicUserByUuid }
+      public_user_by_uuid: Resolvers::UserByUuid
+    }
   )
 end
 ```
@@ -90,6 +98,28 @@ will use it. But, you can override this type with this option like in the exampl
 symbols and should belong to the list of available operations in the gem.
 1. `only`: An array of the operations that should be available in the authentication schema. The `skip` and `only` options are
 mutually exclusive, an error will be raised if you pass both to the mount method.
+1. `additional_mutations`: Here you can add as many mutations as you
+need, for those features that don't fully match the provided default mutations and queries.
+You need to provide a hash to this option, and
+each key will be the name of the mutation on the schema. Also, the value provided must be a valid mutation.
+This is similar to what you can accomplish with
+[devise_scope](https://www.rubydoc.info/github/heartcombo/devise/master/ActionDispatch/Routing/Mapper%3Adevise_for).
+1. `additional_queries`: Here you can add as many queries as you need,
+for those features that don't fully match the provided default mutations and queries.
+You need to provide a hash to this option, and
+each key will be the name of the query on the schema. Also, the value provided must be a valid Resolver.
+This is also similar to what you can accomplish with
+[devise_scope](https://www.rubydoc.info/github/heartcombo/devise/master/ActionDispatch/Routing/Mapper%3Adevise_for).
+
+Additional mutations and queries will be added to the schema regardless
+of other options you might have specified like `skip` or `only`.
+Additional queries and mutations is usually a good place for other
+operations on your schema that require no authentication (like sign_up).
+Also by adding them through the mount method, your mutations and
+resolvers can inherit from our [base mutation](https://github.com/graphql-devise/graphql_devise/blob/master/app/graphql/graphql_devise/mutations/base.rb)
+or [base resover](https://github.com/graphql-devise/graphql_devise/blob/master/app/graphql/graphql_devise/resolvers/base.rb)
+respectively, to take advantage of some of the methods provided by devise
+just like with `devise_scope`
 
 #### Available Operations
 The following is a list of the symbols you can provide to the `operations`, `skip` and `only` options of the mount method:
