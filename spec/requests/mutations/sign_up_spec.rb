@@ -123,7 +123,10 @@ RSpec.describe 'Sign Up process' do
     end
 
     it 'works without the confirmable module' do
-      expect { post_request }.to change(Guest, :count).from(0).to(1)
+      expect {
+        post_request('/api/v1/guest/graphql_auth')
+        pp json_response
+      }.to change(Guest, :count).by(1)
     end
   end
 end
