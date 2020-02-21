@@ -11,10 +11,10 @@ RSpec.describe GraphqlDevise::MutationsPreparer do
     end
 
     let(:resource)  { 'User' }
-    let(:class_1)   { Class.new(GraphQL::Schema::Mutation) }
-    let(:class_2)   { GraphQL::Schema::Mutation }
+    let(:class1)    { Class.new(GraphQL::Schema::Mutation) }
+    let(:class2)    { GraphQL::Schema::Mutation }
     let(:auth_type) { GraphqlDevise::Types::AuthenticatableType }
-    let(:mutations) { { mutation_1: class_1, mutation_2: class_2 } }
+    let(:mutations) { { mutation_1: class1, mutation_2: class2 } }
 
     context 'when mutations is *NOT* empty' do
       it 'assign gql attibutes to mutations and changes keys using resource map' do

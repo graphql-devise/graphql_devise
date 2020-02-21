@@ -27,7 +27,11 @@ module ActionDispatch::Routing
         skipped: skipped_operations
       }
 
-      validate_gql_devise_operations!(param_operations)
+      GraphqlDevise::OperationChecker.call(
+        mutations: GraphqlDevise::MutationsPreparer::DEFAULT_MUTATIONS,
+        queries:   GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES,
+        **param_operations
+      )
 
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
@@ -54,8 +58,18 @@ module ActionDispatch::Routing
       prepared_mutations.merge(additional_mutations).each do |action, mutation|
         GraphqlDevise::Types::MutationType.field(action, mutation: mutation)
       end
+
+      if (prepared_mutations.present? || additional_mutations.present?) &&
+          (Gem::Version.new(GraphQL::VERSION) <= Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
+        GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
+      end
+
       prepared_queries.merge(additional_queries).each do |action, resolver|
         GraphqlDevise::Types::QueryType.field(action, resolver: resolver)
+      end
+
+      if (prepared_queries.blank? || additional_queries.present?) && GraphqlDevise::Types::QueryType.fields.blank?
+        GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
@@ -64,16 +78,6 @@ module ActionDispatch::Routing
         post path, to: 'graphql_devise/graphql#auth'
         get  path, to: 'graphql_devise/graphql#auth'
       end
-    end
-
-    private
-
-    def validate_gql_devise_operations!(param_operations)
-      GraphqlDevise::OperationChecker.call(
-        mutations: GraphqlDevise::MutationsPreparer::DEFAULT_MUTATIONS,
-        queries:   GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES,
-        **param_operations
-      )
     end
   end
 end

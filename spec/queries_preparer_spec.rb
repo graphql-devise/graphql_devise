@@ -11,16 +11,16 @@ RSpec.describe GraphqlDevise::QueriesPreparer do
     end
 
     let(:resource)  { 'User' }
-    let(:class_1)   { Class.new(GraphQL::Schema::Resolver) }
-    let(:class_2)   { GraphQL::Schema::Resolver }
+    let(:class1)    { Class.new(GraphQL::Schema::Resolver) }
+    let(:class2)    { GraphQL::Schema::Resolver }
     let(:auth_type) { GraphqlDevise::Types::AuthenticatableType }
-    let(:queries)   { { query_1: class_1, query_2: class_2 } }
+    let(:queries)   { { query1: class1, query2: class2 } }
 
     context 'when queries is *NOT* empty' do
       it 'assign gql attibutes to queries and changes keys using resource map' do
         result = subject
 
-        expect(result.keys).to contain_exactly(:user_query_1, :user_query_2)
+        expect(result.keys).to contain_exactly(:user_query1, :user_query2)
         expect(result.values.map(&:graphql_name)).to contain_exactly(
           'UserQuery1', 'UserQuery2'
         )
