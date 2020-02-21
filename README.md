@@ -117,7 +117,7 @@ Additional queries and mutations is usually a good place for other
 operations on your schema that require no authentication (like sign_up).
 Also by adding them through the mount method, your mutations and
 resolvers can inherit from our [base mutation](https://github.com/graphql-devise/graphql_devise/blob/master/app/graphql/graphql_devise/mutations/base.rb)
-or [base resover](https://github.com/graphql-devise/graphql_devise/blob/master/app/graphql/graphql_devise/resolvers/base.rb)
+or [base resolver](https://github.com/graphql-devise/graphql_devise/blob/master/app/graphql/graphql_devise/resolvers/base.rb)
 respectively, to take advantage of some of the methods provided by devise
 just like with `devise_scope`
 
