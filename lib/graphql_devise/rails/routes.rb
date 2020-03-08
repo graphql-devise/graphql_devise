@@ -32,7 +32,7 @@ module ActionDispatch::Routing
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
         module: :devise,
-        skip:   [DEVISE_OPERATIONS]
+        skip:   DEVISE_OPERATIONS
       )
 
       prepared_mutations = GraphqlDevise::MutationsPreparer.call(
@@ -51,8 +51,12 @@ module ActionDispatch::Routing
         authenticatable_type: authenticatable_type
       )
 
-      add_gql_devise_mutations!(prepared_mutations, additional_mutations)
-      add_gql_devise_queries!(prepared_queries, additional_queries)
+      prepared_mutations.merge(additional_mutations).each do |action, mutation|
+        GraphqlDevise::Types::MutationType.field(action, mutation: mutation)
+      end
+      prepared_queries.merge(additional_queries).each do |action, resolver|
+        GraphqlDevise::Types::QueryType.field(action, resolver: resolver)
+      end
 
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
 
@@ -70,28 +74,6 @@ module ActionDispatch::Routing
         queries:   GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES,
         **param_operations
       )
-    end
-
-    def add_gql_devise_mutations!(prepared, additional)
-      all_mutations = prepared.merge(additional)
-
-      all_mutations.each do |action, mutation|
-        GraphqlDevise::Types::MutationType.field(action, mutation: mutation)
-      end
-
-      if all_mutations.present? && GraphqlDevise::Schema.try(:mutation).nil?
-        GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
-      end
-    end
-
-    def add_gql_devise_queries!(prepared, additional)
-      prepared.merge(additional).each do |action, resolver|
-        GraphqlDevise::Types::QueryType.field(action, resolver: resolver)
-      end
-
-      if (prepared.blank? || additional.present?) && GraphqlDevise::Types::QueryType.fields.blank?
-        GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
-      end
     end
   end
 end

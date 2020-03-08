@@ -17,8 +17,7 @@ module GraphqlDevise
     end
 
     def call
-      result = @default
-      result = result.merge(@custom.slice(*operations_whitelist))
+      result = @default.merge(@custom.slice(*operations_whitelist))
       result = result.slice(*@only) if @only.present?
       result = result.except(*@skipped) if @skipped.present?
 

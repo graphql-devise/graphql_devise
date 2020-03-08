@@ -42,19 +42,6 @@ RSpec.describe GraphqlDevise::OperationChecker do
       it { is_expected.not_to raise_error }
     end
 
-    context 'when custom operations include a not supported item' do
-      let(:custom) { { mutation_3: Class.new, query_2: Class.new } }
-
-      it {
-        is_expected.to(
-          raise_error(
-            GraphqlDevise::Error,
-            'One of the custom operations is not supported. Check for typos.'
-          )
-        )
-      }
-    end
-
     context 'when only and skipped operations are both defined' do
       let(:only)    { [:mutation_1, :query_2] }
       let(:skipped) { [:mutation_2, :query_1] }
@@ -69,14 +56,14 @@ RSpec.describe GraphqlDevise::OperationChecker do
       }
     end
 
-    context 'when only operations include a not supported item' do
-      let(:only) { [:mutation_3, :query_2] }
+    context 'when custom operations include a not supported item' do
+      let(:custom) { { mutation_3: Class.new, query_2: Class.new } }
 
       it {
         is_expected.to(
           raise_error(
             GraphqlDevise::Error,
-            'One of the `only` operations is not supported. Check for typos.'
+            'Custom operation "mutation_3" is not supported. Check for typos.'
           )
         )
       }
@@ -89,7 +76,20 @@ RSpec.describe GraphqlDevise::OperationChecker do
         is_expected.to(
           raise_error(
             GraphqlDevise::Error,
-            'Trying to skip a non supported operation. Check for typos.'
+            'Trying to skip unsupported operation "mutation_3". Check for typos.'
+          )
+        )
+      }
+    end
+
+    context 'when only operations include a not supported item' do
+      let(:only) { [:mutation_3, :query_2] }
+
+      it {
+        is_expected.to(
+          raise_error(
+            GraphqlDevise::Error,
+            'The "only" operation "mutation_3" is not supported. Check for typos.'
           )
         )
       }

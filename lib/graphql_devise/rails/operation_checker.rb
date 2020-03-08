@@ -22,17 +22,37 @@ module GraphqlDevise
       supported_operations = @mutations.keys + @queries.keys
 
       if [@skipped, @only].all?(&:any?)
-        raise GraphqlDevise::Error, "Can't specify both `skip` and `only` options when mounting the route."
+        raise(
+          GraphqlDevise::Error,
+          "Can't specify both `skip` and `only` options when mounting the route."
+        )
       end
 
-      unless @custom.keys.all? { |custom_op| supported_operations.include?(custom_op) }
-        raise GraphqlDevise::Error, 'One of the custom operations is not supported. Check for typos.'
+      @custom.keys.each do |custom_op|
+        next if supported_operations.include?(custom_op)
+
+        raise(
+          GraphqlDevise::Error,
+          "Custom operation \"#{custom_op}\" is not supported. Check for typos."
+        )
       end
-      unless @skipped.all? { |skipped_op| supported_operations.include?(skipped_op) }
-        raise GraphqlDevise::Error, 'Trying to skip a non supported operation. Check for typos.'
+
+      @skipped.each do |skipped_op|
+        next if supported_operations.include?(skipped_op)
+
+        raise(
+          GraphqlDevise::Error,
+          "Trying to skip unsupported operation \"#{skipped_op}\". Check for typos."
+        )
       end
-      unless @only.all? { |only_op| supported_operations.include?(only_op) }
-        raise GraphqlDevise::Error, 'One of the `only` operations is not supported. Check for typos.'
+
+      @only.each do |only_op|
+        next if supported_operations.include?(only_op)
+
+        raise(
+          GraphqlDevise::Error,
+          "The \"only\" operation \"#{only_op}\" is not supported. Check for typos."
+        )
       end
     end
   end
