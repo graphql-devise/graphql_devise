@@ -146,4 +146,28 @@ RSpec.describe 'Login Requests' do
       )
     end
   end
+
+  context 'when using the Users::Customer model' do
+    let(:customer) { create(:users_customer, password: password) }
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          usersCustomerLogin(
+            email: "#{customer.email}",
+            password: "#{password}"
+          ) {
+            authenticatable { email }
+          }
+        }
+      GRAPHQL
+    end
+
+    before { post_request }
+
+    it 'works alongside the user mount point' do
+      expect(json_response[:data][:usersCustomerLogin]).to include(
+        authenticatable: { email: customer.email }
+      )
+    end
+  end
 end

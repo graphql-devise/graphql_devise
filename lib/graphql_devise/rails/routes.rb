@@ -37,8 +37,9 @@ module ActionDispatch::Routing
 
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
-        module: :devise,
-        skip:   [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks, :invitations]
+        module:     :devise,
+        class_name: resource,
+        skip:       [:sessions, :registrations, :passwords, :confirmations, :omniauth_callbacks, :unlocks, :invitations]
       )
 
       authenticatable_type = opts[:authenticatable_type] ||
@@ -55,7 +56,7 @@ module ActionDispatch::Routing
           custom_operations[action]
         else
           new_mutation = Class.new(mutation)
-          new_mutation.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
+          new_mutation.graphql_name("#{resource.gsub('::', '')}#{action.to_s.camelize(:upper)}")
           new_mutation.field(:authenticatable, authenticatable_type, null: true)
 
           new_mutation
@@ -83,7 +84,7 @@ module ActionDispatch::Routing
           custom_operations[action]
         else
           new_query = Class.new(query)
-          new_query.graphql_name("#{resource}#{action.to_s.camelize(:upper)}")
+          new_query.graphql_name("#{resource.gsub('::', '')}#{action.to_s.camelize(:upper)}")
           new_query.type(authenticatable_type, null: true)
 
           new_query
