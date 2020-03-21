@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.10.1](https://github.com/graphql-devise/graphql_devise/tree/v0.10.1) (2020-03-21)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.10.0...v0.10.1)
+
+**Fixed bugs:**
+
+- Routes mount\_graphql\_devise\_for with module not work [\#69](https://github.com/graphql-devise/graphql_devise/issues/69)
+- Fix mounting models inside another module [\#70](https://github.com/graphql-devise/graphql_devise/pull/70) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.10.0](https://github.com/graphql-devise/graphql_devise/tree/v0.10.0) (2020-02-04)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.9.2...v0.10.0)

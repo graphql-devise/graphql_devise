@@ -35,8 +35,9 @@ module ActionDispatch::Routing
 
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
-        module: :devise,
-        skip:   DEVISE_OPERATIONS
+        module:     :devise,
+        class_name: resource,
+        skip:       DEVISE_OPERATIONS
       )
 
       prepared_mutations = GraphqlDevise::MutationsPreparer.call(
