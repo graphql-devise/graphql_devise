@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'faker'
   spec.add_development_dependency 'generator_spec'
   spec.add_development_dependency 'github_changelog_generator'
-  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'pry', '~> 0.12.2'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec-rails'
