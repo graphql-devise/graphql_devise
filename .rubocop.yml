@@ -59,7 +59,7 @@ Style/MethodCalledOnDoEndBlock:
   Enabled: false
 
 Naming/VariableNumber:
-  Enabled: false
+  EnforcedColonStyle: normalcase
 
 Style/StringLiterals:
   ConsistentQuotesInMultiline: true
