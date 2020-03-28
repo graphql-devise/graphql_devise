@@ -1,14 +1,5 @@
 module GraphqlDevise
   class MutationsPreparer
-    DEFAULT_MUTATIONS = {
-      login:               GraphqlDevise::Mutations::Login,
-      logout:              GraphqlDevise::Mutations::Logout,
-      sign_up:             GraphqlDevise::Mutations::SignUp,
-      update_password:     GraphqlDevise::Mutations::UpdatePassword,
-      send_password_reset: GraphqlDevise::Mutations::SendPasswordReset,
-      resend_confirmation: GraphqlDevise::Mutations::ResendConfirmation
-    }.freeze
-
     def self.call(resource:, mutations:, authenticatable_type:)
       new(resource: resource, mutations: mutations, authenticatable_type: authenticatable_type).call
     end

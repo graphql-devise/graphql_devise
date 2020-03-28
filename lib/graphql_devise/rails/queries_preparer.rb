@@ -1,10 +1,5 @@
 module GraphqlDevise
   class QueriesPreparer
-    DEFAULT_QUERIES = {
-      confirm_account:      GraphqlDevise::Resolvers::ConfirmAccount,
-      check_password_token: GraphqlDevise::Resolvers::CheckPasswordToken
-    }.freeze
-
     def self.call(resource:, queries:, authenticatable_type:)
       new(resource: resource, queries: queries, authenticatable_type: authenticatable_type).call
     end

@@ -28,8 +28,8 @@ module ActionDispatch::Routing
       }
 
       GraphqlDevise::OperationChecker.call(
-        mutations: GraphqlDevise::MutationsPreparer::DEFAULT_MUTATIONS,
-        queries:   GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES,
+        mutations: GraphqlDevise::DefaultOperations::MUTATIONS,
+        queries:   GraphqlDevise::DefaultOperations::QUERIES,
         **param_operations
       )
 
@@ -43,7 +43,7 @@ module ActionDispatch::Routing
       prepared_mutations = GraphqlDevise::MutationsPreparer.call(
         resource:             resource,
         mutations:            GraphqlDevise::OperationSanitizer.call(
-          default: GraphqlDevise::MutationsPreparer::DEFAULT_MUTATIONS, **param_operations
+          default: GraphqlDevise::DefaultOperations::MUTATIONS, **param_operations
         ),
         authenticatable_type: authenticatable_type
       )
@@ -51,7 +51,7 @@ module ActionDispatch::Routing
       prepared_queries = GraphqlDevise::QueriesPreparer.call(
         resource:             resource,
         queries:              GraphqlDevise::OperationSanitizer.call(
-          default: GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES, **param_operations
+          default: GraphqlDevise::DefaultOperations::QUERIES, **param_operations
         ),
         authenticatable_type: authenticatable_type
       )
