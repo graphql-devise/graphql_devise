@@ -46,17 +46,17 @@ module ActionDispatch::Routing
         skip:       DEVISE_OPERATIONS
       )
 
-      prepared_mutations = GraphqlDevise::MutationsPreparer.call(
+      prepared_mutations = GraphqlDevise::MountMethod::MutationsPreparer.call(
         resource:             resource,
-        mutations:            GraphqlDevise::OperationSanitizer.call(
+        mutations:            GraphqlDevise::MountMethod::OperationSanitizer.call(
           default: GraphqlDevise::DefaultOperations::MUTATIONS, **param_operations
         ),
         authenticatable_type: authenticatable_type
       )
 
-      prepared_queries = GraphqlDevise::QueriesPreparer.call(
+      prepared_queries = GraphqlDevise::MountMethod::QueriesPreparer.call(
         resource:             resource,
-        queries:              GraphqlDevise::OperationSanitizer.call(
+        queries:              GraphqlDevise::MountMethod::OperationSanitizer.call(
           default: GraphqlDevise::DefaultOperations::QUERIES, **param_operations
         ),
         authenticatable_type: authenticatable_type

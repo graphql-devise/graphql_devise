@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GraphqlDevise::MutationsPreparer do
+RSpec.describe GraphqlDevise::MountMethod::MutationsPreparer do
   describe '.call' do
     subject do
       described_class.call(
