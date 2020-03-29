@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GraphqlDevise::OperationSanitizer do
+RSpec.describe GraphqlDevise::MountMethod::OperationSanitizer do
   describe '.call' do
     subject { described_class.call(default: default, custom: custom, only: only, skipped: skipped) }
 

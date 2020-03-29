@@ -10,28 +10,34 @@ module ActionDispatch::Routing
       :invitations
     ].freeze
 
-    def mount_graphql_devise_for(resource, opts = {})
-      custom_operations    = opts.fetch(:operations, {})
-      skipped_operations   = opts.fetch(:skip, [])
-      only_operations      = opts.fetch(:only, [])
-      additional_mutations = opts.fetch(:additional_mutations, {})
-      additional_queries   = opts.fetch(:additional_queries, {})
-      path                 = opts.fetch(:at, '/graphql_auth')
+    def mount_graphql_devise_for(resource, options = {})
+      default_operations = GraphqlDevise::DefaultOperations::MUTATIONS.merge(GraphqlDevise::DefaultOperations::QUERIES)
+
+      GraphqlDevise::MountMethod::OptionsValidator.new(
+        [
+          GraphqlDevise::MountMethod::OptionValidators::SkipOnlyValidator.new(options: options),
+          GraphqlDevise::MountMethod::OptionValidators::ProvidedOperationsValidator.new(
+            options: options, supported_operations: default_operations
+          )
+        ]
+      ).validate!
+
+      custom_operations    = options.fetch(:operations, {})
+      skipped_operations   = options.fetch(:skip, [])
+      only_operations      = options.fetch(:only, [])
+      additional_mutations = options.fetch(:additional_mutations, {})
+      additional_queries   = options.fetch(:additional_queries, {})
+      path                 = options.fetch(:at, '/graphql_auth')
       mapping_name         = resource.underscore.tr('/', '_').to_sym
-      authenticatable_type = opts[:authenticatable_type].presence ||
-        "Types::#{resource}Type".safe_constantize ||
-        GraphqlDevise::Types::AuthenticatableType
-      param_operations     = {
+      authenticatable_type = options[:authenticatable_type].presence ||
+                             "Types::#{resource}Type".safe_constantize ||
+                             GraphqlDevise::Types::AuthenticatableType
+
+      param_operations = {
         custom:  custom_operations,
         only:    only_operations,
         skipped: skipped_operations
       }
-
-      GraphqlDevise::OperationChecker.call(
-        mutations: GraphqlDevise::MutationsPreparer::DEFAULT_MUTATIONS,
-        queries:   GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES,
-        **param_operations
-      )
 
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
@@ -40,18 +46,18 @@ module ActionDispatch::Routing
         skip:       DEVISE_OPERATIONS
       )
 
-      prepared_mutations = GraphqlDevise::MutationsPreparer.call(
+      prepared_mutations = GraphqlDevise::MountMethod::MutationsPreparer.call(
         resource:             resource,
-        mutations:            GraphqlDevise::OperationSanitizer.call(
-          default: GraphqlDevise::MutationsPreparer::DEFAULT_MUTATIONS, **param_operations
+        mutations:            GraphqlDevise::MountMethod::OperationSanitizer.call(
+          default: GraphqlDevise::DefaultOperations::MUTATIONS, **param_operations
         ),
         authenticatable_type: authenticatable_type
       )
 
-      prepared_queries = GraphqlDevise::QueriesPreparer.call(
+      prepared_queries = GraphqlDevise::MountMethod::QueriesPreparer.call(
         resource:             resource,
-        queries:              GraphqlDevise::OperationSanitizer.call(
-          default: GraphqlDevise::QueriesPreparer::DEFAULT_QUERIES, **param_operations
+        queries:              GraphqlDevise::MountMethod::OperationSanitizer.call(
+          default: GraphqlDevise::DefaultOperations::QUERIES, **param_operations
         ),
         authenticatable_type: authenticatable_type
       )
@@ -61,7 +67,7 @@ module ActionDispatch::Routing
       end
 
       if (prepared_mutations.present? || additional_mutations.present?) &&
-          (Gem::Version.new(GraphQL::VERSION) <= Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
+         (Gem::Version.new(GraphQL::VERSION) <= Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
         GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
       end
 
