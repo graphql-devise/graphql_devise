@@ -67,7 +67,7 @@ module ActionDispatch::Routing
       end
 
       if (prepared_mutations.present? || additional_mutations.present?) &&
-         (Gem::Version.new(GraphQL::VERSION) <= Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
+         (Gem::Version.new(GraphQL::VERSION) < Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
         GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
       end
 
