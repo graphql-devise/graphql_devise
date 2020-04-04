@@ -14,9 +14,7 @@ module GraphqlDevise
             raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Hash expected. Got #{value.class}."
           end
 
-          unless value.all? { |_, element| element.instance_of?(Class) && @element_type_array.any? { |type| element.ancestors.include?(type) } }
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has invalid elements. [#{@element_type_array.join(', ')}] or descendants expected. Got #{value}."
-          end
+          value.each { |internal_key, klass| ClassChecker.new(@element_type_array).call!(klass, "#{key} -> #{internal_key}") }
 
           value
         end

@@ -16,7 +16,7 @@ RSpec.describe GraphqlDevise::MountMethod::OptionSanitizers::ArrayChecker do
     context 'when provided value is not an array' do
       let(:value) { 'not an array' }
 
-      it 'railses an error' do
+      it 'raises an error' do
         expect { clean_value }.to raise_error(GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Array expected.")
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe GraphqlDevise::MountMethod::OptionSanitizers::ArrayChecker do
     context 'when provided array contains invalid elements' do
       let(:value) { [:valid, 'invalid'] }
 
-      it 'railses an error' do
+      it 'raises an error' do
         expect { clean_value }.to raise_error(GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has invalid elements. #{element_type} expected.")
       end
     end

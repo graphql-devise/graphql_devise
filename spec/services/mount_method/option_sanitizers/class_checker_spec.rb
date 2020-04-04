@@ -16,7 +16,7 @@ RSpec.describe GraphqlDevise::MountMethod::OptionSanitizers::ClassChecker do
     context 'when provided value is not a class' do
       let(:value) { 'I\'m not a class' }
 
-      it 'railses an error' do
+      it 'raises an error' do
         expect { clean_value }.to raise_error(GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Class expected.")
       end
     end
@@ -24,8 +24,8 @@ RSpec.describe GraphqlDevise::MountMethod::OptionSanitizers::ClassChecker do
     context 'when provided class is not of the expected type' do
       let(:value) { String }
 
-      it 'railses an error' do
-        expect { clean_value }.to raise_error(GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. #{expected_class} expected. Got String.")
+      it 'raises an error' do
+        expect { clean_value }.to raise_error(GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. #{expected_class} or descendants expected. Got String.")
       end
     end
 

@@ -16,7 +16,7 @@ RSpec.describe GraphqlDevise::MountMethod::OptionSanitizers::StringChecker do
     context 'when provided value is not a String' do
       let(:value) { 1000 }
 
-      it 'railses an error' do
+      it 'raises an error' do
         expect { clean_value }.to raise_error(GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. String expected.")
       end
     end

@@ -3,7 +3,7 @@ module GraphqlDevise
     module OptionSanitizers
       class ClassChecker
         def initialize(klass)
-          @klass = klass
+          @klass_array = Array(klass)
         end
 
         def call!(value, key)
@@ -13,8 +13,9 @@ module GraphqlDevise
             raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Class expected."
           end
 
-          unless value.ancestors.include?(@klass)
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. #{@klass} expected. Got #{value}."
+          unless @klass_array.any? { |klass| value.ancestors.include?(klass) }
+            raise GraphqlDevise::InvalidMountOptionsError,
+                  "`#{key}` option has an invalid value. #{@klass_array.join(', ')} or descendants expected. Got #{value}."
           end
 
           value
