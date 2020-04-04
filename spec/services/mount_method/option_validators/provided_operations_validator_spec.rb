@@ -7,7 +7,7 @@ RSpec.describe GraphqlDevise::MountMethod::OptionValidators::ProvidedOperationsV
     let(:supported_operations) { { operation1: 'irrelevant', operation2: 'irrelevant', operation3: 'irrelevant' } }
 
     context 'when skip option is provided' do
-      let(:provided_operations) { { skip: skipped } }
+      let(:provided_operations) { double(:clean_options, only: [], skip: skipped, operations: {}) }
 
       context 'when all skipped are supported' do
         let(:skipped) { [:operation2, :operation3] }
@@ -20,16 +20,10 @@ RSpec.describe GraphqlDevise::MountMethod::OptionValidators::ProvidedOperationsV
 
         it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, 'skip option contains unsupported operations: "invalid". Check for typos.') }
       end
-
-      context 'when provided skip value is not an array' do
-        let(:skipped) { 'Invalid value' }
-
-        it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, 'skip option contains value of invalid value. Value must be Array.') }
-      end
     end
 
     context 'when only option is provided' do
-      let(:provided_operations) { { only: only } }
+      let(:provided_operations) { double(:clean_options, skip: [], only: only, operations: {}) }
 
       context 'when all only are supported' do
         let(:only) { [:operation2, :operation3] }
@@ -42,16 +36,10 @@ RSpec.describe GraphqlDevise::MountMethod::OptionValidators::ProvidedOperationsV
 
         it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, 'only option contains unsupported operations: "invalid". Check for typos.') }
       end
-
-      context 'when provided only value is not an array' do
-        let(:only) { 'Invalid value' }
-
-        it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, 'only option contains value of invalid value. Value must be Array.') }
-      end
     end
 
     context 'when operations option is provided' do
-      let(:provided_operations) { { operations: operations } }
+      let(:provided_operations) { double(:clean_options, only: [], skip: [], operations: operations) }
 
       context 'when all operations are supported' do
         let(:operations) { { operation2: 'irrelevant', operation3: 'irrelevant' } }
@@ -63,12 +51,6 @@ RSpec.describe GraphqlDevise::MountMethod::OptionValidators::ProvidedOperationsV
         let(:operations) { { operation2: 'irrelevant', operation3: 'irrelevant', invalid: 'invalid' } }
 
         it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, 'operations option contains unsupported operations: "invalid". Check for typos.') }
-      end
-
-      context 'when provided operations value is not a hash' do
-        let(:operations) { [:one, :two, :three] }
-
-        it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, 'operations option contains value of invalid value. Value must be Hash.') }
       end
     end
   end

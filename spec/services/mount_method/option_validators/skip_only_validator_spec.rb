@@ -5,25 +5,25 @@ RSpec.describe GraphqlDevise::MountMethod::OptionValidators::SkipOnlyValidator d
     subject { -> { described_class.new(options: options).validate! } }
 
     context 'when only `only` key is set' do
-      let(:options) { { only: 'Irrelevant value' } }
+      let(:options) { double(:clean_options, only: [:irrelevant], skip: []) }
 
       it { is_expected.not_to raise_error }
     end
 
     context 'when only `skip` key is set' do
-      let(:options) { { skip: 'Irrelevant value' } }
+      let(:options) { double(:clean_options, skip: [:irrelevant], only: []) }
 
       it { is_expected.not_to raise_error }
     end
 
     context 'when `skip` and `only` keys are set' do
-      let(:options) { { only: 'Irrelevant value', skip: 'irrelevant for specs' } }
+      let(:options) { double(:clean_options, only: [:irrelevant], skip: [:irrelevant]) }
 
       it { is_expected.to raise_error(GraphqlDevise::InvalidMountOptionsError, "Can't specify both `skip` and `only` options when mounting the route.") }
     end
 
     context 'when neither `skip` nor `only are set`' do
-      let(:options) { { irrelevant_option: 'Irrelevant value', another_option: 'irrelevant for specs' } }
+      let(:options) { double(:clean_options, skip: [], only: []) }
 
       it { is_expected.not_to raise_error }
     end

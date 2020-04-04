@@ -16,9 +16,9 @@ module ActionDispatch::Routing
 
       GraphqlDevise::MountMethod::OptionsValidator.new(
         [
-          GraphqlDevise::MountMethod::OptionValidators::SkipOnlyValidator.new(options: options),
+          GraphqlDevise::MountMethod::OptionValidators::SkipOnlyValidator.new(options: clean_options),
           GraphqlDevise::MountMethod::OptionValidators::ProvidedOperationsValidator.new(
-            options: options, supported_operations: default_operations
+            options: clean_options, supported_operations: default_operations
           )
         ]
       ).validate!
