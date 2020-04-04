@@ -12,6 +12,7 @@ module ActionDispatch::Routing
 
     def mount_graphql_devise_for(resource, options = {})
       default_operations = GraphqlDevise::DefaultOperations::MUTATIONS.merge(GraphqlDevise::DefaultOperations::QUERIES)
+      clean_options      = GraphqlDevise::MountMethod::OptionSanitizer.new(options).call!
 
       GraphqlDevise::MountMethod::OptionsValidator.new(
         [

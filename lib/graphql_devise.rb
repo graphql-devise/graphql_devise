@@ -23,6 +23,7 @@ require 'graphql_devise/error_codes'
 require 'graphql_devise/user_error'
 require 'graphql_devise/detailed_user_error'
 
+require 'graphql_devise/mount_method/option_sanitizer'
 require 'graphql_devise/mount_method/options_validator'
 require 'graphql_devise/mount_method/queries_preparer'
 require 'graphql_devise/mount_method/mutations_preparer'

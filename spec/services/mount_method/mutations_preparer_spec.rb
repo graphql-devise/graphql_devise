@@ -14,13 +14,13 @@ RSpec.describe GraphqlDevise::MountMethod::MutationsPreparer do
     let(:class1)    { Class.new(GraphQL::Schema::Mutation) }
     let(:class2)    { GraphQL::Schema::Mutation }
     let(:auth_type) { GraphqlDevise::Types::AuthenticatableType }
-    let(:mutations) { { mutation_1: class1, mutation_2: class2 } }
+    let(:mutations) { { mutation1: class1, mutation2: class2 } }
 
     context 'when mutations is *NOT* empty' do
       it 'assign gql attibutes to mutations and changes keys using resource map' do
         result = subject
 
-        expect(result.keys).to contain_exactly(:user_mutation_1, :user_mutation_2)
+        expect(result.keys).to contain_exactly(:user_mutation1, :user_mutation2)
         expect(result.values.map(&:graphql_name)).to contain_exactly(
           'UserMutation1', 'UserMutation2'
         )
