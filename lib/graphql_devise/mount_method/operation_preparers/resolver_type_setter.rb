@@ -1,0 +1,17 @@
+module GraphqlDevise
+  module MountMethod
+    module OperationPreparers
+      class ResolverTypeSetter
+        def initialize(authenticatable_type)
+          @authenticatable_type = authenticatable_type
+        end
+
+        def call(resolver)
+          resolver.type(@authenticatable_type, null: true)
+
+          resolver
+        end
+      end
+    end
+  end
+end
