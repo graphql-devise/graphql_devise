@@ -8,7 +8,7 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::ResolverTypeSette
     let(:field_type) { double(:type) }
 
     it 'sets a field for the mutation' do
-      expect(operation).to receive(:type).with(field_type, null: true)
+      expect(operation).to receive(:type).with(field_type, null: false)
 
       prepared_operation
     end

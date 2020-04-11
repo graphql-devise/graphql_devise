@@ -7,7 +7,7 @@ module GraphqlDevise
         end
 
         def call(mutation)
-          mutation.field(:authenticatable, @authenticatable_type, null: true)
+          mutation.field(:authenticatable, @authenticatable_type, null: false)
 
           mutation
         end
