@@ -1,0 +1,60 @@
+require 'spec_helper'
+
+RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::DefaultOperationPreparer do
+  describe '#call' do
+    subject(:prepared) { default_preparer.call }
+
+    let(:default_preparer)  { described_class.new(selected_operations: operations, custom_keys: custom_keys, mapping_name: mapping_name, preparer: preparer) }
+    let(:confirm_operation) { double(:confirm_operation, graphql_name: nil) }
+    let(:sign_up_operation) { double(:sign_up_operation, graphql_name: nil) }
+    let(:login_operation)   { double(:confirm_operation, graphql_name: nil) }
+    let(:logout_operation)  { double(:sign_up_operation, graphql_name: nil) }
+    let(:mapping_name)      { 'user' }
+    let(:preparer)          { double(:preparer) }
+    let(:operations)        { { login: login_operation, logout: logout_operation, sign_up: sign_up_operation, confirm: confirm_operation } }
+    let(:custom_keys)       { [:login, :logout] }
+
+    before do
+      allow(default_preparer).to receive(:child_class).with(confirm_operation).and_return(confirm_operation)
+      allow(default_preparer).to receive(:child_class).with(sign_up_operation).and_return(sign_up_operation)
+      allow(default_preparer).to receive(:child_class).with(login_operation).and_return(login_operation)
+      allow(default_preparer).to receive(:child_class).with(logout_operation).and_return(logout_operation)
+      allow(preparer).to receive(:call).with(confirm_operation).and_return(confirm_operation)
+      allow(preparer).to receive(:call).with(sign_up_operation).and_return(sign_up_operation)
+      allow(preparer).to receive(:call).with(login_operation).and_return(login_operation)
+      allow(preparer).to receive(:call).with(logout_operation).and_return(logout_operation)
+    end
+
+    it 'returns only those operations with no custom operation provided' do
+      expect(prepared.keys).to contain_exactly(:user_sign_up, :user_confirm)
+    end
+
+    it 'prepares default operations' do
+      expect(confirm_operation).to receive(:graphql_name).with('UserConfirm')
+      expect(sign_up_operation).to receive(:graphql_name).with('UserSignUp')
+      expect(preparer).to receive(:call).with(confirm_operation)
+      expect(preparer).to receive(:call).with(sign_up_operation)
+
+      prepared
+
+      expect(confirm_operation.instance_variable_get(:@resource_name)).to eq(:user)
+      expect(sign_up_operation.instance_variable_get(:@resource_name)).to eq(:user)
+    end
+
+    context 'when no custom keys are provided' do
+      let(:custom_keys) { [] }
+
+      it 'returns all selected operations' do
+        expect(prepared.keys).to contain_exactly(:user_sign_up, :user_confirm, :user_login, :user_logout)
+      end
+    end
+
+    context 'when no selected operations are provided' do
+      let(:operations) { {} }
+
+      it 'returns all selected operations' do
+        expect(prepared.keys).to eq([])
+      end
+    end
+  end
+end

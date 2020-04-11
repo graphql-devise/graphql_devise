@@ -1,34 +1,28 @@
 module GraphqlDevise
   module MountMethod
     class OperationSanitizer
-      def self.call(default:, custom:, only:, skipped:)
+      def self.call(default:, only:, skipped:)
         new(
           default: default,
-          custom:  custom,
           only:    only,
           skipped: skipped
         ).call
       end
 
-      def initialize(default:, custom:, only:, skipped:)
+      def initialize(default:, only:, skipped:)
         @default = default
-        @custom  = custom
         @only    = only
         @skipped = skipped
       end
 
       def call
-        result = @default.merge(@custom.slice(*operations_whitelist))
-        result = result.slice(*@only) if @only.present?
-        result = result.except(*@skipped) if @skipped.present?
-
-        result
-      end
-
-      private
-
-      def operations_whitelist
-        @default.keys
+        if @only.present?
+          @default.slice(*@only)
+        elsif @skipped.present?
+          @default.except(*@skipped)
+        else
+          @default
+        end
       end
     end
   end

@@ -12,7 +12,9 @@ module ActionDispatch::Routing
 
     def mount_graphql_devise_for(resource, options = {})
       default_operations = GraphqlDevise::DefaultOperations::MUTATIONS.merge(GraphqlDevise::DefaultOperations::QUERIES)
-      clean_options      = GraphqlDevise::MountMethod::OptionSanitizer.new(options).call!
+
+      # clean_options responds to all keys defined in GraphqlDevise::MountMethod::SUPPORTED_OPTIONS
+      clean_options = GraphqlDevise::MountMethod::OptionSanitizer.new(options).call!
 
       GraphqlDevise::MountMethod::OptionsValidator.new(
         [
@@ -27,12 +29,6 @@ module ActionDispatch::Routing
                              "Types::#{resource}Type".safe_constantize ||
                              GraphqlDevise::Types::AuthenticatableType
 
-      param_operations = {
-        custom:  clean_options.operations,
-        only:    clean_options.only,
-        skipped: clean_options.skip
-      }
-
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
         module:     :devise,
@@ -40,38 +36,40 @@ module ActionDispatch::Routing
         skip:       DEVISE_OPERATIONS
       )
 
-      prepared_mutations = GraphqlDevise::MountMethod::MutationsPreparer.call(
-        resource:             resource,
-        mutations:            GraphqlDevise::MountMethod::OperationSanitizer.call(
-          default: GraphqlDevise::DefaultOperations::MUTATIONS, **param_operations
-        ),
-        authenticatable_type: authenticatable_type
-      )
+      prepared_mutations = GraphqlDevise::MountMethod::OperationPreparer.new(
+        resource:              resource,
+        custom:                clean_options.operations,
+        additional_operations: clean_options.additional_mutations,
+        preparer:              GraphqlDevise::MountMethod::OperationPreparers::MutationFieldSetter.new(authenticatable_type),
+        selected_operations:   GraphqlDevise::MountMethod::OperationSanitizer.call(
+          default: GraphqlDevise::DefaultOperations::MUTATIONS, only: clean_options.only, skipped: clean_options.skip
+        )
+      ).call
 
-      prepared_queries = GraphqlDevise::MountMethod::QueriesPreparer.call(
-        resource:             resource,
-        queries:              GraphqlDevise::MountMethod::OperationSanitizer.call(
-          default: GraphqlDevise::DefaultOperations::QUERIES, **param_operations
-        ),
-        authenticatable_type: authenticatable_type
-      )
-
-      all_mutations = prepared_mutations.merge(clean_options.additional_mutations)
-      all_mutations.each do |action, mutation|
+      prepared_mutations.each do |action, mutation|
         GraphqlDevise::Types::MutationType.field(action, mutation: mutation)
       end
 
-      if all_mutations.present? &&
+      if prepared_mutations.present? &&
          (Gem::Version.new(GraphQL::VERSION) < Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
         GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
       end
 
-      all_queries = prepared_queries.merge(clean_options.additional_queries)
-      all_queries.each do |action, resolver|
+      prepared_queries = GraphqlDevise::MountMethod::OperationPreparer.new(
+        resource:              resource,
+        custom:                clean_options.operations,
+        additional_operations: clean_options.additional_queries,
+        preparer:              GraphqlDevise::MountMethod::OperationPreparers::ResolverTypeSetter.new(authenticatable_type),
+        selected_operations:   GraphqlDevise::MountMethod::OperationSanitizer.call(
+          default: GraphqlDevise::DefaultOperations::QUERIES, only: clean_options.only, skipped: clean_options.skip
+        )
+      ).call
+
+      prepared_queries.each do |action, resolver|
         GraphqlDevise::Types::QueryType.field(action, resolver: resolver)
       end
 
-      if all_queries.present? && GraphqlDevise::Types::QueryType.fields.blank?
+      if prepared_queries.blank? && GraphqlDevise::Types::QueryType.fields.blank?
         GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 
