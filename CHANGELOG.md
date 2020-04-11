@@ -1,5 +1,22 @@
 # Changelog
 
+## [v0.11.0](https://github.com/graphql-devise/graphql_devise/tree/v0.11.0) (2020-04-11)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.10.1...v0.11.0)
+
+**Breaking changes:**
+
+- Make Authenticatable type not null [\#80](https://github.com/graphql-devise/graphql_devise/pull/80) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Implemented enhancements:**
+
+- Add mount method option sanitizer [\#78](https://github.com/graphql-devise/graphql_devise/pull/78) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- Refactor mount method operations [\#79](https://github.com/graphql-devise/graphql_devise/pull/79) ([mcelicalderon](https://github.com/mcelicalderon))
+- Fix routes GQL ruby \(v1.10.0\) version check [\#74](https://github.com/graphql-devise/graphql_devise/pull/74) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.10.1](https://github.com/graphql-devise/graphql_devise/tree/v0.10.1) (2020-03-21)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.10.0...v0.10.1)
