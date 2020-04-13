@@ -7,7 +7,10 @@ module GraphqlDevise
       field :credentials, GraphqlDevise::Types::CredentialType, null: false
 
       def resolve(email:, password:)
-        resource = resource_class.find_by(email: email)
+        resource = find_resource(
+          :email,
+          get_case_insensitive_field(:email, email)
+        )
 
         if resource && active_for_authentication?(resource)
           if invalid_for_authentication?(resource, password)

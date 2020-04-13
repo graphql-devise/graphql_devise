@@ -6,12 +6,13 @@ RSpec.describe 'Login Requests' do
   let(:password) { '12345678' }
 
   context 'when using the user model' do
-    let(:user) { create(:user, :confirmed, password: password) }
+    let!(:user) { create(:user, :confirmed, password: password, email: 'vvega@wallaceinc.com') }
+    let(:email) { user.email }
     let(:query) do
       <<-GRAPHQL
         mutation {
           userLogin(
-            email: "#{user.email}",
+            email: "#{email}",
             password: "#{password}"
           ) {
             user { email name signInCount }
@@ -39,6 +40,17 @@ RSpec.describe 'Login Requests' do
             }
           )
           expect(json_response[:errors]).to be_nil
+        end
+
+        context 'when email address uses different casing' do
+          let(:email) { 'vVeGa@wallaceinc.com' }
+
+          it 'honors devise configuration for case insensitive fields' do
+            expect(response).to include_auth_headers
+            expect(json_response[:data][:userLogin]).to include(
+              user: { email: user.email, name: user.name, signInCount: 1 }
+            )
+          end
         end
       end
 

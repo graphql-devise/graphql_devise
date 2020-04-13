@@ -55,6 +55,16 @@ RSpec.describe 'Sign Up process' do
           user.reload
         end.to change { user.active_for_authentication? }.to(true)
       end
+
+      context 'when email address uses different casing' do
+        let(:email) { 'miaWallace@wallaceinc.com' }
+
+        it 'honors devise configuration for case insensitive fields' do
+          expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect(User.last.email).to eq('miawallace@wallaceinc.com')
+          expect(json_response[:data][:userSignUp]).to include(user: { email: 'miawallace@wallaceinc.com', name: name })
+        end
+      end
     end
 
     context 'when required params are missing' do

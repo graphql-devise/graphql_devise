@@ -49,10 +49,6 @@ module GraphqlDevise
         resource_class.new(attrs)
       end
 
-      def provider
-        :email
-      end
-
       def clean_up_passwords(resource)
         controller.send(:clean_up_passwords, resource)
       end

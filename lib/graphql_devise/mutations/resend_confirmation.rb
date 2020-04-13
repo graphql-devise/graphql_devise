@@ -7,7 +7,10 @@ module GraphqlDevise
       field :message, String, null: false
 
       def resolve(email:, redirect_url:)
-        resource = controller.find_resource(:uid, email)
+        resource = find_resource(
+          :email,
+          get_case_insensitive_field(:email, email)
+        )
 
         if resource
           yield resource if block_given?

@@ -86,6 +86,29 @@ module GraphqlDevise
           redirect_header_options
         )
       end
+
+      def find_resource(field, value)
+        if resource_class.try(:connection_config).try(:[], :adapter).try(:include?, 'mysql')
+          # fix for mysql default case insensitivity
+          resource_class.where("BINARY #{field} = ? AND provider= ?", value, provider).first
+        elsif Gem::Version.new(DeviseTokenAuth::VERSION) < Gem::Version.new('1.1.0')
+          resource_class.find_by(field => value, :provider => provider)
+        else
+          resource_class.dta_find_by(field => value, :provider => provider)
+        end
+      end
+
+      def get_case_insensitive_field(field, value)
+        if resource_class.case_insensitive_keys.include?(field)
+          value.downcase
+        else
+          value
+        end
+      end
+
+      def provider
+        :email
+      end
     end
   end
 end

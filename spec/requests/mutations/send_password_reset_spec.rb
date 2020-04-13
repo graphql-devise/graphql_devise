@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Send Password Reset Requests' do
   include_context 'with graphql query request'
 
-  let(:user)         { create(:user, :confirmed) }
+  let!(:user)        { create(:user, :confirmed, email: 'jwinnfield@wallaceinc.com') }
   let(:email)        { user.email }
   let(:redirect_url) { Faker::Internet.url }
   let(:query) do
@@ -33,6 +33,14 @@ RSpec.describe 'Send Password Reset Requests' do
         get link['href']
         user.reload
       end.to change(user, :allow_password_change).from(false).to(true)
+    end
+  end
+
+  context 'when email address uses different casing' do
+    let(:email) { 'jWinnfield@wallaceinc.com' }
+
+    it 'honors devise configuration for case insensitive fields' do
+      expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
 

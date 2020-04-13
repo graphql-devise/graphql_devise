@@ -1,14 +1,15 @@
 module GraphqlDevise
   module Mutations
     class SendPasswordReset < Base
-      argument :email,        String, required: true, prepare: ->(email, _) { email.downcase }
+      argument :email,        String, required: true
       argument :redirect_url, String, required: true
 
       def resolve(email:, redirect_url:)
-        resource = controller.find_resource(:uid, email)
+        resource = find_resource(:email, get_case_insensitive_field(:email, email))
 
         if resource
           yield resource if block_given?
+
           resource.send_reset_password_instructions(
             email:         email,
             provider:      'email',
