@@ -9,7 +9,7 @@ module GraphqlDevise
       def resolve(email:, password:)
         resource = find_resource(
           :email,
-          email
+          get_case_insensitive_field(:email, email)
         )
 
         if resource && active_for_authentication?(resource)

@@ -98,6 +98,14 @@ module GraphqlDevise
         end
       end
 
+      def get_case_insensitive_field(field, value)
+        if resource_class.case_insensitive_keys.include?(field)
+          value.downcase
+        else
+          value
+        end
+      end
+
       def provider
         :email
       end
