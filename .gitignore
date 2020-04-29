@@ -7,6 +7,8 @@
 /spec/reports/
 /tmp/
 
+README.md.*
+
 # rspec failure tracking
 .rspec_status
 /spec/dummy/log/
