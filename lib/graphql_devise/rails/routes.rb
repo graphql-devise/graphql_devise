@@ -73,6 +73,11 @@ module ActionDispatch::Routing
         GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 
+      if prepared_queries.present? &&
+        (Gem::Version.new(GraphQL::VERSION) < Gem::Version.new('1.10.0') || GraphqlDevise::Schema.query.nil?)
+        GraphqlDevise::Schema.query(GraphqlDevise::Types::QueryType)
+      end
+
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
 
       devise_scope resource.underscore.tr('/', '_').to_sym do
