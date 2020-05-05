@@ -50,11 +50,6 @@ module ActionDispatch::Routing
         GraphqlDevise::Types::MutationType.field(action, mutation: mutation)
       end
 
-      if prepared_mutations.present? &&
-         (Gem::Version.new(GraphQL::VERSION) < Gem::Version.new('1.10.0') || GraphqlDevise::Schema.mutation.nil?)
-        GraphqlDevise::Schema.mutation(GraphqlDevise::Types::MutationType)
-      end
-
       prepared_queries = GraphqlDevise::MountMethod::OperationPreparer.new(
         resource:              resource,
         custom:                clean_options.operations,
@@ -67,10 +62,6 @@ module ActionDispatch::Routing
 
       prepared_queries.each do |action, resolver|
         GraphqlDevise::Types::QueryType.field(action, resolver: resolver)
-      end
-
-      if prepared_queries.blank? && GraphqlDevise::Types::QueryType.fields.blank?
-        GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
       end
 
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
