@@ -1,5 +1,27 @@
 # Changelog
 
+## [v0.11.1](https://github.com/graphql-devise/graphql_devise/tree/v0.11.1) (2020-05-05)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.0...v0.11.1)
+
+**Implemented enhancements:**
+
+- Honor Devise's case insensitive fields [\#81](https://github.com/graphql-devise/graphql_devise/pull/81) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- Add query and mutation type only once after app routes [\#87](https://github.com/graphql-devise/graphql_devise/pull/87) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Closed issues:**
+
+- Get the Mutations going [\#83](https://github.com/graphql-devise/graphql_devise/issues/83)
+- Improve docs. Better reference to Devise and DTA. [\#75](https://github.com/graphql-devise/graphql_devise/issues/75)
+- Add case insensitive fields to sign\_up and login [\#66](https://github.com/graphql-devise/graphql_devise/issues/66)
+
+**Merged pull requests:**
+
+- Improve readme file [\#84](https://github.com/graphql-devise/graphql_devise/pull/84) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.11.0](https://github.com/graphql-devise/graphql_devise/tree/v0.11.0) (2020-04-11)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.10.1...v0.11.0)
