@@ -9,6 +9,7 @@ module GraphqlDevise
 end
 
 require 'graphql_devise/concerns/controller_methods'
+require 'graphql_devise/schema'
 require 'graphql_devise/types/authenticatable_type'
 require 'graphql_devise/types/credential_type'
 require 'graphql_devise/types/mutation_type'
