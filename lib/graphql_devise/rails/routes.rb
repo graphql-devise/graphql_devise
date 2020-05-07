@@ -25,16 +25,24 @@ module ActionDispatch::Routing
         ]
       ).validate!
 
-      authenticatable_type = clean_options.authenticatable_type.presence ||
-                             "Types::#{resource}Type".safe_constantize ||
-                             GraphqlDevise::Types::AuthenticatableType
-
       devise_for(
         resource.pluralize.underscore.tr('/', '_').to_sym,
         module:     :devise,
         class_name: resource,
         skip:       DEVISE_OPERATIONS
       )
+
+      devise_scope resource.underscore.tr('/', '_').to_sym do
+        post clean_options.at, to: 'graphql_devise/graphql#auth'
+        get  clean_options.at, to: 'graphql_devise/graphql#auth'
+      end
+
+      # Avoid routes reload done by Devise
+      return if GraphqlDevise.resource_mounted?(resource)
+
+      authenticatable_type = clean_options.authenticatable_type.presence ||
+                             "Types::#{resource}Type".safe_constantize ||
+                             GraphqlDevise::Types::AuthenticatableType
 
       prepared_mutations = GraphqlDevise::MountMethod::OperationPreparer.new(
         resource:              resource,
@@ -66,10 +74,7 @@ module ActionDispatch::Routing
 
       Devise.mailer.helper(GraphqlDevise::MailerHelper)
 
-      devise_scope resource.underscore.tr('/', '_').to_sym do
-        post clean_options.at, to: 'graphql_devise/graphql#auth'
-        get  clean_options.at, to: 'graphql_devise/graphql#auth'
-      end
+      GraphqlDevise.mount_resource(resource)
     end
   end
 end
