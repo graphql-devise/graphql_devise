@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.11.2](https://github.com/graphql-devise/graphql_devise/tree/v0.11.2) (2020-05-06)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.1...v0.11.2)
+
+**Fixed bugs:**
+
+- Avoid multiple schema and type load \(Devise behavior\) [\#88](https://github.com/graphql-devise/graphql_devise/pull/88) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.11.1](https://github.com/graphql-devise/graphql_devise/tree/v0.11.1) (2020-05-05)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.0...v0.11.1)
