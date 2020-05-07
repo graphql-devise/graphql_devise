@@ -5,6 +5,8 @@ cache: bundler
 before_install: gem install bundler -v 1.17
 before_script: RAILS_ENV=test bundle exec rake db:create db:schema:load
 
+env: EAGER_LOAD=true
+
 rvm:
   - 2.2.10
   - 2.3.8

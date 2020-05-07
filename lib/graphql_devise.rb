@@ -6,6 +6,25 @@ module GraphqlDevise
   class Error < StandardError; end
 
   class InvalidMountOptionsError < GraphqlDevise::Error; end
+
+  @schema_loaded     = false
+  @mounted_resources = []
+
+  def self.schema_loaded?
+    @schema_loaded
+  end
+
+  def self.load_schema
+    @schema_loaded = true
+  end
+
+  def self.mount_resource(resource)
+    @mounted_resources << resource
+  end
+
+  def self.resource_mounted?(resource)
+    @mounted_resources.include?(resource)
+  end
 end
 
 require 'graphql_devise/concerns/controller_methods'
