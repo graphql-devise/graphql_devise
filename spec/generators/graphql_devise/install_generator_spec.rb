@@ -3,17 +3,18 @@ require 'rails_helper'
 require 'generators/graphql_devise/install_generator'
 
 RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
-  destination File.expand_path('../../../tmp', __FILE__)
+  destination File.expand_path('../../../tmp/dummy', __dir__)
 
   before do
     prepare_destination
+    copy_rails_bin
   end
 
   let(:routes_path)    { "#{destination_root}/config/routes.rb" }
   let(:routes_content) { File.read(routes_path) }
   let(:dta_route)      { "mount_devise_token_auth_for 'User', at: 'auth'" }
 
-  xcontext 'when the file exists' do
+  context 'when the file exists' do
     before do
       create_file_with_content(
         routes_path,
@@ -42,11 +43,16 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
     end
   end
 
-  xcontext 'when file does *NOT* exist' do
+  context 'when file does *NOT* exist' do
     before { run_generator }
 
     it 'does *NOT* create the file and throw no exception' do
-      expect(File.exist?(routes_path)).to be_falsey
+      expect(File).not_to exist(routes_path)
     end
+  end
+
+  def copy_rails_bin
+    FileUtils.mkdir_p(File.join(destination_root, 'bin'))
+    FileUtils.copy_file('spec/fixtures/rails', File.join(destination_root, 'bin/rails'))
   end
 end
