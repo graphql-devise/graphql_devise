@@ -4,7 +4,7 @@ if ENV['CI'] && !ENV['SKIP_COVERALLS']
 
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
   SimpleCov.start 'rails' do
-    add_filter ['spec', 'lib/generators']
+    add_filter ['spec']
   end
 end
 
