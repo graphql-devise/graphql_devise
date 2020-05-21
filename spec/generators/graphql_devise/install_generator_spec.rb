@@ -3,56 +3,44 @@ require 'rails_helper'
 require 'generators/graphql_devise/install_generator'
 
 RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
-  destination File.expand_path('../../../tmp/dummy', __dir__)
+  destination File.expand_path('../../../../dummy', __dir__)
 
   before do
     prepare_destination
-    copy_rails_bin
+    create_rails_project
   end
 
   let(:routes_path)    { "#{destination_root}/config/routes.rb" }
   let(:routes_content) { File.read(routes_path) }
-  let(:dta_route)      { "mount_devise_token_auth_for 'User', at: 'auth'" }
+  let(:dta_route)      { 'mount_devise_token_auth_for' }
 
-  context 'when the file exists' do
-    before do
-      create_file_with_content(
-        routes_path,
-        "Rails.application.routes.draw do\n#{dta_route}\nend"
-      )
-    end
-
-    context 'when passing no params to the generator' do
-      before { run_generator }
-
-      it 'replaces dta route using the default values for class and path' do
-        generator_added_route = /  mount_graphql_devise_for 'User', at: 'auth'/
-        expect(routes_content).to match(generator_added_route)
-        expect(routes_content).not_to match(dta_route)
-      end
-    end
-
-    context 'when passing custom params to the generator' do
-      before { run_generator %w[Admin api] }
-
-      it 'add the routes using the provided values for class and path and keeps dta route' do
-        generator_added_route = /  mount_graphql_devise_for 'Admin', at: 'api'/
-        expect(routes_content).to match(generator_added_route)
-        expect(routes_content).to match(dta_route)
-      end
-    end
-  end
-
-  context 'when file does *NOT* exist' do
+  context 'when passing no params to the generator' do
     before { run_generator }
 
-    it 'does *NOT* create the file and throw no exception' do
-      expect(File).not_to exist(routes_path)
+    it 'creates and updated required files' do
+      assert_file 'config/routes.rb', /\s{2,}mount_graphql_devise_for 'User', at: 'auth'/
+      expect(routes_content).not_to match(dta_route)
+
+      assert_file 'config/initializers/devise.rb'
+      assert_file 'config/initializers/devise_token_auth.rb'
     end
   end
 
-  def copy_rails_bin
-    FileUtils.mkdir_p(File.join(destination_root, 'bin'))
-    FileUtils.copy_file('spec/fixtures/rails', File.join(destination_root, 'bin/rails'))
+  context 'when passing custom params to the generator' do
+    before { run_generator %w[Admin api] }
+
+    it 'creates and updated required files' do
+      assert_file 'config/routes.rb', /\s{2,}mount_graphql_devise_for 'Admin', at: 'api'/
+      expect(routes_content).not_to match(dta_route)
+
+      assert_file 'config/initializers/devise.rb'
+      assert_file 'config/initializers/devise_token_auth.rb'
+    end
+  end
+
+  def create_rails_project
+    FileUtils.cd(File.join(destination_root, '..')) do
+      `rails new dummy -S -C --skip-action-mailbox --skip-action-text -T --skip-spring --skip-bundle --skip-keeps -G --skip-active-storage -J --skip-listen --skip-bootsnap`
+    end
   end
 end
