@@ -57,6 +57,14 @@ module GraphqlDevise
       )
     end
 
+    def set_change_headers_on_each_request_false
+      gsub_file(
+        'config/initializers/devise_token_auth.rb',
+        '# config.change_headers_on_each_request = true',
+        'config.change_headers_on_each_request = false'
+      )
+    end
+
     private
 
     def file_contains_str?(filename, regex_str)

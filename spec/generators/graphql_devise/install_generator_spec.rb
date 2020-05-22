@@ -25,7 +25,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
       expect(routes_content).not_to match(dta_route)
 
       assert_file 'config/initializers/devise.rb'
-      assert_file 'config/initializers/devise_token_auth.rb'
+      assert_file 'config/initializers/devise_token_auth.rb', /^\s{2}#{Regexp.escape('config.change_headers_on_each_request = false')}/
       assert_file 'config/locales/devise.en.yml'
 
       assert_migration 'db/migrate/devise_token_auth_create_users.rb'
@@ -44,7 +44,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
       expect(routes_content).not_to match(dta_route)
 
       assert_file 'config/initializers/devise.rb'
-      assert_file 'config/initializers/devise_token_auth.rb'
+      assert_file 'config/initializers/devise_token_auth.rb', /^\s{2}#{Regexp.escape('config.change_headers_on_each_request = false')}/
       assert_file 'config/locales/devise.en.yml'
 
       assert_migration 'db/migrate/devise_token_auth_create_admins.rb'
