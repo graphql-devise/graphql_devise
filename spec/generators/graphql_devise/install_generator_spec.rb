@@ -3,44 +3,61 @@ require 'rails_helper'
 require 'generators/graphql_devise/install_generator'
 
 RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
-  destination File.expand_path('../../../../dummy', __dir__)
-
-  before do
-    prepare_destination
-    create_rails_project
-  end
+  destination File.expand_path('../../../../gqld_dummy', __dir__)
 
   let(:routes_path)    { "#{destination_root}/config/routes.rb" }
   let(:routes_content) { File.read(routes_path) }
   let(:dta_route)      { 'mount_devise_token_auth_for' }
 
+  after(:all) { FileUtils.rm_rf(destination_root) }
+
+  before do
+    prepare_destination
+    create_rails_project
+    run_generator(args)
+  end
+
   context 'when passing no params to the generator' do
-    before { run_generator }
+    let(:args) { [] }
 
     it 'creates and updated required files' do
-      assert_file 'config/routes.rb', /\s{2,}mount_graphql_devise_for 'User', at: 'auth'/
+      assert_file 'config/routes.rb', /^\s{2}mount_graphql_devise_for 'User', at: 'auth'/
       expect(routes_content).not_to match(dta_route)
 
       assert_file 'config/initializers/devise.rb'
       assert_file 'config/initializers/devise_token_auth.rb'
+      assert_file 'config/locales/devise.en.yml'
+
+      assert_migration 'db/migrate/devise_token_auth_create_users.rb'
+
+      assert_file 'app/models/user.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
+
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
     end
   end
 
   context 'when passing custom params to the generator' do
-    before { run_generator %w[Admin api] }
+    let(:args) { %w[Admin api] }
 
     it 'creates and updated required files' do
-      assert_file 'config/routes.rb', /\s{2,}mount_graphql_devise_for 'Admin', at: 'api'/
+      assert_file 'config/routes.rb', /^\s{2}mount_graphql_devise_for 'Admin', at: 'api'/
       expect(routes_content).not_to match(dta_route)
 
       assert_file 'config/initializers/devise.rb'
       assert_file 'config/initializers/devise_token_auth.rb'
+      assert_file 'config/locales/devise.en.yml'
+
+      assert_migration 'db/migrate/devise_token_auth_create_admins.rb'
+
+      assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
+
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
     end
   end
 
   def create_rails_project
     FileUtils.cd(File.join(destination_root, '..')) do
-      `rails new dummy -S -C --skip-action-mailbox --skip-action-text -T --skip-spring --skip-bundle --skip-keeps -G --skip-active-storage -J --skip-listen --skip-bootsnap`
+      `rails new gqld_dummy -S -C --skip-action-mailbox --skip-action-text -T --skip-spring --skip-bundle --skip-keeps -G --skip-active-storage -J --skip-listen --skip-bootsnap`
     end
   end
 end

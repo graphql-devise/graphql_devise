@@ -10,6 +10,20 @@ module GraphqlDevise
     end
 
     def execute_dta_installer
+      # Necessary in case of a re-run of the generator, for DTA to detect concerns already included
+      if File.exist?(File.expand_path("app/models/#{user_class.underscore}.rb", destination_root))
+        gsub_file(
+          "app/models/#{user_class.underscore}.rb",
+          'GraphqlDevise::Concerns::Model',
+          'DeviseTokenAuth::Concerns::User'
+        )
+      end
+      gsub_file(
+        'app/controllers/application_controller.rb',
+        'GraphqlDevise::Concerns::SetUserByToken',
+        'DeviseTokenAuth::Concerns::SetUserByToken'
+      )
+
       generate 'devise_token_auth:install', "#{user_class} #{mount_path}"
     end
 
@@ -19,11 +33,28 @@ module GraphqlDevise
       dta_route   = "mount_devise_token_auth_for '#{user_class}', at: '#{mount_path}'"
 
       if file_contains_str?(routes_file, gem_route)
-        gsub_file(routes_file, /^\s+#{Regexp.escape(dta_route + "\n")}/i, '') if file_contains_str?(routes_file, dta_route)
+        gsub_file(routes_file, /^\s+#{Regexp.escape(dta_route + "\n")}/i, '')
+
         say_status('skipped', "Routes already exist for #{user_class} at #{mount_path}")
       else
         gsub_file(routes_file, /#{Regexp.escape(dta_route)}/i, gem_route)
       end
+    end
+
+    def replace_model_concern
+      gsub_file(
+        "app/models/#{user_class.underscore}.rb",
+        /^\s+include DeviseTokenAuth::Concerns::User/,
+        '  include GraphqlDevise::Concerns::Model'
+      )
+    end
+
+    def replace_controller_concern
+      gsub_file(
+        'app/controllers/application_controller.rb',
+        /^\s+include DeviseTokenAuth::Concerns::SetUserByToken/,
+        '  include GraphqlDevise::Concerns::SetUserByToken'
+      )
     end
 
     private
