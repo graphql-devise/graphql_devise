@@ -193,16 +193,12 @@ class User < ApplicationRecord
          :confirmable
 
   # including after calling the `devise` method is important.
-  # include DeviseTokenAuth::Concerns::User # is also valid (generator includes this one).
   include GraphqlDevise::Concerns::Model
 end
 ```
 
 The install generator can do this for you if you specify the `user_class` option.
 See [Installation](#installation) for details.
-The generator will include a different module in your model, `DeviseTokenAuth::Concerns::User` which is also correct,
-we just made an alias on our namespace for consistency and possible extension.
-Generators have to be updated to generate our module.
 
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
@@ -226,7 +222,6 @@ In our example our model is `User`, so it would look like this:
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
-  # include DeviseTokenAuth::Concerns::SetUserByToken # is also valid (generator includes this one).
   include GraphqlDevise::Concerns::SetUserByToken
 
   before_action :authenticate_user!
@@ -239,9 +234,6 @@ end
 
 The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
-The generator will include a different module in your model, `DeviseTokenAuth::Concerns::SetUserByToken` which is also correct,
-we just made an alias on our namespace for consistency and possible extension.
-Generators have to be updated to generate our module.
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
@@ -290,10 +282,10 @@ as comments. You can also use
 **[DTA's docs](https://devise-token-auth.gitbook.io/devise-token-auth/config/initialization)** as a reference.
 In this section the most important configurations will be highlighted.
 
-- **change_headers_on_each_request:** This configurations defaults to `true`. This means that tokens will change on
-  each request you make, and the new values will be returned in the headers. So your client needs to handle this.
-  Setting this to `false` will allow you to store the credentials for as long as the token life_span permits. And
-  you can send the same credentials in each request.
+- **change_headers_on_each_request:** This configurations defaults to `false`. This will allow you to store the
+  credentials for as long as the token life_span permits. And you can send the same credentials in each request.
+  Setting this to `true` means that tokens will change on each request you make, and the new values will be returned
+  in the headers. So your client needs to handle this.
 - **batch_request_buffer_throttle:** When change_headers_on_each_request is set to true, you might still want your
   credentials to be valid more than once as you might send parallel request. The duration you set here will
   determine how long the same credentials work after the first request is received.
