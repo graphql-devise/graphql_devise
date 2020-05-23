@@ -47,13 +47,19 @@ jobs:
       rvm: 2.7.1
     - gemfile: gemfiles/rails6.0_graphql_edge.gemfile
       rvm: 2.6.6
-      env: SKIP_COVERALLS=true
+      env:
+        - SKIP_COVERALLS=true
+        - EAGER_LOAD=true
     - gemfile: gemfiles/rails6.0_graphql_edge.gemfile
       rvm: 2.7.1
-      env: SKIP_COVERALLS=true
+      env:
+        - SKIP_COVERALLS=true
+        - EAGER_LOAD=true
     - gemfile: gemfiles/rails_edge_graphql_edge.gemfile
       rvm: 2.7.1
-      env: SKIP_COVERALLS=true
+      env:
+        - SKIP_COVERALLS=true
+        - EAGER_LOAD=true
   exclude:
     - gemfile: gemfiles/rails4.2_graphql1.8.gemfile
       rvm: 2.7.1

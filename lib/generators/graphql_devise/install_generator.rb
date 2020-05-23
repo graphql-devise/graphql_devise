@@ -10,57 +10,67 @@ module GraphqlDevise
     end
 
     def execute_dta_installer
+      # Necessary in case of a re-run of the generator, for DTA to detect concerns already included
+      if File.exist?(File.expand_path("app/models/#{user_class.underscore}.rb", destination_root))
+        gsub_file(
+          "app/models/#{user_class.underscore}.rb",
+          'GraphqlDevise::Concerns::Model',
+          'DeviseTokenAuth::Concerns::User'
+        )
+      end
+      gsub_file(
+        'app/controllers/application_controller.rb',
+        'GraphqlDevise::Concerns::SetUserByToken',
+        'DeviseTokenAuth::Concerns::SetUserByToken'
+      )
+
       generate 'devise_token_auth:install', "#{user_class} #{mount_path}"
     end
 
     def mount_resource_route
       routes_file = 'config/routes.rb'
-      routes_path = File.join(destination_root, routes_file)
-      gem_helper  = 'mount_graphql_devise_for'
-      gem_route   = "#{gem_helper} '#{user_class}', at: '#{mount_path}'"
+      gem_route   = "mount_graphql_devise_for '#{user_class}', at: '#{mount_path}'"
       dta_route   = "mount_devise_token_auth_for '#{user_class}', at: '#{mount_path}'"
-      file_start  = 'Rails.application.routes.draw do'
 
-      if File.exist?(routes_path)
-        current_route = parse_file_for_line(routes_path, gem_route)
+      if file_contains_str?(routes_file, gem_route)
+        gsub_file(routes_file, /^\s+#{Regexp.escape(dta_route + "\n")}/i, '')
 
-        if current_route.present?
-          say_status('skipped', "Routes already exist for #{user_class} at #{mount_path}")
-        else
-          current_dta_route = parse_file_for_line(routes_path, dta_route)
-
-          if current_dta_route.present?
-            replace_line(routes_path, dta_route, gem_route)
-          else
-            insert_text_after_line(routes_path, file_start, gem_route)
-          end
-        end
+        say_status('skipped', "Routes already exist for #{user_class} at #{mount_path}")
       else
-        say_status('skipped', "#{routes_file} not found. Add \"#{gem_route}\" to your routes file.")
+        gsub_file(routes_file, /#{Regexp.escape(dta_route)}/i, gem_route)
       end
+    end
+
+    def replace_model_concern
+      gsub_file(
+        "app/models/#{user_class.underscore}.rb",
+        /^\s+include DeviseTokenAuth::Concerns::User/,
+        '  include GraphqlDevise::Concerns::Model'
+      )
+    end
+
+    def replace_controller_concern
+      gsub_file(
+        'app/controllers/application_controller.rb',
+        /^\s+include DeviseTokenAuth::Concerns::SetUserByToken/,
+        '  include GraphqlDevise::Concerns::SetUserByToken'
+      )
+    end
+
+    def set_change_headers_on_each_request_false
+      gsub_file(
+        'config/initializers/devise_token_auth.rb',
+        '# config.change_headers_on_each_request = true',
+        'config.change_headers_on_each_request = false'
+      )
     end
 
     private
 
-    def insert_text_after_line(filename, line, str)
-      gsub_file(filename, /(#{Regexp.escape(line)})/mi) do |match|
-        "#{match}\n  #{str}"
-      end
-    end
+    def file_contains_str?(filename, regex_str)
+      path = File.join(destination_root, filename)
 
-    def replace_line(filename, old_line, new_line)
-      gsub_file(filename, /(#{Regexp.escape(old_line)})/mi, "  #{new_line}")
-    end
-
-    def parse_file_for_line(filename, str)
-      match = false
-
-      File.open(filename) do |f|
-        f.each_line do |line|
-          match = line if line =~ /(#{Regexp.escape(str)})/mi
-        end
-      end
-      match
+      File.read(path) =~ /(#{Regexp.escape(regex_str)})/i
     end
   end
 end
