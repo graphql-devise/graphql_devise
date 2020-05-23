@@ -1,6 +1,14 @@
 # Changelog
 
-## [v0.11.3](https://github.com/graphql-devise/graphql_devise/tree/v0.11.3) (2020-05-22)
+## [v0.11.4](https://github.com/graphql-devise/graphql_devise/tree/v0.11.4) (2020-05-23)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.3...v0.11.4)
+
+**Implemented enhancements:**
+
+- Do nothing if forgery protection enabled in ApplicationController [\#93](https://github.com/graphql-devise/graphql_devise/pull/93) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.11.3](https://github.com/graphql-devise/graphql_devise/tree/v0.11.3) (2020-05-23)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.2...v0.11.3)
 
