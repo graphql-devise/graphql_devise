@@ -1,6 +1,16 @@
 # Changelog
 
-## [v0.11.2](https://github.com/graphql-devise/graphql_devise/tree/v0.11.2) (2020-05-06)
+## [v0.11.3](https://github.com/graphql-devise/graphql_devise/tree/v0.11.3) (2020-05-22)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.2...v0.11.3)
+
+**Implemented enhancements:**
+
+- Default `change\_headers\_on\_each\_request` to false [\#76](https://github.com/graphql-devise/graphql_devise/issues/76)
+- Replace the auth model concern on generator execution [\#53](https://github.com/graphql-devise/graphql_devise/issues/53)
+- Generator. Use our modules, change defaults [\#91](https://github.com/graphql-devise/graphql_devise/pull/91) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v0.11.2](https://github.com/graphql-devise/graphql_devise/tree/v0.11.2) (2020-05-07)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.1...v0.11.2)
 
