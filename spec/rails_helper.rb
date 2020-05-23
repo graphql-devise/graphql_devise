@@ -39,4 +39,8 @@ RSpec.configure do |config|
   config.include(Requests::AuthHelpers, type: :request)
   config.include(ActiveSupport::Testing::TimeHelpers)
   config.include(Generators::FileHelpers, type: :generator)
+
+  config.before(:suite) do
+    ActionController::Base.allow_forgery_protection = true
+  end
 end

@@ -8,6 +8,11 @@ module Api
       def graphql
         render json: DummySchema.execute(params[:query])
       end
+
+      private
+
+      def verify_authenticity_token
+      end
     end
   end
 end
