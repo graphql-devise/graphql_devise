@@ -35,7 +35,7 @@ module GraphqlDevise
 
           { authenticatable: resource }
         else
-          clean_up_passwords(resource)
+          resource.clean_up_passwords if resource.respond_to?(:clean_up_passwords)
           raise_user_error_list(
             I18n.t('graphql_devise.registration_failed'),
             errors: resource.errors.full_messages
@@ -47,10 +47,6 @@ module GraphqlDevise
 
       def build_resource(attrs)
         resource_class.new(attrs)
-      end
-
-      def clean_up_passwords(resource)
-        controller.send(:clean_up_passwords, resource)
       end
     end
   end
