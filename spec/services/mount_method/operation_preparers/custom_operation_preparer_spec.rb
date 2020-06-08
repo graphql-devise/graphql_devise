@@ -6,7 +6,7 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::CustomOperationPr
 
     let(:login_operation)  { double(:confirm_operation, graphql_name: nil) }
     let(:logout_operation) { double(:sign_up_operation, graphql_name: nil) }
-    let(:mapping_name)     { 'user' }
+    let(:mapping_name)     { :user }
     let(:operations)       { { login: login_operation, logout: logout_operation, invalid: double(:invalid) } }
     let(:selected_keys)    { [:login, :logout, :sign_up, :confirm] }
 

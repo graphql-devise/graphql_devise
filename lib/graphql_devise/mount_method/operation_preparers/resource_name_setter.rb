@@ -7,7 +7,7 @@ module GraphqlDevise
         end
 
         def call(operation)
-          operation.instance_variable_set(:@resource_name, @name.to_sym)
+          operation.instance_variable_set(:@resource_name, @name)
 
           operation
         end

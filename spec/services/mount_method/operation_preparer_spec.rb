@@ -4,7 +4,7 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparer do
   describe '#call' do
     subject(:prepared_operations) do
       described_class.new(
-        resource:              resource,
+        mapping_name:          mapping,
         selected_operations:   selected,
         preparer:              preparer,
         custom:                custom,
@@ -13,7 +13,7 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparer do
     end
 
     let(:logout_class) { Class.new(GraphQL::Schema::Resolver) }
-    let(:resource)     { 'User' }
+    let(:mapping)      { :user }
     let(:selected)     { { login: double(:login_default), logout: logout_class } }
     let(:preparer)     { double(:preparer, call: logout_class) }
     let(:custom)       { { login: double(:custom_login, graphql_name: nil) } }

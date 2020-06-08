@@ -9,7 +9,7 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::DefaultOperationP
     let(:sign_up_operation) { double(:sign_up_operation, graphql_name: nil) }
     let(:login_operation)   { double(:confirm_operation, graphql_name: nil) }
     let(:logout_operation)  { double(:sign_up_operation, graphql_name: nil) }
-    let(:mapping_name)      { 'user' }
+    let(:mapping_name)      { :user }
     let(:preparer)          { double(:preparer) }
     let(:operations)        { { login: login_operation, logout: logout_operation, sign_up: sign_up_operation, confirm: confirm_operation } }
     let(:custom_keys)       { [:login, :logout] }

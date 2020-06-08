@@ -8,10 +8,10 @@ require_relative 'operation_preparers/custom_operation_preparer'
 module GraphqlDevise
   module MountMethod
     class OperationPreparer
-      def initialize(resource:, selected_operations:, preparer:, custom:, additional_operations:)
+      def initialize(mapping_name:, selected_operations:, preparer:, custom:, additional_operations:)
         @selected_operations   = selected_operations
         @preparer              = preparer
-        @mapping_name          = resource.underscore.tr('/', '_')
+        @mapping_name          = mapping_name
         @custom                = custom
         @additional_operations = additional_operations
       end
