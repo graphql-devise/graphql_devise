@@ -28,4 +28,5 @@ Rails.application.routes.draw do
   )
 
   post '/api/v1/graphql', to: 'api/v1/graphql#graphql'
+  post '/api/v1/interpreter', to: 'api/v1/graphql#interpreter'
 end

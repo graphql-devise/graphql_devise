@@ -18,8 +18,8 @@ RSpec.describe GraphqlDevise::ResourceLoader do
     end
 
     it 'loads operations into the provided types' do
-      expect(query).to             receive(:field).with(:user_confirm_account, resolver: instance_of(Class))
-      expect(mutation).to          receive(:field).with(:user_login, mutation: instance_of(Class))
+      expect(query).to             receive(:field).with(:user_confirm_account, resolver: instance_of(Class), authenticate: false)
+      expect(mutation).to          receive(:field).with(:user_login, mutation: instance_of(Class), authenticate: false)
       expect(GraphqlDevise).to     receive(:add_mapping).with(:user, resource)
       expect(GraphqlDevise).not_to receive(:mount_resource)
 
@@ -58,8 +58,8 @@ RSpec.describe GraphqlDevise::ResourceLoader do
         before { allow(GraphqlDevise).to receive(:resource_mounted?).with(:user).and_return(true) }
 
         it 'skips schema loading' do
-          expect(query).not_to         receive(:field).with(:user_confirm_account, resolver: instance_of(Class))
-          expect(mutation).not_to      receive(:field).with(:user_login, mutation: instance_of(Class))
+          expect(query).not_to         receive(:field)
+          expect(mutation).not_to      receive(:field)
           expect(GraphqlDevise).not_to receive(:add_mapping).with(:user, resource)
           expect(GraphqlDevise).not_to receive(:mount_resource)
         end

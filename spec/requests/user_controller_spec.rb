@@ -17,24 +17,49 @@ RSpec.describe 'Integrations with the user controller' do
     GRAPHQL
   end
 
-  before { post_request('/api/v1/graphql') }
+  context 'when using a regular schema' do
+    before { post_request('/api/v1/graphql') }
 
-  context 'when user is authenticated' do
-    let(:headers) { user.create_new_auth_token }
+    context 'when user is authenticated' do
+      let(:headers) { user.create_new_auth_token }
 
-    it 'allow to perform the query' do
-      expect(json_response[:data][:user]).to match(
-        email: user.email,
-        id:    user.id
-      )
+      it 'allow to perform the query' do
+        expect(json_response[:data][:user]).to match(
+          email: user.email,
+          id:    user.id
+        )
+      end
+    end
+
+    context 'when user is not authenticated' do
+      it 'returns a must sign in error' do
+        expect(json_response[:errors]).to contain_exactly(
+          hash_including(message: 'user field requires authentication', extensions: { code: 'USER_ERROR' })
+        )
+      end
     end
   end
 
-  context 'when user is not authenticated' do
-    it 'returns a must sign in error' do
-      expect(json_response[:errors]).to contain_exactly(
-        'You need to sign in or sign up before continuing.'
-      )
+  context 'when using an interpreter schema' do
+    before { post_request('/api/v1/interpreter') }
+
+    context 'when user is authenticated' do
+      let(:headers) { user.create_new_auth_token }
+
+      it 'allow to perform the query' do
+        expect(json_response[:data][:user]).to match(
+          email: user.email,
+          id:    user.id
+        )
+      end
+    end
+
+    context 'when user is not authenticated' do
+      it 'returns a must sign in error' do
+        expect(json_response[:errors]).to contain_exactly(
+          hash_including(message: 'user field requires authentication', extensions: { code: 'USER_ERROR' })
+        )
+      end
     end
   end
 end

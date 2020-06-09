@@ -28,13 +28,13 @@ module GraphqlDevise
       end
 
       prepared_mutations.each do |action, prepared_mutation|
-        mutation.field(action, mutation: prepared_mutation)
+        mutation.field(action, mutation: prepared_mutation, authenticate: false)
       end
 
       prepared_resolvers = prepare_resolvers(mapping_name, clean_options, authenticatable_type)
 
       prepared_resolvers.each do |action, resolver|
-        query.field(action, resolver: resolver)
+        query.field(action, resolver: resolver, authenticate: false)
       end
 
       GraphqlDevise.add_mapping(mapping_name, @resource)
