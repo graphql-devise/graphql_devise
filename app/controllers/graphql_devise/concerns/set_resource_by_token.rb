@@ -1,9 +1,18 @@
 module GraphqlDevise
   module Concerns
-    SetUserByToken = DeviseTokenAuth::Concerns::SetUserByToken
+    SetResourceByToken = DeviseTokenAuth::Concerns::SetUserByToken
 
-    SetUserByToken.module_eval do
+    DeviseTokenAuth::Concerns::SetUserByToken.module_eval do
       attr_accessor :client_id, :token, :resource
+
+      alias_method :set_resource_by_token, :set_user_by_token
+
+      def graphql_context
+        {
+          current_resource: @resource,
+          controller:       self
+        }
+      end
 
       def build_redirect_headers(access_token, client, redirect_header_options = {})
         {

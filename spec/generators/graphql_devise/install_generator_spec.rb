@@ -32,7 +32,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_file 'app/models/user.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
 
-      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetResourceByToken/
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
 
-      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetResourceByToken/
     end
   end
 

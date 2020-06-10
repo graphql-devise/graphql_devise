@@ -222,7 +222,7 @@ In our example our model is `User`, so it would look like this:
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetUserByToken
+  include GraphqlDevise::Concerns::SetResourceByToken
 
   before_action :authenticate_user!
 

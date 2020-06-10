@@ -24,11 +24,10 @@ module GraphqlDevise
       field = traced_field(trace_data)
       provided_value = authenticate_option(field, trace_data)
 
-      if (!provided_value.nil? && provided_value) || @authenticate_default
-        raise_on_missing_resource(
-          context(trace_data),
-          field
-        )
+      if !provided_value.nil?
+        raise_on_missing_resource(context(trace_data), field) if provided_value
+      elsif @authenticate_default
+        raise_on_missing_resource(context(trace_data), field)
       end
 
       yield
@@ -78,7 +77,7 @@ module GraphqlDevise
       @resource_loaders.each do |resource_loader|
         raise Error, 'Invalid resource loader instance' unless resource_loader.instance_of?(GraphqlDevise::ResourceLoader)
 
-        resource_loader.call(@query, @mutation, false)
+        resource_loader.call(@query, @mutation)
       end
     end
   end
