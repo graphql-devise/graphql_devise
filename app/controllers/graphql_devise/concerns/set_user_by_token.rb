@@ -1,8 +1,8 @@
 module GraphqlDevise
   module Concerns
-    SetResourceByToken = DeviseTokenAuth::Concerns::SetUserByToken
+    SetUserByToken = DeviseTokenAuth::Concerns::SetUserByToken
 
-    DeviseTokenAuth::Concerns::SetUserByToken.module_eval do
+    SetUserByToken.module_eval do
       attr_accessor :client_id, :token, :resource
 
       alias_method :set_resource_by_token, :set_user_by_token

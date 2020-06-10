@@ -1,7 +1,7 @@
 module Api
   module V1
     class GraphqlController < ApplicationController
-      include GraphqlDevise::Concerns::SetResourceByToken
+      include GraphqlDevise::Concerns::SetUserByToken
 
       before_action -> { set_resource_by_token(:user) }
 

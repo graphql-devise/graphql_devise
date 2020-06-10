@@ -312,7 +312,7 @@ In our example our model is `User`, so it would look like this:
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetResourceByToken
+  include GraphqlDevise::Concerns::SetUserByToken
 
   before_action :authenticate_user!
 
@@ -336,7 +336,7 @@ in a `before_action` hook.
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetResourceByToken
+  include GraphqlDevise::Concerns::SetUserByToken
 
   before_action -> { set_resource_by_token(:user) }
 

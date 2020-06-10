@@ -20,7 +20,7 @@ module GraphqlDevise
       end
       gsub_file(
         'app/controllers/application_controller.rb',
-        'GraphqlDevise::Concerns::SetResourceByToken',
+        'GraphqlDevise::Concerns::SetUserByToken',
         'DeviseTokenAuth::Concerns::SetUserByToken'
       )
 
@@ -53,7 +53,7 @@ module GraphqlDevise
       gsub_file(
         'app/controllers/application_controller.rb',
         /^\s+include DeviseTokenAuth::Concerns::SetUserByToken/,
-        '  include GraphqlDevise::Concerns::SetResourceByToken'
+        '  include GraphqlDevise::Concerns::SetUserByToken'
       )
     end
 
