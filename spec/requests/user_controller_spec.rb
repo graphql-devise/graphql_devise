@@ -81,6 +81,56 @@ RSpec.describe "Integrations with the user's controller" do
     end
   end
 
+  describe 'dummyMutation' do
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          dummyMutation
+        }
+      GRAPHQL
+    end
+
+    context 'when using a regular schema' do
+      before { post_request('/api/v1/graphql') }
+
+      context 'when user is authenticated' do
+        let(:headers) { user.create_new_auth_token }
+
+        it 'allow to perform the query' do
+          expect(json_response[:data][:dummyMutation]).to eq('Necessary so GraphQL gem does not complain about empty mutation type')
+        end
+      end
+
+      context 'when user is not authenticated' do
+        it 'returns a must sign in error' do
+          expect(json_response[:errors]).to contain_exactly(
+            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'USER_ERROR' })
+          )
+        end
+      end
+    end
+
+    context 'when using an interpreter schema' do
+      before { post_request('/api/v1/interpreter') }
+
+      context 'when user is authenticated' do
+        let(:headers) { user.create_new_auth_token }
+
+        it 'allow to perform the query' do
+          expect(json_response[:data][:dummyMutation]).to eq('Necessary so GraphQL gem does not complain about empty mutation type')
+        end
+      end
+
+      context 'when user is not authenticated' do
+        it 'returns a must sign in error' do
+          expect(json_response[:errors]).to contain_exactly(
+            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'USER_ERROR' })
+          )
+        end
+      end
+    end
+  end
+
   describe 'user' do
     let(:query) do
       <<-GRAPHQL

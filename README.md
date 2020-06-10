@@ -12,13 +12,18 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Table of Contents](#table-of-contents)
       * [Introduction](#introduction)
       * [Installation](#installation)
+         * [Important](#important)
       * [Usage](#usage)
-         * [Mounting Routes manually](#mounting-routes-manually)
-            * [Available Operations](#available-operations)
+         * [Mounting Auth Schema on a Separate Route](#mounting-auth-schema-on-a-separate-route)
+         * [Mounting Operations Into Your Own Schema](#mounting-operations-into-your-own-schema)
+         * [Available Mount Options](#available-mount-options)
+         * [Available Operations](#available-operations)
          * [Configuring Model](#configuring-model)
          * [Customizing Email Templates](#customizing-email-templates)
          * [I18n](#i18n)
          * [Authenticating Controller Actions](#authenticating-controller-actions)
+            * [Authenticate Before Reaching Your GQL Schema](#authenticate-before-reaching-your-gql-schema)
+            * [Authenticate in Your GQL Schema](#authenticate-in-your-gql-schema)
          * [Making Requests](#making-requests)
             * [Mutations](#mutations)
             * [Queries](#queries)
@@ -30,7 +35,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Contributing](#contributing)
       * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Tue Apr 28 21:43:30 -05 2020 -->
+<!-- Added by: mcelicalderon, at: Wed Jun 10 00:48:00 -05 2020 -->
 
 <!--te-->
 
@@ -87,14 +92,24 @@ Will do the following:
 `Admin` could be any model name you are going to be using for authentication,
 and `api/auth` could be any mount path you would like to use for auth.
 
-**Important:** Remember this gem mounts a completely separate GraphQL schema on a separate controller in the route
-provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at`
-option is provided, the route will be `/graphql_auth`. This has no effect on your own application schema.
-More on this in the next section.
+### Important
+Remember this gem mounts a completely separate GraphQL schema on a separate controller in the route
+provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file by default. If no `at`
+option is provided, the route will be `/graphql_auth`.
+
+**Starting with `v0.12.0`** you can opt-in to a new behavior where you actually load this gem's
+queries and mutations into your own application's schema. If you do this, but also run the
+generator, you will have to remove the generated lines from your `config/routes.rb` file.
+You can actually mount a resource's auth schema in a separate route and in your app's
+schema at the same time, but that's probably not a common scenario. More on this in the next section.
 
 ## Usage
-### Mounting Routes manually
-Routes can be added using the initializer or manually.
+### Mounting Auth Schema on a Separate Route
+The generator can do this step for you by default. Remember now you can mount this gem's
+auth operations into your own schema as described in [this section](#mounting-operations-into-your-own-schema).
+
+
+Routes can be added using the generator or manually.
 You can mount this gem's GraphQL auth schema in your routes file like this:
 
 ```ruby
@@ -120,11 +135,84 @@ Rails.application.routes.draw do
   )
 end
 ```
+The second argument of the `mount_graphql_devise` method is a hash of options where you can
+customize how the queries and mutations are mounted into the schema. For a list of available
+options go [here](#available-mount-options)
 
-Here are the options for the mount method:
+### Mounting Operations Into Your Own Schema
+Starting with `v0.12.0` you can now mount the GQL operations provided by this gem into your
+app's main schema. If you used the generator, remember that the mount method might have
+been included in your `config/routes.rb` file and you can remove it if you are using this
+mechanism.
 
-1. `at`: Route where the GraphQL schema will be mounted on the Rails server. In this example your API will have these two routes: `POST /api/v1/graphql_auth` and `GET /api/v1/graphql_auth`.
-If this option is not specified, the schema will be mounted at `/graphql_auth`.
+```ruby
+# app/graphql/dummy_schema.rb
+
+class DummySchema < GraphQL::Schema
+  # It's important that this line goes before setting the query and mutation type on your
+  # schema in graphql versions < 1.10.0
+  use GraphqlDevise::SchemaPlugin.new(
+    query:            Types::QueryType,
+    mutation:         Types::MutationType,
+    resource_loaders: [
+      GraphqlDevise::ResourceLoader.new('User', only: [:login, :confirm_account])
+    ]
+  )
+
+  mutation(Types::MutationType)
+  query(Types::QueryType)
+end
+```
+The example above describes just one of the possible scenarios you might need.
+The second argument of the `GraphqlDevise::ResourceLoader` initializer is a hash of
+options where you can customize how the queries and mutations are mounted into the schema.
+For a list of available options go [here](#available-mount-options).
+
+It's important to use the plugin in your schema before assigning the mutation and query type to
+it in graphql versions `< 1.10.0`. Otherwise the auth operations won't be available.
+
+You can provide as many resource loaders as you need to the `resource_loaders` option, and each
+of those will be loaded into your schema. These are the options you can initialize the
+`SchemaPlugin` with:
+
+1. `query`: This param is mandatory unless you skip all queries via the resource loader
+options. This should be the same `QueryType` you provide to the `query` method
+in your schema.
+1. `mutation`: This param mandatory unless you skip all mutations via the resource loader
+options. This should be the same `MutationType` you provide to the `mutation` method
+in your schema.
+1. `resource_loaders`: This is an optional array of `GraphqlDevise::ResourceLoader` instances.
+Here is where you specify the operations that you want to load into your app's schema.
+If no loader is provided no operations will be added to your schema, but you will still be
+able to authenticate queries and mutations selectively. More on this in the controller
+authentication [section](#authenticating-controller-actions).
+1. `authenticate_default`: This is a boolean value which is `true` by default. This value
+defines what is the default behavior for authentication in your schema fields. `true` means
+every root level field requires authentication unless specified otherwise using the
+`authenticate: false` option on the field. `false` means your root level fields won't require
+authentication unless specified otherwise using the `authenticate: true` option on the field.
+1. `unauthenticated_proc`: This param is optional. Here you can provide a proc that receives
+one argument (field name) and is called whenever a field that requires authentication
+is called without an authenticated resource.
+
+### Available Mount Options
+Both the `mount_graphql_devise_for` method and the `GraphqlDevise::ResourceLoader` class
+take the same options. So, wether you decide to mount this gem in a separate route
+from your main application's schema or you use our `GraphqlDevise::SchemaPlugin` to load
+this gem's auth operation into your schema, these are the options you can provide as a hash.
+
+```ruby
+# Using the mount method in your config/routes.rb file
+mount_graphql_devise_for('User', {})
+
+# Providing options to a GraphqlDevise::ResourceLoader
+GraphqlDevise::ResourceLoader.new('User', {})
+```
+
+1. `at`: Route where the GraphQL schema will be mounted on the Rails server.
+In [this example](#mounting-auth-schema-on-a-separate-route) your API will have
+these two routes: `POST /api/v1/graphql_auth` and `GET /api/v1/graphql_auth`.
+If this option is not specified, the schema will be mounted at `/graphql_auth`. **This option only works if you are using the mount method.**
 1. `operations`: Specifying this is optional. Here you can override default
 behavior by specifying your own mutations and queries for every GraphQL operation.
 Check available operations in this file [mutations](https://github.com/graphql-devise/graphql_devise/blob/b5985036e01ea064e43e457b4f0c8516f172471c/lib/graphql_devise/rails/routes.rb#L19)
@@ -163,7 +251,7 @@ or [base resolver](https://github.com/graphql-devise/graphql_devise/blob/master/
 respectively, to take advantage of some of the methods provided by devise
 just like with `devise_scope`
 
-#### Available Operations
+### Available Operations
 The following is a list of the symbols you can provide to the `operations`, `skip` and `only` options of the mount method:
 ```ruby
 :login
@@ -174,7 +262,6 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 :confirm_account
 :check_password_token
 ```
-
 
 ### Configuring Model
 Just like with Devise and DTA, you need to include a module in your authenticatable model,
@@ -216,6 +303,9 @@ Keep in mind that if your app uses multiple locales, you should set the `I18n.lo
 
 ### Authenticating Controller Actions
 Just like with Devise or DTA, you will need to authenticate users in your controllers.
+For this you have two alternatives.
+
+#### Authenticate Before Reaching Your GQL Schema
 For this you need to call `authenticate_<model>!` in a before_action hook of your controller.
 In our example our model is `User`, so it would look like this:
 ```ruby
@@ -234,6 +324,62 @@ end
 
 The install generator can do this for you because it executes DTA installer.
 See [Installation](#Installation) for details.
+If authentication fails for the request for whatever reason, execution of the request is halted
+and an error is returned in a REST format as the request never reaches your GQL schema.
+
+#### Authenticate in Your GQL Schema
+For this you will need to add the `GraphqlDevise::SchemaPlugin` to your schema as described
+[here](#mounting-operations-into-your-own-schema) and also set the authenticated resource
+in a `before_action` hook.
+
+```ruby
+# app/controllers/my_controller.rb
+
+class MyController < ApplicationController
+  include GraphqlDevise::Concerns::SetResourceByToken
+
+  before_action -> { set_resource_by_token(:user) }
+
+  def my_action
+    render json: DummySchema.execute(params[:query], context: graphql_context)
+  end
+end
+
+# @resource.to_s.underscore.tr('/', '_').to_sym
+```
+The `set_resource_by_token` method receives a symbol identifying the resource you are trying
+to authenticate. So if you mounted the `'User'` resource, the symbol is `:user`. You can use
+this snippet to find the symbol for more complex scenarios
+`resource_klass.to_s.underscore.tr('/', '_').to_sym`.
+
+The `graphql_context` method is simply a helper method that returns a hash like this
+```ruby
+{ current_resource: @resource, controller: self }
+```
+These are the two values the gem needs to check if a user is authenticated and to perform
+other auth operations. All `set_resource_by_token` does is set the `@resource` variable if
+the provided authentication headers are valid. If authentication fails, resource will be `nil`
+and this is how `GraphqlDevise::SchemaPlugin` knows if a user is authenticated or not in
+each query.
+
+Please note that by using this mechanism your GQL schema will be in control of what queries are
+restricted to authenticated users and you can only do this at the root level fields of your GQL
+schema. Configure the plugin as explained [here](#mounting-operations-into-your-own-schema)
+so this can work.
+
+In you main app's schema this is how you might specify if a field needs to be authenticated or not:
+```ruby
+module Types
+  class QueryType < Types::BaseObject
+    # user field used the default set in the Plugin's initializer
+    field :user, resolver: Resolvers::UserShow
+    # this field will never require authentication
+    field :public_field, String, null: false, authenticate: false
+    # this field requires authentication
+    field :private_field, String, null: false, authenticate: true
+  end
+end
+```
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
@@ -318,7 +464,6 @@ standard Devise templates.
 ## Future Work
 We will continue to improve the gem and add better docs.
 
-1. Add mount option that will create a separate schema for the mounted resource.
 1. Make sure this gem can correctly work alongside DTA and the original Devise gem.
 1. Improve DOCS.
 1. Add support for unlockable and other Devise modules.

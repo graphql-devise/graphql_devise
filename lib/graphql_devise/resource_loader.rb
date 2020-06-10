@@ -1,6 +1,6 @@
 module GraphqlDevise
   class ResourceLoader
-    def initialize(resource, options, routing = false)
+    def initialize(resource, options = {}, routing = false)
       @resource           = resource
       @options            = options
       @routing            = routing
@@ -32,6 +32,10 @@ module GraphqlDevise
       end
 
       prepared_resolvers = prepare_resolvers(mapping_name, clean_options, authenticatable_type)
+
+      if prepared_resolvers.any? && query.blank?
+        raise GraphqlDevise::Error, 'You need to provide a query type unless all queries are skipped'
+      end
 
       prepared_resolvers.each do |action, resolver|
         query.field(action, resolver: resolver, authenticate: false)

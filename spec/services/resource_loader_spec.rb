@@ -39,6 +39,19 @@ RSpec.describe GraphqlDevise::ResourceLoader do
       end
     end
 
+    context 'when query is nil' do
+      let(:query) { nil }
+
+      before { allow(mutation).to receive(:field) }
+
+      it 'raises an error' do
+        expect { loader }.to raise_error(
+          GraphqlDevise::Error,
+          'You need to provide a query type unless all queries are skipped'
+        )
+      end
+    end
+
     context 'when invoked from router' do
       let(:routing) { true }
 

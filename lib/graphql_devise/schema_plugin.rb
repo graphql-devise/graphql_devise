@@ -2,7 +2,7 @@ module GraphqlDevise
   class SchemaPlugin
     DEFAULT_NOT_AUTHENTICATED = ->(field) { raise GraphqlDevise::UserError, "#{field} field requires authentication" }
 
-    def initialize(query:, mutation: nil, authenticate_default: true, resource_loaders: [], unauthenticated_proc: DEFAULT_NOT_AUTHENTICATED)
+    def initialize(query: nil, mutation: nil, authenticate_default: true, resource_loaders: [], unauthenticated_proc: DEFAULT_NOT_AUTHENTICATED)
       @query                = query
       @mutation             = mutation
       @resource_loaders     = resource_loaders
