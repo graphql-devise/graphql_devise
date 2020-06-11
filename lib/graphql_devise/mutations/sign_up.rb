@@ -35,7 +35,7 @@ module GraphqlDevise
 
           { authenticatable: resource }
         else
-          resource.clean_up_passwords if resource.respond_to?(:clean_up_passwords)
+          resource.try(:clean_up_passwords)
           raise_user_error_list(
             I18n.t('graphql_devise.registration_failed'),
             errors: resource.errors.full_messages
