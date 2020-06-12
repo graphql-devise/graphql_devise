@@ -6,7 +6,7 @@ module GraphqlDevise
           @mapping_name = mapping_name
         end
 
-        def call(operation)
+        def call(operation, **)
           operation.graphql_name(graphql_name)
 
           operation

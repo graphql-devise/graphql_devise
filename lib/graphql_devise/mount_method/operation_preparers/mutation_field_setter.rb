@@ -6,9 +6,10 @@ module GraphqlDevise
           @authenticatable_type = authenticatable_type
         end
 
-        def call(mutation)
-          mutation.field(:authenticatable, @authenticatable_type, null: false)
+        def call(mutation, authenticable: true)
+          return unless authenticable
 
+          mutation.field(:authenticatable, @authenticatable_type, null: false)
           mutation
         end
       end

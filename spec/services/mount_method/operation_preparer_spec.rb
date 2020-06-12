@@ -14,10 +14,15 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparer do
 
     let(:logout_class) { Class.new(GraphQL::Schema::Resolver) }
     let(:mapping)      { :user }
-    let(:selected)     { { login: double(:login_default), logout: logout_class } }
     let(:preparer)     { double(:preparer, call: logout_class) }
     let(:custom)       { { login: double(:custom_login, graphql_name: nil) } }
     let(:additional)   { { user_additional: double(:user_additional) } }
+    let(:selected) do
+      {
+        login: { klass: double(:login_default) },
+        logout:{ klass: logout_class }
+      }
+    end
 
     it 'is expected to return all provided operation keys' do
       expect(prepared_operations.keys).to contain_exactly(

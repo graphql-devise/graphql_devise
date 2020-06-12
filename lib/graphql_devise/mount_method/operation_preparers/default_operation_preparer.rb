@@ -10,14 +10,18 @@ module GraphqlDevise
         end
 
         def call
-          @selected_operations.except(*@custom_keys).each_with_object({}) do |(action, operation), result|
+          @selected_operations.except(*@custom_keys).each_with_object({}) do |(action, operation_info), result|
             mapped_action = "#{@mapping_name}_#{action}"
+            operation     = operation_info[:klass]
+            options       = operation_info.except(:klass)
 
             result[mapped_action.to_sym] = [
               OperationPreparers::GqlNameSetter.new(mapped_action),
               @preparer,
               OperationPreparers::ResourceNameSetter.new(@mapping_name)
-            ].reduce(child_class(operation)) { |prepared_operation, preparer| preparer.call(prepared_operation) }
+            ].reduce(child_class(operation)) do |prepared_operation, preparer|
+              preparer.call(prepared_operation, **options)
+            end
           end
         end
 
