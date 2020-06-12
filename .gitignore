@@ -15,7 +15,8 @@ README.md.*
 /spec/dummy/tmp/
 /Gemfile.lock
 *.gemfile.lock
-/*.sqlite3
+*.sqlite3
+*.sqlite3-journal
 /spec/dummy/db/development.sqlite3
 /spec/dummy/db/test.sqlite3
 /*.gem

@@ -5,7 +5,7 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::ResourceNameSette
     subject(:prepared_operation) { described_class.new(mapping_name).call(operation) }
 
     let(:operation)    { double(:operation) }
-    let(:mapping_name) { 'user' }
+    let(:mapping_name) { :user }
 
     it 'sets a gql name to the operation' do
       expect(prepared_operation.instance_variable_get(:@resource_name)).to eq(:user)

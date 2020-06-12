@@ -17,6 +17,24 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
     run_generator(args)
   end
 
+  context 'when mount option is schema' do
+    let(:args) { ['Admin', '--mount', 'GqldDummySchema'] }
+
+    it 'mounts the SchemaPlugin' do
+      assert_file 'config/initializers/devise.rb'
+      assert_file 'config/initializers/devise_token_auth.rb', /^\s{2}#{Regexp.escape('config.change_headers_on_each_request = false')}/
+      assert_file 'config/locales/devise.en.yml'
+
+      assert_migration 'db/migrate/devise_token_auth_create_admins.rb'
+
+      assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
+
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
+
+      assert_file 'app/graphql/gqld_dummy_schema.rb', /\s+#{Regexp.escape("GraphqlDevise::ResourceLoader.new('Admin')")}/
+    end
+  end
+
   context 'when passing no params to the generator' do
     let(:args) { [] }
 
@@ -58,6 +76,9 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
   def create_rails_project
     FileUtils.cd(File.join(destination_root, '..')) do
       `rails new gqld_dummy -S -C --skip-action-mailbox --skip-action-text -T --skip-spring --skip-bundle --skip-keeps -G --skip-active-storage -J --skip-listen --skip-bootsnap`
+    end
+    FileUtils.cd(File.join(destination_root, '../gqld_dummy')) do
+      `rails generate graphql:install`
     end
   end
 end

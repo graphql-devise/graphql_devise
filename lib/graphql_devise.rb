@@ -18,12 +18,21 @@ module GraphqlDevise
     @schema_loaded = true
   end
 
-  def self.mount_resource(resource)
-    @mounted_resources << resource
+  def self.resource_mounted?(mapping_name)
+    @mounted_resources.include?(mapping_name)
   end
 
-  def self.resource_mounted?(resource)
-    @mounted_resources.include?(resource)
+  def self.mount_resource(mapping_name)
+    @mounted_resources << mapping_name
+  end
+
+  def self.add_mapping(mapping_name, resource)
+    return if Devise.mappings.key?(mapping_name)
+
+    Devise.add_mapping(
+      mapping_name.to_s.pluralize.to_sym,
+      module: :devise, class_name: resource
+    )
   end
 end
 
@@ -47,3 +56,6 @@ require 'graphql_devise/mount_method/option_sanitizer'
 require 'graphql_devise/mount_method/options_validator'
 require 'graphql_devise/mount_method/operation_preparer'
 require 'graphql_devise/mount_method/operation_sanitizer'
+
+require 'graphql_devise/resource_loader'
+require 'graphql_devise/schema_plugin'
