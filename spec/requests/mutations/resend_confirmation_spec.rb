@@ -15,10 +15,6 @@ RSpec.describe 'Resend confirmation' do
           redirectUrl:"#{redirect}"
         ) {
           message
-          authenticatable {
-            id
-            email
-          }
         }
       }
     GRAPHQL
@@ -28,11 +24,7 @@ RSpec.describe 'Resend confirmation' do
     it 'sends an email to the user with confirmation url and returns a success message' do
       expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
       expect(json_response[:data][:userResendConfirmation]).to include(
-        message:         'You will receive an email with instructions for how to confirm your email address in a few minutes.',
-        authenticatable: {
-          id:    id,
-          email: email
-        }
+        message: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
       )
 
       email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
@@ -56,11 +48,7 @@ RSpec.describe 'Resend confirmation' do
       it 'honors devise configuration for case insensitive fields' do
         expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
         expect(json_response[:data][:userResendConfirmation]).to include(
-          message:         'You will receive an email with instructions for how to confirm your email address in a few minutes.',
-          authenticatable: {
-            id:    id,
-            email: user.email
-          }
+          message: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
         )
       end
     end

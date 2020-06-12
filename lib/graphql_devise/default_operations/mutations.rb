@@ -9,13 +9,12 @@ require 'graphql_devise/mutations/update_password'
 module GraphqlDevise
   module DefaultOperations
     MUTATIONS = {
-      login:               { klass: GraphqlDevise::Mutations::Login, authenticable: true },
-      logout:              { klass: GraphqlDevise::Mutations::Logout, authenticable: true },
-      sign_up:             { klass: GraphqlDevise::Mutations::SignUp, authenticable: true },
-      update_password:     { klass: GraphqlDevise::Mutations::UpdatePassword, authenticable: true },
-      send_password_reset: { klass: GraphqlDevise::Mutations::SendPasswordReset, authenticable: true },
-      resend_confirmation: { klass: GraphqlDevise::Mutations::ResendConfirmation, authenticable: true }
-
+      login:               { klass: GraphqlDevise::Mutations::Login, authenticatable: true },
+      logout:              { klass: GraphqlDevise::Mutations::Logout, authenticatable: true },
+      sign_up:             { klass: GraphqlDevise::Mutations::SignUp, authenticatable: true },
+      update_password:     { klass: GraphqlDevise::Mutations::UpdatePassword, authenticatable: true },
+      send_password_reset: { klass: GraphqlDevise::Mutations::SendPasswordReset, authenticatable: false },
+      resend_confirmation: { klass: GraphqlDevise::Mutations::ResendConfirmation, authenticatable: false }
     }.freeze
   end
 end

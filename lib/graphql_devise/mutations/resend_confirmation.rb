@@ -22,10 +22,7 @@ module GraphqlDevise
             template_path: ['graphql_devise/mailer']
           )
 
-          {
-            authenticatable: resource,
-            message:       I18n.t('graphql_devise.confirmations.send_instructions', email: email)
-          }
+          { message: I18n.t('graphql_devise.confirmations.send_instructions', email: email) }
         else
           raise_user_error(I18n.t('graphql_devise.confirmations.user_not_found', email: email))
         end

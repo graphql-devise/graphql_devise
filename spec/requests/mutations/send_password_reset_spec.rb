@@ -23,7 +23,7 @@ RSpec.describe 'Send Password Reset Requests' do
     it 'sends password reset  email' do
       expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-      expect(json_response.dig(:data, :userSendPasswordReset)).to include(
+      expect(json_response[:data][:userSendPasswordReset]).to include(
         message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
       )
 
@@ -43,7 +43,7 @@ RSpec.describe 'Send Password Reset Requests' do
 
     it 'honors devise configuration for case insensitive fields' do
       expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      expect(json_response.dig(:data, :userSendPasswordReset)).to include(
+      expect(json_response[:data][:userSendPasswordReset]).to include(
         message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
       )
     end

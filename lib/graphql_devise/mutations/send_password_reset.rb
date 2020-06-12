@@ -20,7 +20,7 @@ module GraphqlDevise
           )
 
           if resource.errors.empty?
-            { message: I18n.t('devise.passwords.send_instructions') }
+            { message: I18n.t('graphql_devise.passwords.send_instructions') }
           else
             raise_user_error_list(I18n.t('graphql_devise.invalid_resource'), errors: resource.errors.full_messages)
           end
