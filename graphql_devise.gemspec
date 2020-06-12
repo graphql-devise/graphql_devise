@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-  spec.test_files    = Dir['spec/**/*']
+  spec.test_files    = Dir['spec/**/*'].reject { |f| f.match(/[.log|.sqlite3]$/) }
 
   spec.required_ruby_version = '>= 2.2.0'
 
