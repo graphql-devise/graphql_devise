@@ -4,6 +4,8 @@ module GraphqlDevise
       argument :email,        String, required: true
       argument :redirect_url, String, required: true
 
+      field :message, String, null: false
+
       def resolve(email:, redirect_url:)
         resource = find_resource(:email, get_case_insensitive_field(:email, email))
 
@@ -18,7 +20,7 @@ module GraphqlDevise
           )
 
           if resource.errors.empty?
-            { authenticatable: resource }
+            { message: I18n.t('graphql_devise.passwords.send_instructions') }
           else
             raise_user_error_list(I18n.t('graphql_devise.invalid_resource'), errors: resource.errors.full_messages)
           end

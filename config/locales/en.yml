@@ -14,6 +14,7 @@ en:
       password_not_required: "This account does not require a password. Sign in using your '%{provider}' account instead."
       reset_token_not_found: "No user found for the specified reset token."
       reset_token_expired: "Reset password token is no longer valid."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
     sessions:
       bad_credentials: "Invalid login credentials. Please try again."
       not_confirmed: "A confirmation email was sent to your account at '%{email}'. You must follow the instructions in the email before your account can be activated"

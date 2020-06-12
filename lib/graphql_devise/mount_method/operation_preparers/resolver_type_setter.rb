@@ -6,7 +6,7 @@ module GraphqlDevise
           @authenticatable_type = authenticatable_type
         end
 
-        def call(resolver)
+        def call(resolver, **)
           resolver.type(@authenticatable_type, null: false)
 
           resolver

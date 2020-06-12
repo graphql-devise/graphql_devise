@@ -6,7 +6,7 @@ module GraphqlDevise
           @name = name
         end
 
-        def call(operation)
+        def call(operation, **)
           operation.instance_variable_set(:@resource_name, @name)
 
           operation

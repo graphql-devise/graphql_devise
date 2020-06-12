@@ -13,9 +13,7 @@ RSpec.describe 'Send Password Reset Requests' do
           email:       "#{email}",
           redirectUrl: "#{redirect_url}"
         ) {
-          authenticatable {
-            email
-          }
+          message
         }
       }
     GRAPHQL
@@ -24,6 +22,10 @@ RSpec.describe 'Send Password Reset Requests' do
   context 'when params are correct' do
     it 'sends password reset  email' do
       expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+      expect(json_response[:data][:userSendPasswordReset]).to include(
+        message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
+      )
 
       email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
       link  = email.css('a').first
@@ -41,6 +43,9 @@ RSpec.describe 'Send Password Reset Requests' do
 
     it 'honors devise configuration for case insensitive fields' do
       expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      expect(json_response[:data][:userSendPasswordReset]).to include(
+        message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
+      )
     end
   end
 

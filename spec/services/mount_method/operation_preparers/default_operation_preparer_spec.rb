@@ -11,18 +11,25 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::DefaultOperationP
     let(:logout_operation)  { double(:sign_up_operation, graphql_name: nil) }
     let(:mapping_name)      { :user }
     let(:preparer)          { double(:preparer) }
-    let(:operations)        { { login: login_operation, logout: logout_operation, sign_up: sign_up_operation, confirm: confirm_operation } }
     let(:custom_keys)       { [:login, :logout] }
+    let(:operations) do
+      {
+        confirm: { klass: confirm_operation, authenticatable: false },
+        sign_up: { klass: sign_up_operation, authenticatable: true },
+        login:   { klass: login_operation, authenticatable: true },
+        logout:  { klass: logout_operation, authenticatable: true }
+      }
+    end
 
     before do
       allow(default_preparer).to receive(:child_class).with(confirm_operation).and_return(confirm_operation)
       allow(default_preparer).to receive(:child_class).with(sign_up_operation).and_return(sign_up_operation)
       allow(default_preparer).to receive(:child_class).with(login_operation).and_return(login_operation)
       allow(default_preparer).to receive(:child_class).with(logout_operation).and_return(logout_operation)
-      allow(preparer).to receive(:call).with(confirm_operation).and_return(confirm_operation)
-      allow(preparer).to receive(:call).with(sign_up_operation).and_return(sign_up_operation)
-      allow(preparer).to receive(:call).with(login_operation).and_return(login_operation)
-      allow(preparer).to receive(:call).with(logout_operation).and_return(logout_operation)
+      allow(preparer).to receive(:call).with(confirm_operation, authenticatable: false).and_return(confirm_operation)
+      allow(preparer).to receive(:call).with(sign_up_operation, authenticatable: true).and_return(sign_up_operation)
+      allow(preparer).to receive(:call).with(login_operation, authenticatable: true).and_return(login_operation)
+      allow(preparer).to receive(:call).with(logout_operation, authenticatable: true).and_return(logout_operation)
     end
 
     it 'returns only those operations with no custom operation provided' do
@@ -32,8 +39,8 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::DefaultOperationP
     it 'prepares default operations' do
       expect(confirm_operation).to receive(:graphql_name).with('UserConfirm')
       expect(sign_up_operation).to receive(:graphql_name).with('UserSignUp')
-      expect(preparer).to receive(:call).with(confirm_operation)
-      expect(preparer).to receive(:call).with(sign_up_operation)
+      expect(preparer).to receive(:call).with(confirm_operation, authenticatable: false)
+      expect(preparer).to receive(:call).with(sign_up_operation, authenticatable: true)
 
       prepared
 
