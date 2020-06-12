@@ -1,5 +1,5 @@
 module GraphqlDevise
-  class DetailedUserError < GraphQL::ExecutionError
+  class DetailedUserError < ExecutionError
     def initialize(message, errors:)
       @message = message
       @errors  = errors

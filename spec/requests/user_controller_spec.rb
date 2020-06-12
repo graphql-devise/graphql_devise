@@ -54,7 +54,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is not authenticated' do
         it 'returns a must sign in error' do
           expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'privateField field requires authentication', extensions: { code: 'USER_ERROR' })
+            hash_including(message: 'privateField field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
           )
         end
       end
@@ -74,7 +74,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is not authenticated' do
         it 'returns a must sign in error' do
           expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'privateField field requires authentication', extensions: { code: 'USER_ERROR' })
+            hash_including(message: 'privateField field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
           )
         end
       end
@@ -104,7 +104,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is not authenticated' do
         it 'returns a must sign in error' do
           expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'USER_ERROR' })
+            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
           )
         end
       end
@@ -124,7 +124,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is not authenticated' do
         it 'returns a must sign in error' do
           expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'USER_ERROR' })
+            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
           )
         end
       end
@@ -162,7 +162,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is not authenticated' do
         it 'returns a must sign in error' do
           expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'user field requires authentication', extensions: { code: 'USER_ERROR' })
+            hash_including(message: 'user field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
           )
         end
       end
