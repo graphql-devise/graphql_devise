@@ -36,6 +36,14 @@ module GraphqlDevise
   end
 end
 
+require 'graphql_devise/engine'
+require 'graphql_devise/version'
+require 'graphql_devise/errors/error_codes'
+require 'graphql_devise/errors/execution_error'
+require 'graphql_devise/errors/user_error'
+require 'graphql_devise/errors/authentication_error'
+require 'graphql_devise/errors/detailed_user_error'
+
 require 'graphql_devise/concerns/controller_methods'
 require 'graphql_devise/schema'
 require 'graphql_devise/types/authenticatable_type'
@@ -45,12 +53,6 @@ require 'graphql_devise/types/query_type'
 require 'graphql_devise/default_operations/mutations'
 require 'graphql_devise/default_operations/resolvers'
 require 'graphql_devise/resolvers/dummy'
-
-require 'graphql_devise/engine'
-require 'graphql_devise/version'
-require 'graphql_devise/error_codes'
-require 'graphql_devise/user_error'
-require 'graphql_devise/detailed_user_error'
 
 require 'graphql_devise/mount_method/option_sanitizer'
 require 'graphql_devise/mount_method/options_validator'
