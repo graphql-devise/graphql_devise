@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.12.0](https://github.com/graphql-devise/graphql_devise/tree/v0.12.0) (2020-06-11)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.4...v0.12.0)
+
+**Implemented enhancements:**
+
+- Mount auth operations in main GQL schema [\#96](https://github.com/graphql-devise/graphql_devise/pull/96) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.11.4](https://github.com/graphql-devise/graphql_devise/tree/v0.11.4) (2020-05-23)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.3...v0.11.4)
