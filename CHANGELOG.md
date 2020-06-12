@@ -1,6 +1,15 @@
 # Changelog
 
-## [v0.12.0](https://github.com/graphql-devise/graphql_devise/tree/v0.12.0) (2020-06-11)
+## [v0.12.1](https://github.com/graphql-devise/graphql_devise/tree/v0.12.1) (2020-06-12)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.0...v0.12.1)
+
+**Security fixes:**
+
+- Insecure send password reset mutation? [\#98](https://github.com/graphql-devise/graphql_devise/issues/98)
+- Avoid returning user information on password reset mutation [\#100](https://github.com/graphql-devise/graphql_devise/pull/100) ([00dav00](https://github.com/00dav00))
+
+## [v0.12.0](https://github.com/graphql-devise/graphql_devise/tree/v0.12.0) (2020-06-12)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.11.4...v0.12.0)
 
