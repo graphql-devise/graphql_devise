@@ -20,21 +20,46 @@ RSpec.describe 'Send Password Reset Requests' do
   end
 
   context 'when params are correct' do
-    it 'sends password reset  email' do
-      expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+    context 'when using gem' do
+      it 'sends password reset  email' do
+        expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-      expect(json_response[:data][:userSendPasswordReset]).to include(
-        message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
-      )
+        expect(json_response[:data][:userSendPasswordReset]).to include(
+          message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
+        )
 
-      email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
-      link  = email.css('a').first
+        email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+        link  = email.css('a').first
+        expect(link['href']).to include('/api/v1/graphql_auth?')
 
-      # TODO: Move to feature spec
-      expect do
-        get link['href']
-        user.reload
-      end.to change(user, :allow_password_change).from(false).to(true)
+        # TODO: Move to feature spec
+        expect do
+          get link['href']
+          user.reload
+        end.to change(user, :allow_password_change).from(false).to(true)
+      end
+    end
+
+    context 'when using a custom schema' do
+      let(:custom_path) { '/api/v1/graphql' }
+
+      it 'sends password reset  email' do
+        expect { post_request(custom_path) }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+        expect(json_response[:data][:userSendPasswordReset]).to include(
+          message: 'You will receive an email with instructions on how to reset your password in a few minutes.'
+        )
+
+        email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+        link  = email.css('a').first
+        expect(link['href']).to include("#{custom_path}?")
+
+        # TODO: Move to feature spec
+        expect do
+          get link['href']
+          user.reload
+        end.to change(user, :allow_password_change).from(false).to(true)
+      end
     end
   end
 

@@ -3,7 +3,10 @@ class DummySchema < GraphQL::Schema
     query:            Types::QueryType,
     mutation:         Types::MutationType,
     resource_loaders: [
-      GraphqlDevise::ResourceLoader.new('User', only: [:login, :confirm_account]),
+      GraphqlDevise::ResourceLoader.new(
+        'User',
+        only: [:login, :confirm_account, :send_password_reset, :check_password_token]
+      ),
       GraphqlDevise::ResourceLoader.new('Guest', only: [:logout])
     ]
   )
