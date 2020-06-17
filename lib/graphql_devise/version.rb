@@ -1,3 +1,3 @@
 module GraphqlDevise
-  VERSION = '0.12.1'.freeze
+  VERSION = '0.12.2'.freeze
 end

@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.12.2](https://github.com/graphql-devise/graphql_devise/tree/v0.12.2) (2020-06-17)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.1...v0.12.2)
+
+**Breaking changes:**
+
+- Fix set\_resource\_by\_token no mapping error in no eager load envs [\#107](https://github.com/graphql-devise/graphql_devise/pull/107) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- Separate endpoint url for mailers even if mounting the gem in your own schema [\#105](https://github.com/graphql-devise/graphql_devise/issues/105)
+- Devise mapping error [\#103](https://github.com/graphql-devise/graphql_devise/issues/103)
+- Use the url where the schema is mounted in emails links [\#106](https://github.com/graphql-devise/graphql_devise/pull/106) ([00dav00](https://github.com/00dav00))
+
 ## [v0.12.1](https://github.com/graphql-devise/graphql_devise/tree/v0.12.1) (2020-06-12)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.0...v0.12.1)
