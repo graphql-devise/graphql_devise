@@ -5,7 +5,13 @@ class DummySchema < GraphQL::Schema
     resource_loaders: [
       GraphqlDevise::ResourceLoader.new(
         'User',
-        only: [:login, :confirm_account, :send_password_reset, :check_password_token]
+        only: [
+          :login,
+          :confirm_account,
+          :send_password_reset,
+          :resend_confirmation,
+          :check_password_token
+        ]
       ),
       GraphqlDevise::ResourceLoader.new('Guest', only: [:logout])
     ]

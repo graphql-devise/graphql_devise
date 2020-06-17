@@ -19,7 +19,8 @@ module GraphqlDevise
 
           resource.send_confirmation_instructions(
             redirect_url:  redirect_url,
-            template_path: ['graphql_devise/mailer']
+            template_path: ['graphql_devise/mailer'],
+            **controller.params.permit('controller', 'action').to_h.symbolize_keys
           )
 
           { message: I18n.t('graphql_devise.confirmations.send_instructions', email: email) }

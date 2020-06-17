@@ -21,25 +21,52 @@ RSpec.describe 'Resend confirmation' do
   end
 
   context 'when params are correct' do
-    it 'sends an email to the user with confirmation url and returns a success message' do
-      expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      expect(json_response[:data][:userResendConfirmation]).to include(
-        message: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
-      )
+    context 'when using the gem schema' do
+      it 'sends an email to the user with confirmation url and returns a success message' do
+        expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(json_response[:data][:userResendConfirmation]).to include(
+          message: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
+        )
 
-      email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
-      link  = email.css('a').first
-      confirm_link_msg_text = email.css('p')[1].inner_html
-      confirm_account_link_text = link.inner_html
+        email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+        link  = email.css('a').first
+        confirm_link_msg_text = email.css('p')[1].inner_html
+        confirm_account_link_text = link.inner_html
 
-      expect(confirm_link_msg_text).to eq('You can confirm your account email through the link below:')
-      expect(confirm_account_link_text).to eq('Confirm my account')
+        expect(link['href']).to include('/api/v1/graphql_auth?')
+        expect(confirm_link_msg_text).to eq('You can confirm your account email through the link below:')
+        expect(confirm_account_link_text).to eq('Confirm my account')
 
-      # TODO: Move to feature spec
-      expect do
-        get link['href']
-        user.reload
-      end.to change(user, :confirmed_at).from(NilClass).to(ActiveSupport::TimeWithZone)
+        expect do
+          get link['href']
+          user.reload
+        end.to change(user, :confirmed_at).from(NilClass).to(ActiveSupport::TimeWithZone)
+      end
+    end
+
+    context 'when using a custom schema' do
+      let(:custom_path) { '/api/v1/graphql' }
+
+      it 'sends an email to the user with confirmation url and returns a success message' do
+        expect { post_request(custom_path) }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(json_response[:data][:userResendConfirmation]).to include(
+          message: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
+        )
+
+        email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+        link  = email.css('a').first
+        confirm_link_msg_text = email.css('p')[1].inner_html
+        confirm_account_link_text = link.inner_html
+
+        expect(link['href']).to include("#{custom_path}?")
+        expect(confirm_link_msg_text).to eq('You can confirm your account email through the link below:')
+        expect(confirm_account_link_text).to eq('Confirm my account')
+
+        expect do
+          get link['href']
+          user.reload
+        end.to change(user, :confirmed_at).from(NilClass).to(ActiveSupport::TimeWithZone)
+      end
     end
 
     context 'when email address uses different casing' do

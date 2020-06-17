@@ -27,7 +27,8 @@ module GraphqlDevise
           unless resource.confirmed?
             resource.send_confirmation_instructions(
               redirect_url:  confirm_success_url,
-              template_path: ['graphql_devise/mailer']
+              template_path: ['graphql_devise/mailer'],
+              **controller.params.permit('controller', 'action').to_h.symbolize_keys
             )
           end
 

@@ -20,7 +20,7 @@ RSpec.describe 'Send Password Reset Requests' do
   end
 
   context 'when params are correct' do
-    context 'when using gem' do
+    context 'when using the gem schema' do
       it 'sends password reset  email' do
         expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
@@ -32,7 +32,6 @@ RSpec.describe 'Send Password Reset Requests' do
         link  = email.css('a').first
         expect(link['href']).to include('/api/v1/graphql_auth?')
 
-        # TODO: Move to feature spec
         expect do
           get link['href']
           user.reload
@@ -54,7 +53,6 @@ RSpec.describe 'Send Password Reset Requests' do
         link  = email.css('a').first
         expect(link['href']).to include("#{custom_path}?")
 
-        # TODO: Move to feature spec
         expect do
           get link['href']
           user.reload
