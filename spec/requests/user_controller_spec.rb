@@ -29,6 +29,15 @@ RSpec.describe "Integrations with the user's controller" do
         expect(json_response[:data][:publicField]).to eq('Field does not require authentication')
       end
     end
+
+    context 'when using the failing route' do
+      it 'raises an invalid resource_name error' do
+        expect { post_request('/api/v1/failing') }.to raise_error(
+          GraphqlDevise::Error,
+          'Invalid resource_name `fail` provided to `graphql_context`. Possible values are: [:user, :admin, :guest, :users_customer].'
+        )
+      end
+    end
   end
 
   describe 'privateField' do

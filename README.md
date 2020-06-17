@@ -343,8 +343,7 @@ and an error is returned in a REST format as the request never reaches your GQL 
 
 #### Authenticate in Your GQL Schema
 For this you will need to add the `GraphqlDevise::SchemaPlugin` to your schema as described
-[here](#mounting-operations-into-your-own-schema) and also set the authenticated resource
-in a `before_action` hook.
+[here](#mounting-operations-into-your-own-schema).
 
 ```ruby
 # app/controllers/my_controller.rb
@@ -352,29 +351,24 @@ in a `before_action` hook.
 class MyController < ApplicationController
   include GraphqlDevise::Concerns::SetUserByToken
 
-  before_action -> { set_resource_by_token(:user) }
-
   def my_action
-    render json: DummySchema.execute(params[:query], context: graphql_context)
+    render json: DummySchema.execute(params[:query], context: graphql_context(:user))
   end
 end
-
-# @resource.to_s.underscore.tr('/', '_').to_sym
 ```
-The `set_resource_by_token` method receives a symbol identifying the resource you are trying
+The `graphql_context` method receives a symbol identifying the resource you are trying
 to authenticate. So if you mounted the `'User'` resource, the symbol is `:user`. You can use
 this snippet to find the symbol for more complex scenarios
-`resource_klass.to_s.underscore.tr('/', '_').to_sym`.
+`resource_klass.to_s.underscore.tr('/', '_').to_sym`. `graphql_context` can also take an
+array of resources if you mounted more than one into your schema. The gem will try to
+authenticate a resource for each element on the array until it finds one.
 
-The `graphql_context` method is simply a helper method that returns a hash like this
-```ruby
-{ current_resource: @resource, controller: self }
-```
-These are the two values the gem needs to check if a user is authenticated and to perform
-other auth operations. All `set_resource_by_token` does is set the `@resource` variable if
-the provided authentication headers are valid. If authentication fails, resource will be `nil`
-and this is how `GraphqlDevise::SchemaPlugin` knows if a user is authenticated or not in
-each query.
+Internally in your own mutations and queries a key `current_resource` will be available in
+the context if a resource was successfully authenticated or `nil` otherwise.
+
+Keep in mind that sending multiple values to the `graphql_context` method means that depending
+on who makes the request, the context value `current_resource` might contain instances of the
+different models you might have mounted into the schema.
 
 Please note that by using this mechanism your GQL schema will be in control of what queries are
 restricted to authenticated users and you can only do this at the root level fields of your GQL
