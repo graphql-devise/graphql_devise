@@ -3,14 +3,16 @@ module Api
     class GraphqlController < ApplicationController
       include GraphqlDevise::Concerns::SetUserByToken
 
-      before_action -> { set_resource_by_token(:user) }
-
       def graphql
-        render json: DummySchema.execute(params[:query], context: graphql_context)
+        render json: DummySchema.execute(params[:query], context: graphql_context(:user))
       end
 
       def interpreter
-        render json: InterpreterSchema.execute(params[:query], context: graphql_context)
+        render json: InterpreterSchema.execute(params[:query], context: graphql_context(:user))
+      end
+
+      def failing_resource_name
+        render json: DummySchema.execute(params[:query], context: graphql_context([:user, :fail]))
       end
 
       private

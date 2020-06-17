@@ -5,12 +5,14 @@ module GraphqlDevise
     SetUserByToken.module_eval do
       attr_accessor :client_id, :token, :resource
 
-      alias_method :set_resource_by_token, :set_user_by_token
+      def set_resource_by_token(resource)
+        set_user_by_token(resource)
+      end
 
-      def graphql_context
+      def graphql_context(resource_name)
         {
-          current_resource: @resource,
-          controller:       self
+          resource_name: resource_name,
+          controller:    self
         }
       end
 
