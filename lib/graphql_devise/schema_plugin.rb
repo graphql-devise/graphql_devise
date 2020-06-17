@@ -23,11 +23,12 @@ module GraphqlDevise
 
       field = traced_field(trace_data)
       provided_value = authenticate_option(field, trace_data)
+      context = set_current_resource(context_from_data(trace_data))
 
       if !provided_value.nil?
-        raise_on_missing_resource(context(trace_data), field) if provided_value
+        raise_on_missing_resource(context, field) if provided_value
       elsif @authenticate_default
-        raise_on_missing_resource(context(trace_data), field)
+        raise_on_missing_resource(context, field)
       end
 
       yield
@@ -35,11 +36,29 @@ module GraphqlDevise
 
     private
 
+    def set_current_resource(context)
+      controller                 = context[:controller]
+      resource_names             = Array(context[:resource_name])
+      context[:current_resource] = resource_names.find do |resource_name|
+        unless Devise.mappings.key?(resource_name)
+          raise(
+            GraphqlDevise::Error,
+            "Invalid resource_name `#{resource_name}` provided to `graphql_context`. Possible values are: #{Devise.mappings.keys}."
+          )
+        end
+
+        found = controller.set_resource_by_token(resource_name)
+        break found if found
+      end
+
+      context
+    end
+
     def raise_on_missing_resource(context, field)
       @unauthenticated_proc.call(field.name) if context[:current_resource].blank?
     end
 
-    def context(trace_data)
+    def context_from_data(trace_data)
       query = if trace_data[:context]
         trace_data[:context].query
       else
