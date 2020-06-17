@@ -16,7 +16,8 @@ module GraphqlDevise
             email:         email,
             provider:      'email',
             redirect_url:  redirect_url,
-            template_path: ['graphql_devise/mailer']
+            template_path: ['graphql_devise/mailer'],
+            **controller.params.permit('controller', 'action').to_h.symbolize_keys
           )
 
           if resource.errors.empty?
