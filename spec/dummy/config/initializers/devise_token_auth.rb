@@ -42,7 +42,7 @@ DeviseTokenAuth.setup do |config|
      Gem::Version.new(DeviseTokenAuth::VERSION) > Gem::Version.new('1.1.4')
     config.send_confirmation_email = true
   end
-  config.default_confirm_success_url = 'http://localhost:3000/api/v1/graphql'
+  config.default_confirm_success_url = 'https://google.com'
 
   # By default we will use callbacks for single omniauth.
   # It depends on fields like email, provider and uid.
