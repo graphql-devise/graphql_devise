@@ -2,4 +2,9 @@
 
 <p><%= t('.confirm_link_msg') %></p>
 
-<p><%= link_to t('.confirm_account_link'), url_for(controller: message['controller'], action: message['action'], **confirmation_query(resource_name: @resource.class.to_s, redirect_url: message['redirect-url'], token: @token)) %></p>
+<% if message['controller'] && message['action'] %>
+  <p><%= link_to t('.confirm_account_link'), url_for(controller: message['controller'], action: message['action'], **confirmation_query(resource_name: @resource.class.to_s, redirect_url: message['redirect-url'], token: @token)) %></p>
+<% else %>
+  # Necessary if reconfirmable enabled
+  <p><%= link_to(t('.confirm_account_link'), "#{DeviseTokenAuth.default_confirm_success_url}?#{confirmation_query(resource_name: @resource.class.to_s, redirect_url: message['redirect-url'], token: @token).to_query}") %></p>
+<% end %>

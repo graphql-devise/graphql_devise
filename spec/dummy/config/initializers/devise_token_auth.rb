@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'devise/version'
 
 DeviseTokenAuth.setup do |config|
   # By default the authorization headers will change after each request. The
@@ -36,6 +37,12 @@ DeviseTokenAuth.setup do |config|
   # attribute updates. Set it to :password if you want it to be checked only if
   # password is updated.
   config.check_current_password_before_update = :password
+
+  if (Gem::Version.new(DeviseTokenAuth::VERSION) >= Gem::Version.new('1.1.4') && Gem::Version.new(Devise::VERSION) != Gem::Version.new('4.7.2')) ||
+     Gem::Version.new(DeviseTokenAuth::VERSION) > Gem::Version.new('1.1.4')
+    config.send_confirmation_email = true
+  end
+  config.default_confirm_success_url = 'http://localhost:3000/api/v1/graphql'
 
   # By default we will use callbacks for single omniauth.
   # It depends on fields like email, provider and uid.

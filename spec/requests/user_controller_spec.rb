@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'devise/version'
 
 RSpec.describe "Integrations with the user's controller" do
   include_context 'with graphql query request'
@@ -200,6 +201,57 @@ RSpec.describe "Integrations with the user's controller" do
           )
         end
       end
+    end
+  end
+
+  describe 'updateUserEmail' do
+    let(:headers) { user.create_new_auth_token }
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          updateUserEmail(email: "updated@gmail.com") {
+            user { email }
+          }
+        }
+      GRAPHQL
+    end
+
+    before do
+      unless Gem::Version.new(DeviseTokenAuth::VERSION) >= Gem::Version.new('1.1.4') && Gem::Version.new(Devise::VERSION) != Gem::Version.new('4.7.2')
+        skip 'Reconfirmable fixed in DTA >= 1.1.4'
+      end
+    end
+
+    it 'requires new email confirmation' do
+      original_email = user.email
+
+      expect do
+        post_request('/api/v1/graphql')
+        user.reload
+      end.to not_change(user, :email).from(original_email).and(
+        change(user, :unconfirmed_email).from(nil).to('updated@gmail.com')
+      )
+
+      email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+      link  = email.css('a').first
+      expect(link['href']).to include('/api/v1/graphql')
+
+      expect do
+        get link['href']
+        user.reload
+      end.to change(user, :email).from(original_email).to('updated@gmail.com')
+    end
+
+    it 'raises an error when default_confirm_url is not set' do
+      original_default = DeviseTokenAuth.default_confirm_success_url
+      DeviseTokenAuth.default_confirm_success_url = nil
+
+      expect { post_request('/api/v1/graphql') }.to raise_error(
+        GraphqlDevise::Error,
+        'You must set `default_confirm_success_url` on the DeviseTokenAuth initializer for reconfirmable to work.'
+      )
+
+      DeviseTokenAuth.default_confirm_success_url = original_default
     end
   end
 end
