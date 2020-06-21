@@ -13,10 +13,10 @@ module GraphqlDevise
           redirect_header_options = { account_confirmation_success: true }
 
           redirect_to_link = if controller.signed_in?(resource_name)
-            signed_in_resource.build_auth_url(
+            resource.build_auth_url(
               redirect_url,
               redirect_headers(
-                client_and_token(controller.signed_in_resource.create_token),
+                client_and_token(resource.create_token),
                 redirect_header_options
               )
             )

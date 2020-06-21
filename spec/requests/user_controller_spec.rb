@@ -202,4 +202,43 @@ RSpec.describe "Integrations with the user's controller" do
       end
     end
   end
+
+  describe 'updateUser' do
+    let(:headers) { user.create_new_auth_token }
+    let(:query) do
+      <<-GRAPHQL
+        mutation {
+          updateUser(email: "updated@gmail.com", name: "updated name") {
+            user { email name }
+          }
+        }
+      GRAPHQL
+    end
+
+    it 'requires new email confirmation' do
+      original_email = user.email
+
+      expect do
+        post_request('/api/v1/graphql?test=value')
+        user.reload
+      end.to not_change(user, :email).from(original_email).and(
+        change(user, :unconfirmed_email).from(nil).to('updated@gmail.com')
+      ).and(
+        not_change(user, :uid).from(original_email)
+      ).and(
+        change(user, :name).from(user.name).to('updated name')
+      )
+
+      email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
+      link  = email.css('a').first
+      expect(link['href']).to include('/api/v1/graphql')
+
+      expect do
+        get link['href']
+        user.reload
+      end.to change(user, :email).from(original_email).to('updated@gmail.com').and(
+        change(user, :uid).from(original_email).to('updated@gmail.com')
+      )
+    end
+  end
 end
