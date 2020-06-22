@@ -45,6 +45,21 @@ RSpec.describe GraphqlDevise::Model::WithEmailUpdater do
               'Method `update_with_email` requires attributes `confirmation_success_url` and `schema_url` for email reconfirmation to work'
             )
           end
+
+          context 'when email will not change' do
+            let(:attributes) { { email: resource.email, name: 'changed' } }
+
+            it 'updates name and does not raise an error' do
+              expect do
+                updater
+                resource.reload
+              end.to change(resource, :name).from(resource.name).to('changed').and(
+                not_change(resource, :email).from(resource.email)
+              ).and(
+                not_change(ActionMailer::Base.deliveries, :count).from(0)
+              )
+            end
+          end
         end
 
         context 'when only confirmation_success_url is missing' do
@@ -79,6 +94,33 @@ RSpec.describe GraphqlDevise::Model::WithEmailUpdater do
 
             email = ActionMailer::Base.deliveries.first
             expect(email.to).to contain_exactly('new@gmail.com')
+          end
+
+          context 'when email value is the same on the DB' do
+            let(:attributes) { { email: resource.email, name: 'changed', schema_url: 'http://localhost/test', confirmation_success_url: 'https://google.com' } }
+
+            it 'updates attributes and does not send confirmation email' do
+              expect do
+                updater
+                resource.reload
+              end.to change(resource, :name).from(resource.name).to('changed').and(
+                not_change(resource, :email).from(resource.email)
+              ).and(
+                not_change(ActionMailer::Base.deliveries, :count).from(0)
+              )
+            end
+          end
+
+          context 'when provided params are invalid' do
+            let(:attributes) { { email: 'newgmail.com', name: '', schema_url: 'http://localhost/test', confirmation_success_url: 'https://google.com' } }
+
+            it 'returns false and adds errors to the model' do
+              expect(updater).to be_falsey
+              expect(resource.errors.full_messages).to contain_exactly(
+                'Email is not an email',
+                "Name can't be blank"
+              )
+            end
           end
         end
       end

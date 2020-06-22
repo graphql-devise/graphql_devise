@@ -301,6 +301,44 @@ end
 The install generator can do this for you if you specify the `user_class` option.
 See [Installation](#installation) for details.
 
+### Email Reconfirmation
+DTA and Devise support email reconfirmation. When the `confirmable` module is added to your
+resource, an email is sent to the provided email address when the `signUp` mutation is used.
+You can also use this gem so every time a user updates the `email` field, a new email gets sent
+for the user to confirm the new email address. Only after clicking on the confirmation link,
+the email will be updated on the database to use the new value.
+
+In order to use this feature there are a couple of things to setup first:
+1. Make user your model includes the `:confirmable` module.
+1. Add an `unconfirmed_email` String column to your resource's table.
+
+After that is done, you simply need to call a different update method on your resource,
+`update_with_email`. This method behaves exactly the same as ActiveRecord's `update` method
+if the previous steps are not performed, or if you are not updating the `email` attribute.
+It is also mandatory to provide two additional attributes when email will change or an error
+will be raised:
+
+1. `schema_url`: The full url where your GQL schema is mounted. You can get this value from the
+controller available in the context of your mutations and queries like this:
+```ruby
+  context[:controller].full_url_without_params
+```
+1. `confirmation_success_url`: This the full url where you want users to be redirected after
+the email has changed successfully (usually a front-end url). This value is mandatory
+unless you have set `default_confirm_success_url` in your devise_token_auth initializer.
+
+So, it's up to you where you require confirmation of changing emails.
+[Here's an example](https://github.com/graphql-devise/graphql_devise/blob/c4dcb17e98f8d84cc5ac002c66ed98a797d3bc82/spec/dummy/app/graphql/mutations/update_user.rb#L13)
+on how you might do this. And also a demonstration on the method usage:
+```ruby
+user.update_with_email(
+  name:                     'New Name',
+  email:                    'new@domain.com',
+  schema_url:               'http://localhost:3000/graphql',
+  confirmation_success_url: 'https://google.com'
+)
+```
+
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
 so if you want to change them, place yours on the same dir structure on your Rails project. You can customize these two templates:
