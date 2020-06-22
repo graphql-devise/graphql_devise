@@ -26,7 +26,7 @@ RSpec.describe 'Account confirmation' do
       user.send_confirmation_instructions(
         template_path: ['graphql_devise/mailer'],
         controller:    'graphql_devise/graphql',
-        action:        'auth'
+        schema_url:    'http://not-using-this-value.com/gql'
       )
     end
 

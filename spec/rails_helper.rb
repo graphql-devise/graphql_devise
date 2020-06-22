@@ -42,4 +42,5 @@ RSpec.configure do |config|
   config.before(:suite) do
     ActionController::Base.allow_forgery_protection = true
   end
+  config.before { ActionMailer::Base.deliveries.clear }
 end
