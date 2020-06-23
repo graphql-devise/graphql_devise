@@ -22,6 +22,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
          * [Available Mount Options](#available-mount-options)
          * [Available Operations](#available-operations)
          * [Configuring Model](#configuring-model)
+         * [Email Reconfirmation](#email-reconfirmation)
          * [Customizing Email Templates](#customizing-email-templates)
          * [I18n](#i18n)
          * [Authenticating Controller Actions](#authenticating-controller-actions)
@@ -39,7 +40,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Contributing](#contributing)
       * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Wed Jun 10 22:10:26 -05 2020 -->
+<!-- Added by: mcelicalderon, at: Mon Jun 22 22:10:26 -05 2020 -->
 
 <!--te-->
 
