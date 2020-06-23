@@ -11,6 +11,7 @@ module GraphqlDevise
 
       # Must happen on initialize so operations are loaded before the types are added to the schema on GQL < 1.10
       load_fields
+      reconfigure_warden!
     end
 
     def use(schema_definition)
@@ -90,6 +91,11 @@ module GraphqlDevise
       else
         field.graphql_definition.metadata[:authenticate]
       end
+    end
+
+    def reconfigure_warden!
+      Devise.class_variable_set(:@@warden_configured, nil)
+      Devise.configure_warden!
     end
 
     def load_fields
