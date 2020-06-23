@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Generators are not automatically loaded by Rails
 require 'rails_helper'
 require 'generators/graphql_devise/install_generator'

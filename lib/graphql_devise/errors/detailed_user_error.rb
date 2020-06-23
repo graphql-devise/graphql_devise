@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   class DetailedUserError < ExecutionError
     def initialize(message, errors:)

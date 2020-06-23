@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   class AuthenticationError < ExecutionError
     def to_h

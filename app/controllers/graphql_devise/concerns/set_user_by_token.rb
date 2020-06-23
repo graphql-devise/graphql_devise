@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   module Concerns
     SetUserByToken = DeviseTokenAuth::Concerns::SetUserByToken

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Guest < ApplicationRecord
   devise :database_authenticatable,
          :registerable,

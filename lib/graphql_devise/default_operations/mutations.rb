@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'graphql_devise/mutations/base'
 require 'graphql_devise/mutations/login'
 require 'graphql_devise/mutations/logout'

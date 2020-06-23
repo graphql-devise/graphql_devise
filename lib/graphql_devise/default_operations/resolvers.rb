@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'graphql_devise/resolvers/base'
 require 'graphql_devise/resolvers/check_password_token'
 require 'graphql_devise/resolvers/confirm_account'

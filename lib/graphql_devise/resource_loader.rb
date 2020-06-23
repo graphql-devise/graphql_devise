@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   class ResourceLoader
     def initialize(resource, options = {}, routing = false)

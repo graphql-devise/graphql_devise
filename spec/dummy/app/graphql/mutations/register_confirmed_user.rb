@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class RegisterConfirmedUser < GraphqlDevise::Mutations::Base
     argument :email,                 String, required: true

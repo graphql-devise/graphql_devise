@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SchemaUser < ApplicationRecord
   devise :database_authenticatable,
          :recoverable,

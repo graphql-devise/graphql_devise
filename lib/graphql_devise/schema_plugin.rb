@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   class SchemaPlugin
     DEFAULT_NOT_AUTHENTICATED = ->(field) { raise GraphqlDevise::AuthenticationError, "#{field} field requires authentication" }
