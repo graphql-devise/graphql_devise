@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ENV['CI'] && !ENV['SKIP_COVERALLS']
   require 'simplecov'
   require 'coveralls'

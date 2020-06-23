@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails'
 require 'graphql'
 require 'devise_token_auth'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class UpdateUser < GraphQL::Schema::Mutation
     field :user, Types::UserType, null: false

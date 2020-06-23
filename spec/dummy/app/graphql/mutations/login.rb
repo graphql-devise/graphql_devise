@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class Login < GraphqlDevise::Mutations::Login
     field :user, Types::UserType, null: true

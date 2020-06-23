@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   module Types
     class CredentialType < GraphQL::Schema::Object

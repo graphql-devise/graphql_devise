@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GraphqlDevise
   module MailerHelper
     def confirmation_query(resource_name:, token:, redirect_url:)

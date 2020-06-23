@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSchemaUsers < ActiveRecord::Migration[6.0]
   def change
     create_table :schema_users do |t|

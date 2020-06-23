@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 GraphqlDevise::Engine.routes.draw do
   # Required as Devise forces routes to reload on eager_load
   unless GraphqlDevise.schema_loaded?

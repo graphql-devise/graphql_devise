@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails'
 require 'active_model/railtie'
 require 'active_job/railtie'

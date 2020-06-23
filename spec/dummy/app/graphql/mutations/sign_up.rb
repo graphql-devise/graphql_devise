@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class SignUp < GraphqlDevise::Mutations::SignUp
     argument :name, String, required: false

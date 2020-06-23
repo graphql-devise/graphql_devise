@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :users_customer, class: 'Users::Customer' do
     name      { Faker::FunnyName.two_word_name }

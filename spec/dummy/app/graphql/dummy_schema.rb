@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DummySchema < GraphQL::Schema
   use GraphqlDevise::SchemaPlugin.new(
     query:            Types::QueryType,
