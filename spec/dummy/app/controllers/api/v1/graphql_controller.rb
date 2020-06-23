@@ -23,7 +23,7 @@ module Api
         {
           operation_name: item[:operationName],
           variables:      ensure_hash(item[:variables]),
-          context:        graphql_context(:user)
+          context:        graphql_context([:user, :schema_user])
         }
       end
 

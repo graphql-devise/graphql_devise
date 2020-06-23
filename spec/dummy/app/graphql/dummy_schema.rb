@@ -13,7 +13,8 @@ class DummySchema < GraphQL::Schema
           :check_password_token
         ]
       ),
-      GraphqlDevise::ResourceLoader.new('Guest', only: [:logout])
+      GraphqlDevise::ResourceLoader.new('Guest', only: [:logout]),
+      GraphqlDevise::ResourceLoader.new('SchemaUser')
     ]
   )
 

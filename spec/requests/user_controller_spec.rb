@@ -34,7 +34,7 @@ RSpec.describe "Integrations with the user's controller" do
       it 'raises an invalid resource_name error' do
         expect { post_request('/api/v1/failing') }.to raise_error(
           GraphqlDevise::Error,
-          'Invalid resource_name `fail` provided to `graphql_context`. Possible values are: [:user, :admin, :guest, :users_customer].'
+          'Invalid resource_name `fail` provided to `graphql_context`. Possible values are: [:user, :admin, :guest, :users_customer, :schema_user].'
         )
       end
     end
@@ -55,8 +55,16 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is authenticated' do
         let(:headers) { user.create_new_auth_token }
 
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
+        end
+
+        context 'when using a SchemaUser' do
+          let(:headers) { create(:schema_user, :confirmed).create_new_auth_token }
+
+          it 'allows to perform the query' do
+            expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
+          end
         end
       end
 
@@ -75,7 +83,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is authenticated' do
         let(:headers) { user.create_new_auth_token }
 
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
         end
       end
@@ -105,7 +113,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is authenticated' do
         let(:headers) { user.create_new_auth_token }
 
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:dummyMutation]).to eq('Necessary so GraphQL gem does not complain about empty mutation type')
         end
       end
@@ -125,7 +133,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is authenticated' do
         let(:headers) { user.create_new_auth_token }
 
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:dummyMutation]).to eq('Necessary so GraphQL gem does not complain about empty mutation type')
         end
       end
@@ -160,7 +168,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is authenticated' do
         let(:headers) { user.create_new_auth_token }
 
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:user]).to match(
             email: user.email,
             id:    user.id
@@ -183,7 +191,7 @@ RSpec.describe "Integrations with the user's controller" do
       context 'when user is authenticated' do
         let(:headers) { user.create_new_auth_token }
 
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:user]).to match(
             email: user.email,
             id:    user.id
@@ -193,7 +201,7 @@ RSpec.describe "Integrations with the user's controller" do
 
       context 'when user is not authenticated' do
         # Interpreter schema fields are public unless specified otherwise (plugin setting)
-        it 'allow to perform the query' do
+        it 'allows to perform the query' do
           expect(json_response[:data][:user]).to match(
             email: user.email,
             id:    user.id
