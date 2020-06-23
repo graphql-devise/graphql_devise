@@ -1,5 +1,22 @@
 # Changelog
 
+## [v0.13.0](https://github.com/graphql-devise/graphql_devise/tree/v0.13.0) (2020-06-22)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.3...v0.13.0)
+
+**Breaking changes:**
+
+- Fix email reconfirmation feature [\#111](https://github.com/graphql-devise/graphql_devise/pull/111) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Implemented enhancements:**
+
+- Add frozen string literal to all relevant files [\#114](https://github.com/graphql-devise/graphql_devise/pull/114) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Fixed bugs:**
+
+- CookieOverflow for Own Schema Mount [\#112](https://github.com/graphql-devise/graphql_devise/issues/112)
+- Reconfirmable not setting unconfirmed\_email [\#102](https://github.com/graphql-devise/graphql_devise/issues/102)
+
 ## [v0.12.3](https://github.com/graphql-devise/graphql_devise/tree/v0.12.3) (2020-06-19)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.2...v0.12.3)
