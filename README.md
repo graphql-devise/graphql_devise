@@ -45,15 +45,16 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
 <!--te-->
 
 ## Introduction
-This gem heavily relies on two gems, [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA)
-and [Devise](https://github.com/heartcombo/devise) which is a dependency of DTA.
-It provides a GraphQL interface on top of DTA which is designed to work with REST APIs. That's why
-things like token management, token expiration and everything up until using the actual GraphQL schema is
-still controlled by DTA. For that reason you will find that our generator runs these two gems generator and two
-initializer files are included. We'll provide more configuration details in the
-[configuration section](#more-configuration-options),
-but **we recommend you get familiar with [DTA and their docs](https://github.com/lynndylanhurley/devise_token_auth)
-in order to use this gem to its full potential**.
+Graphql-Devise heavily relies on two gems:
+- [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA)
+- [Devise](https://github.com/heartcombo/devise) (which is a DTA dependency)
+
+This gem provides a GraphQL interface on top of DTA which is designed for REST APIs.
+Features like token management, token expiration and everything up until using the actual GraphQL schema is
+still controlled by DTA. For that reason you the gem's generator invokes DTA and Devise generators and creates
+initializer files for them.
+**We strongly recommend getting familiar with [DTA documentation](https://github.com/lynndylanhurley/devise_token_auth) to use this gem to its full potential**.
+More configuration details available in [configuration section](#more-configuration-options)
 
 ## Installation
 
@@ -70,19 +71,25 @@ $ bundle
 
 ### Running the Generator
 Graphql Devise generator will execute `Devise` and `Devise Token Auth`
-generators for you. These will make the required changes for the gems to
-work correctly. All configurations for [Devise](https://github.com/plataformatec/devise) and
-[Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) are available,
-so you can read the docs there to customize your options.
-Configurations are done via initializer files as usual, one per gem.
+generators to setup the gems in your project, you customize them to
+your needs using their initializer files(one per gem) as usual.
 
-#### Mounting the Schema in a Separate Route
 ```bash
 $ bundle exec rails generate graphql_devise:install
 ```
+The generator accepts 2 params:
+- `user_class`: Model name in which `Devise` modules will be mounted. This uses a `find or create` strategy. Defaults to `User`.
+- `mount_path`: Path in which the separate graphql schema for devise will be mounted. Defaults to `/graphql_auth`.
 
-The generator accepts 2 params: `user_class` and `mount_path`. The params
-will be used to mount the route in `config/routes.rb`. For instance the executing:
+Additionally the option `mount` is available starting from `v0.12.0`.
+This option will allow you to mount the operations in you own schema instead of
+a dedicated one. When this option is provided `mount_path` param is not used.
+
+#### Mounting the Schema in a Separate Route
+
+To mount use a different schema the generator will use `user_class` and `mount_path` params (or their default values).
+Avoid passing the `--mount` option or the gem will try to use an existing schema.
+The route will be mounted in `config/routes.rb`. For instance the executing:
 
 ```bash
 $ bundle exec rails g graphql_devise:install Admin api/auth
@@ -100,7 +107,12 @@ Will do the following:
 `Admin` could be any model name you are going to be using for authentication,
 and `api/auth` could be any mount path you would like to use for auth.
 
-#### Mounting Operations in Your Own Schema
+##### `Important`
+Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route
+provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at`
+option is provided, the route will be `/graphql_auth`.
+
+#### Mounting Operations in Your Own Schema (> v0.12.0)
 Now you can provide to the generator an option specifying
 the name of your GQL schema. Doing this will skip the insertion of the mount method in the
 routes file and will also add our `SchemaPlugin` to the specified schema. `user_class` param is still optional (`Admin`) in the following example.
@@ -109,15 +121,9 @@ routes file and will also add our `SchemaPlugin` to the specified schema. `user_
 $ bundle exec rails g graphql_devise:install Admin --mount MySchema
 ```
 
-### Important
-Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route
-provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at`
-option is provided, the route will be `/graphql_auth`.
-
-**Starting with `v0.12.0`** you can opt-in to load this gem's queries and mutations into your
-own application's schema. You can actually mount a resource's auth schema in a separate route
-and in your app's schema at the same time, but that's probably not a common scenario. More on
-this in the next section.
+##### `Important``
+You can actually mount a resource's auth schema in a separate route and in your app's schema
+at the same time, but that's probably not a common scenario. More on this in the next section.
 
 ## Usage
 ### Mounting Auth Schema on a Separate Route
