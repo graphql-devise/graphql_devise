@@ -70,21 +70,20 @@ $ bundle
 ```
 
 ### Running the Generator
-Graphql Devise generator will execute `Devise` and `Devise Token Auth` generators to setup the gems in your project, you can customize them to your needs using their initializer files(one per gem) as usual.
+Graphql Devise generator will execute `Devise` and `Devise Token Auth` generators to setup the gems in your project. You can customize them to your needs using their initializer files(one per gem) as usual.
 
 ```bash
 $ bundle exec rails generate graphql_devise:install
 ```
 The generator accepts 2 params:
 - `user_class`: Model name in which `Devise` modules will be included. This uses a `find or create` strategy. Defaults to `User`.
-- `mount_path`: Path in which the separate graphql schema for devise will be mounted. Defaults to `/graphql_auth`.
+- `mount_path`: Path in which the dedicated graphql schema for devise will be mounted. Defaults to `/graphql_auth`.
 
 The option `mount` is available starting from `v0.12.0`. This option will allow you to mount the operations in your own schema instead of a dedicated one. When this option is provided `mount_path` param is not used.
 
 #### Mounting the Schema in a Separate Route
 
-To configure the gem to use a separate schema, the generator will use `user_class` and `mount_path` params (or their default values).
-Avoid passing the `--mount` option or the gem will try to use an existing schema.
+To configure the gem to use a separate schema, the generator will use `user_class` and `mount_path` params.
 The route will be mounted in `config/routes.rb`. For instance the executing:
 
 ```bash
@@ -104,9 +103,8 @@ Will do the following:
 and `api/auth` could be any mount path you would like to use for auth.
 
 ##### Important
-Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route
-provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at`
-option is provided, the route will be `/graphql_auth`.
+ - Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at` option is provided, the route will be `/graphql_auth`.
+ - Avoid passing the `--mount` option or the gem will try to use an existing schema.
 
 #### Mounting Operations in Your Own Schema (> v0.12.0)
 To configure the gem to use your own GQL schema use the `--mount` option. 
@@ -126,10 +124,9 @@ Will do the following:
 
 
 ##### Important
-The generator will look for your schema under `app/graphql/` directory. We are expecting the name of the file is the same as the as the one passed in the mount option transformed with `underscore`. In the example, passing `MySchema`, will try to find the file `app/graphql/my_schema.rb`.
-
-You can actually mount a resource's auth schema in a separate route and in your app's schema
-at the same time, but that's probably not a common scenario. More on this in the next section.
+ - When using the `--mount` option the `mount_path` params is ignored.
+ - The generator will look for your schema under `app/graphql/` directory. We are expecting the name of the file is the same as the as the one passed in the mount option transformed with `underscore`. In the example, passing `MySchema`, will try to find the file `app/graphql/my_schema.rb`.
+ - You can actually mount a resource's auth schema in a separate route and in your app's schema at the same time, but that's probably not a common scenario.
 
 ## Usage
 
@@ -446,7 +443,7 @@ end
 ```
 
 #### Important
-Remember to check `performed?` before rendering the result. This is required because some operations perform a redirect and without this check you will get a `AbstractController::DoubleRenderError`.
+Remember to check `performed?` before rendering the result of the graphql operation. This is required because some operations perform a redirect and without this check you will get a `AbstractController::DoubleRenderError`.
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
