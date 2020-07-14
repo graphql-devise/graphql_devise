@@ -130,13 +130,18 @@ You can actually mount a resource's auth schema in a separate route and in your 
 at the same time, but that's probably not a common scenario. More on this in the next section.
 
 ## Usage
+
+GraphqlDevise operations can be used in two ways:
+- Using a [separate schema](#mounting-auth-schema-on-a-separate-route) via `mount_graphql_devise_for` helper in the routes file.
+- Using [your own schema](#mounting-operations-into-your-own-schema) by adding a plugin in the class.
+
+
+Creating a separate schema is the default option, the generator will do that by default.
+
 ### Mounting Auth Schema on a Separate Route
-The generator can do this step for you by default. Remember now you can mount this gem's
-auth operations into your own schema as described in [this section](#mounting-operations-into-your-own-schema).
 
-
-Routes can be added using the generator or manually.
 You can mount this gem's GraphQL auth schema in your routes file like this:
+This can be done using the generator or manually.
 
 ```ruby
 # config/routes.rb
@@ -166,6 +171,7 @@ customize how the queries and mutations are mounted into the schema. For a list 
 options go [here](#available-mount-options)
 
 ### Mounting Operations Into Your Own Schema
+
 Starting with `v0.12.0` you can now mount the GQL operations provided by this gem into your
 app's main schema.
 
@@ -365,11 +371,10 @@ GraphQL Devise supports locales. For example, the `graphql_devise.confirmations.
 Keep in mind that if your app uses multiple locales, you should set the `I18n.locale` accordingly. You can learn how to do this [here](https://guides.rubyonrails.org/i18n.html).
 
 ### Authenticating Controller Actions
-Just like with Devise or DTA, you will need to authenticate users in your controllers.
-For this you have two alternatives.
+When mounting the operation is in you own schema instead of a dedicated one, you will need to authenticate users in your controllers, just like in DTA. There are 2 alternatives to accomplish this.
 
 #### Authenticate Before Reaching Your GQL Schema
-For this you need to call `authenticate_<model>!` in a before_action hook of your controller.
+For this you will need to call `authenticate_<model>!` in a `before_action` controller hook.
 In our example our model is `User`, so it would look like this:
 ```ruby
 # app/controllers/my_controller.rb
@@ -380,15 +385,14 @@ class MyController < ApplicationController
   before_action :authenticate_user!
 
   def my_action
-    render json: { current_user: current_user }
+    result = DummySchema.execute(params[:query], context: current_user: current_user)
+    render json: result unless performed?
   end
 end
 ```
 
-The install generator can do this for you because it executes DTA installer.
-See [Installation](#Installation) for details.
-If authentication fails for the request for whatever reason, execution of the request is halted
-and an error is returned in a REST format as the request never reaches your GQL schema.
+The install generator can include the concern in you application controller.
+If authentication fails for a request, execution will halt and a REST error will be returned since the request never reaches your GQL schema.
 
 #### Authenticate in Your GQL Schema
 For this you will need to add the `GraphqlDevise::SchemaPlugin` to your schema as described
@@ -401,7 +405,8 @@ class MyController < ApplicationController
   include GraphqlDevise::Concerns::SetUserByToken
 
   def my_action
-    render json: DummySchema.execute(params[:query], context: graphql_context(:user))
+    result = DummySchema.execute(params[:query], context: graphql_context(:user))
+    render json: result unless performed?
   end
 end
 ```
