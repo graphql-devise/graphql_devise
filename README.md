@@ -14,8 +14,9 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Installation](#installation)
          * [Running the Generator](#running-the-generator)
             * [Mounting the Schema in a Separate Route](#mounting-the-schema-in-a-separate-route)
-            * [Mounting Operations in Your Own Schema](#mounting-operations-in-your-own-schema)
-         * [Important](#important)
+               * [Important](#important)
+            * [Mounting Operations in Your Own Schema (&gt; v0.12.0)](#mounting-operations-in-your-own-schema--v0120)
+               * [Important](#important-1)
       * [Usage](#usage)
          * [Mounting Auth Schema on a Separate Route](#mounting-auth-schema-on-a-separate-route)
          * [Mounting Operations Into Your Own Schema](#mounting-operations-into-your-own-schema)
@@ -28,6 +29,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
          * [Authenticating Controller Actions](#authenticating-controller-actions)
             * [Authenticate Before Reaching Your GQL Schema](#authenticate-before-reaching-your-gql-schema)
             * [Authenticate in Your GQL Schema](#authenticate-in-your-gql-schema)
+            * [Important](#important-2)
          * [Making Requests](#making-requests)
             * [Mutations](#mutations)
             * [Queries](#queries)
@@ -40,7 +42,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Contributing](#contributing)
       * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Mon Jun 22 22:10:26 -05 2020 -->
+<!-- Added by: david, at: mar jul 14 08:08:02 -05 2020 -->
 
 <!--te-->
 
