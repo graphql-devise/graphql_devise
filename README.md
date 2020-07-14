@@ -449,29 +449,17 @@ Here is a list of the available mutations and queries assuming your mounted mode
 Operation | Description | Example
 :--- | :--- | :------------------:
 login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload
-
-1. `userLogin(email: String!, password: String!): UserLoginPayload`
-
-    This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.
-    Credentials are still returned in the headers of the response.
-
-1. `userLogout: UserLogoutPayload`
-1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
-
-   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
-1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
-1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
-
-    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to
-    false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource`
-    model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link).
-1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
-
-    The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them
+logout | | userLogout: UserLogoutPayload
+signUp | The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload
+sendResetPassword | | userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload
+updatePassword | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload
+resendConfirmation | The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them | userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload
 
 #### Queries
-1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`
-1. `userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User`
+Operation | Description | Example
+:--- | :--- | :------------------:
+confirmAccount | Performs a redirect using the `redirectUrl` param | userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User
+checkPasswordToken | Performs a redirect using the `redirectUrl` param | userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User
 
 The reason for having 2 queries is that these 2 are going to be accessed when clicking on
 the confirmation and reset password email urls. There is no limitation for making mutation
