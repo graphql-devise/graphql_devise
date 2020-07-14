@@ -438,10 +438,18 @@ module Types
 end
 ```
 
+#### Important
+Remember to check `performed?` before rendering the result. This is required because some operations perform a redirect and without this check you will get a `AbstractController::DoubleRenderError`.
+
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
 
 #### Mutations
+
+Operation | Description | Example
+:--- | :--- | :------------------:
+login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload
+
 1. `userLogin(email: String!, password: String!): UserLoginPayload`
 
     This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.
