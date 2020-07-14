@@ -140,7 +140,6 @@ Creating a separate schema is the default option, the generator will do that by 
 ### Mounting Auth Schema on a Separate Route
 
 You can mount this gem's GraphQL auth schema in your routes file like this:
-This can be done using the generator or manually.
 
 ```ruby
 # config/routes.rb
@@ -165,6 +164,7 @@ Rails.application.routes.draw do
   )
 end
 ```
+This can be done using the generator or manually.
 The second argument of the `mount_graphql_devise` method is a hash of options where you can
 customize how the queries and mutations are mounted into the schema. For a list of available
 options go [here](#available-mount-options)
