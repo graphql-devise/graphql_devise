@@ -5,7 +5,7 @@ module GraphqlDevise
     source_root File.expand_path('templates', __dir__)
 
     argument :user_class, type: :string, default: 'User'
-    argument :mount_path, type: :string, default: 'auth'
+    argument :mount_path, type: :string, default: 'graphql_auth'
 
     class_option :mount, type: :string, default: 'separate_route'
 
