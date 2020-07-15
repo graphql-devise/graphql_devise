@@ -41,7 +41,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
     let(:args) { [] }
 
     it 'creates and updated required files' do
-      assert_file 'config/routes.rb', /^\s{2}mount_graphql_devise_for 'User', at: 'auth'/
+      assert_file 'config/routes.rb', /^\s{2}mount_graphql_devise_for 'User', at: 'graphql_auth'/
       expect(routes_content).not_to match(dta_route)
 
       assert_file 'config/initializers/devise.rb'

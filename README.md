@@ -14,8 +14,9 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Installation](#installation)
          * [Running the Generator](#running-the-generator)
             * [Mounting the Schema in a Separate Route](#mounting-the-schema-in-a-separate-route)
-            * [Mounting Operations in Your Own Schema](#mounting-operations-in-your-own-schema)
-         * [Important](#important)
+               * [Important](#important)
+            * [Mounting Operations in Your Own Schema (&gt; v0.12.0)](#mounting-operations-in-your-own-schema--v0120)
+               * [Important](#important-1)
       * [Usage](#usage)
          * [Mounting Auth Schema on a Separate Route](#mounting-auth-schema-on-a-separate-route)
          * [Mounting Operations Into Your Own Schema](#mounting-operations-into-your-own-schema)
@@ -28,6 +29,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
          * [Authenticating Controller Actions](#authenticating-controller-actions)
             * [Authenticate Before Reaching Your GQL Schema](#authenticate-before-reaching-your-gql-schema)
             * [Authenticate in Your GQL Schema](#authenticate-in-your-gql-schema)
+            * [Important](#important-2)
          * [Making Requests](#making-requests)
             * [Mutations](#mutations)
             * [Queries](#queries)
@@ -40,20 +42,19 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Contributing](#contributing)
       * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Mon Jun 22 22:10:26 -05 2020 -->
+<!-- Added by: david, at: mar jul 14 08:08:02 -05 2020 -->
 
 <!--te-->
 
 ## Introduction
-This gem heavily relies on two gems, [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA)
-and [Devise](https://github.com/heartcombo/devise) which is a dependency of DTA.
-It provides a GraphQL interface on top of DTA which is designed to work with REST APIs. That's why
-things like token management, token expiration and everything up until using the actual GraphQL schema is
-still controlled by DTA. For that reason you will find that our generator runs these two gems generator and two
-initializer files are included. We'll provide more configuration details in the
-[configuration section](#more-configuration-options),
-but **we recommend you get familiar with [DTA and their docs](https://github.com/lynndylanhurley/devise_token_auth)
-in order to use this gem to its full potential**.
+Graphql-Devise heavily relies on two gems:
+- [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA)
+- [Devise](https://github.com/heartcombo/devise) (which is a DTA dependency)
+
+This gem provides a GraphQL interface on top of DTA which is designed for REST APIs. Features like token management, token expiration and everything up until using the actual GraphQL schema is still controlled by DTA. For that reason the gem's generator invokes DTA and Devise generators and creates initializer files for each one of them.
+
+**We strongly recommend getting familiar with [DTA documentation](https://github.com/lynndylanhurley/devise_token_auth) to use this gem to its full potential**.
+More configuration details available in [configuration section](#more-configuration-options)
 
 ## Installation
 
@@ -69,20 +70,21 @@ $ bundle
 ```
 
 ### Running the Generator
-Graphql Devise generator will execute `Devise` and `Devise Token Auth`
-generators for you. These will make the required changes for the gems to
-work correctly. All configurations for [Devise](https://github.com/plataformatec/devise) and
-[Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) are available,
-so you can read the docs there to customize your options.
-Configurations are done via initializer files as usual, one per gem.
+Graphql Devise generator will execute `Devise` and `Devise Token Auth` generators to setup the gems in your project. You can customize them to your needs using their initializer files(one per gem) as usual.
 
-#### Mounting the Schema in a Separate Route
 ```bash
 $ bundle exec rails generate graphql_devise:install
 ```
+The generator accepts 2 params:
+- `user_class`: Model name in which `Devise` modules will be included. This uses a `find or create` strategy. Defaults to `User`.
+- `mount_path`: Path in which the dedicated graphql schema for devise will be mounted. Defaults to `/graphql_auth`.
 
-The generator accepts 2 params: `user_class` and `mount_path`. The params
-will be used to mount the route in `config/routes.rb`. For instance the executing:
+The option `mount` is available starting from `v0.12.0`. This option will allow you to mount the operations in your own schema instead of a dedicated one. When this option is provided `mount_path` param is not used.
+
+#### Mounting the Schema in a Separate Route
+
+To configure the gem to use a separate schema, the generator will use `user_class` and `mount_path` params.
+The route will be mounted in `config/routes.rb`. For instance the executing:
 
 ```bash
 $ bundle exec rails g graphql_devise:install Admin api/auth
@@ -100,32 +102,43 @@ Will do the following:
 `Admin` could be any model name you are going to be using for authentication,
 and `api/auth` could be any mount path you would like to use for auth.
 
-#### Mounting Operations in Your Own Schema
-Now you can provide to the generator an option specifying
-the name of your GQL schema. Doing this will skip the insertion of the mount method in the
-routes file and will also add our `SchemaPlugin` to the specified schema. `user_class` param is still optional (`Admin`) in the following example.
+##### Important
+ - Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at` option is provided, the route will be `/graphql_auth`.
+ - Avoid passing the `--mount` option or the gem will try to use an existing schema.
+
+#### Mounting Operations in Your Own Schema (> v0.12.0)
+To configure the gem to use your own GQL schema use the `--mount` option. 
+For instance the executing:
 
 ```bash
 $ bundle exec rails g graphql_devise:install Admin --mount MySchema
 ```
 
-### Important
-Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route
-provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at`
-option is provided, the route will be `/graphql_auth`.
+Will do the following:
+- Execute `Devise` install generator
+- Execute `Devise Token Auth` install generator with `Admin` and `api/auth` as params
+  - Find or create `Admin` model
+  - Add `devise` modules to `Admin` model
+  - Other changes that you can find [here](https://devise-token-auth.gitbook.io/devise-token-auth/config)
+  - Add `SchemaPlugin` to the specified schema.
 
-**Starting with `v0.12.0`** you can opt-in to load this gem's queries and mutations into your
-own application's schema. You can actually mount a resource's auth schema in a separate route
-and in your app's schema at the same time, but that's probably not a common scenario. More on
-this in the next section.
+
+##### Important
+ - When using the `--mount` option the `mount_path` params is ignored.
+ - The generator will look for your schema under `app/graphql/` directory. We are expecting the name of the file is the same as the as the one passed in the mount option transformed with `underscore`. In the example, passing `MySchema`, will try to find the file `app/graphql/my_schema.rb`.
+ - You can actually mount a resource's auth schema in a separate route and in your app's schema at the same time, but that's probably not a common scenario.
 
 ## Usage
+
+GraphqlDevise operations can be used in two ways:
+- Using a [separate schema](#mounting-auth-schema-on-a-separate-route) via `mount_graphql_devise_for` helper in the routes file.
+- Using [your own schema](#mounting-operations-into-your-own-schema) by adding a plugin in the class.
+
+
+Creating a separate schema is the default option, the generator will do that by default.
+
 ### Mounting Auth Schema on a Separate Route
-The generator can do this step for you by default. Remember now you can mount this gem's
-auth operations into your own schema as described in [this section](#mounting-operations-into-your-own-schema).
 
-
-Routes can be added using the generator or manually.
 You can mount this gem's GraphQL auth schema in your routes file like this:
 
 ```ruby
@@ -151,11 +164,13 @@ Rails.application.routes.draw do
   )
 end
 ```
+This can be done using the generator or manually.
 The second argument of the `mount_graphql_devise` method is a hash of options where you can
 customize how the queries and mutations are mounted into the schema. For a list of available
 options go [here](#available-mount-options)
 
 ### Mounting Operations Into Your Own Schema
+
 Starting with `v0.12.0` you can now mount the GQL operations provided by this gem into your
 app's main schema.
 
@@ -355,11 +370,10 @@ GraphQL Devise supports locales. For example, the `graphql_devise.confirmations.
 Keep in mind that if your app uses multiple locales, you should set the `I18n.locale` accordingly. You can learn how to do this [here](https://guides.rubyonrails.org/i18n.html).
 
 ### Authenticating Controller Actions
-Just like with Devise or DTA, you will need to authenticate users in your controllers.
-For this you have two alternatives.
+When mounting the operation is in you own schema instead of a dedicated one, you will need to authenticate users in your controllers, just like in DTA. There are 2 alternatives to accomplish this.
 
 #### Authenticate Before Reaching Your GQL Schema
-For this you need to call `authenticate_<model>!` in a before_action hook of your controller.
+For this you will need to call `authenticate_<model>!` in a `before_action` controller hook.
 In our example our model is `User`, so it would look like this:
 ```ruby
 # app/controllers/my_controller.rb
@@ -370,15 +384,14 @@ class MyController < ApplicationController
   before_action :authenticate_user!
 
   def my_action
-    render json: { current_user: current_user }
+    result = DummySchema.execute(params[:query], context: current_user: current_user)
+    render json: result unless performed?
   end
 end
 ```
 
-The install generator can do this for you because it executes DTA installer.
-See [Installation](#Installation) for details.
-If authentication fails for the request for whatever reason, execution of the request is halted
-and an error is returned in a REST format as the request never reaches your GQL schema.
+The install generator can include the concern in you application controller.
+If authentication fails for a request, execution will halt and a REST error will be returned since the request never reaches your GQL schema.
 
 #### Authenticate in Your GQL Schema
 For this you will need to add the `GraphqlDevise::SchemaPlugin` to your schema as described
@@ -391,7 +404,8 @@ class MyController < ApplicationController
   include GraphqlDevise::Concerns::SetUserByToken
 
   def my_action
-    render json: DummySchema.execute(params[:query], context: graphql_context(:user))
+    result = DummySchema.execute(params[:query], context: graphql_context(:user))
+    render json: result unless performed?
   end
 end
 ```
@@ -428,32 +442,28 @@ module Types
 end
 ```
 
+#### Important
+Remember to check `performed?` before rendering the result of the graphql operation. This is required because some operations perform a redirect and without this check you will get a `AbstractController::DoubleRenderError`.
+
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
 
 #### Mutations
-1. `userLogin(email: String!, password: String!): UserLoginPayload`
 
-    This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.
-    Credentials are still returned in the headers of the response.
-
-1. `userLogout: UserLogoutPayload`
-1. `userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload`
-
-   The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`.
-1. `userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload`
-1. `userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload`
-
-    The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to
-    false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource`
-    model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link).
-1. `userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload`
-
-    The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them
+Operation | Description | Example
+:--- | :--- | :------------------:
+login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload
+logout | | userLogout: UserLogoutPayload
+signUp | The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload
+sendResetPassword | | userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload
+updatePassword | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload
+resendConfirmation | The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them | userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload
 
 #### Queries
-1. `userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User`
-1. `userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User`
+Operation | Description | Example
+:--- | :--- | :------------------:
+confirmAccount | Performs a redirect using the `redirectUrl` param | userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User
+checkPasswordToken | Performs a redirect using the `redirectUrl` param | userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User
 
 The reason for having 2 queries is that these 2 are going to be accessed when clicking on
 the confirmation and reset password email urls. There is no limitation for making mutation
