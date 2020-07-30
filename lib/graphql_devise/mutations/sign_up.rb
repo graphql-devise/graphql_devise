@@ -8,6 +8,11 @@ module GraphqlDevise
       argument :password_confirmation, String, required: true
       argument :confirm_success_url,   String, required: false
 
+      field :credentials,
+            GraphqlDevise::Types::CredentialType,
+            null:        true,
+            description: 'Authentication credentials. Null if after signUp resource is not active for authentication (e.g. Email confirmation required).'
+
       def resolve(confirm_success_url: nil, **attrs)
         resource = build_resource(attrs.merge(provider: provider))
         raise_user_error(I18n.t('graphql_devise.resource_build_failed')) if resource.blank?
@@ -34,9 +39,11 @@ module GraphqlDevise
             )
           end
 
-          set_auth_headers(resource) if resource.active_for_authentication?
+          response_payload = { authenticatable: resource }
 
-          { authenticatable: resource }
+          response_payload[:credentials] = set_auth_headers(resource) if resource.active_for_authentication?
+
+          response_payload
         else
           resource.try(:clean_up_passwords)
           raise_user_error_list(
