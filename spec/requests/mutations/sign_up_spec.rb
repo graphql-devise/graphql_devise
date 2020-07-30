@@ -21,6 +21,7 @@ RSpec.describe 'Sign Up process' do
             passwordConfirmation: "#{password}"
             confirmSuccessUrl:    "#{redirect}"
           ) {
+            credentials { accessToken }
             user {
               email
               name
@@ -43,7 +44,8 @@ RSpec.describe 'Sign Up process' do
         expect(user.confirmed_at).to be_nil
         expect(user).to be_valid_password(password)
         expect(json_response[:data][:userSignUp]).to include(
-          user: {
+          credentials: nil,
+          user:        {
             email: email,
             name:  name
           }
@@ -126,6 +128,7 @@ RSpec.describe 'Sign Up process' do
             passwordConfirmation: "#{password}"
             confirmSuccessUrl:    "#{redirect}"
           ) {
+            credentials { accessToken client uid }
             authenticatable {
               email
             }
@@ -134,8 +137,16 @@ RSpec.describe 'Sign Up process' do
       GRAPHQL
     end
 
-    it 'works without the confirmable module' do
+    it 'returns credentials as no confirmation is required' do
       expect { post_request }.to change(Guest, :count).from(0).to(1)
+
+      expect(json_response[:data][:guestSignUp]).to include(
+        authenticatable: { email: email },
+        credentials:     hash_including(
+          uid:    email,
+          client: Guest.last.tokens.keys.first
+        )
+      )
     end
   end
 end
