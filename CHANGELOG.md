@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.13.1](https://github.com/graphql-devise/graphql_devise/tree/v0.13.1) (2020-07-29)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.0...v0.13.1)
+
+**Implemented enhancements:**
+
+- Add credentials field on signUp mutation [\#122](https://github.com/graphql-devise/graphql_devise/pull/122) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Closed issues:**
+
+- Checking for `performed?` when mounting into your graphql schema. [\#110](https://github.com/graphql-devise/graphql_devise/issues/110)
+- no query string for email reset [\#104](https://github.com/graphql-devise/graphql_devise/issues/104)
+
 ## [v0.13.0](https://github.com/graphql-devise/graphql_devise/tree/v0.13.0) (2020-06-22)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.3...v0.13.0)
