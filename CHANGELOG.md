@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.13.2](https://github.com/graphql-devise/graphql_devise/tree/v0.13.2) (2020-08-12)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.1...v0.13.2)
+
+**Fixed bugs:**
+
+- Save resource after generating credentials in resource confirmation [\#125](https://github.com/graphql-devise/graphql_devise/pull/125) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.13.1](https://github.com/graphql-devise/graphql_devise/tree/v0.13.1) (2020-07-29)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.0...v0.13.1)
