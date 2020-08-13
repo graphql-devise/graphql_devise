@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.13.3](https://github.com/graphql-devise/graphql_devise/tree/v0.13.3) (2020-08-13)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.2...v0.13.3)
+
+**Fixed bugs:**
+
+- Fix unconfirmed\_email confirmation. Ignore devise reconfirmable config. [\#126](https://github.com/graphql-devise/graphql_devise/pull/126) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.13.2](https://github.com/graphql-devise/graphql_devise/tree/v0.13.2) (2020-08-12)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.1...v0.13.2)
