@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     'Admin',
     authenticatable_type: Types::CustomAdminType,
     skip:                 [:sign_up, :check_password_token],
+    operations:           {
+      confirm_account: Resolvers::ConfirmAdminAccount
+    },
     at:                   '/api/v1/admin/graphql_auth'
   )
 
