@@ -98,6 +98,29 @@ RSpec.describe 'Resend confirmation' do
     end
   end
 
+  context 'when the email was changed' do
+    let(:email) { 'new-email@wallaceinc.com' }
+    let(:new_email) { email }
+
+    before do
+      user.class.reconfirmable = true
+      user.confirm
+      user.update_with_email(
+        email:                    new_email,
+        schema_url:               'http://localhost/test',
+        confirmation_success_url: 'https://google.com'
+      )
+    end
+
+    it 'sends new confirmation email' do
+      expect { post_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      expect(ActionMailer::Base.deliveries.first.to).to contain_exactly(new_email)
+      expect(json_response[:data][:userResendConfirmation]).to include(
+        message: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
+      )
+    end
+  end
+
   context "when the email isn't in the system" do
     let(:email) { 'nothere@gmail.com' }
 
