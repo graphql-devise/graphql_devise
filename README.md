@@ -318,20 +318,19 @@ The install generator can do this for you if you specify the `user_class` option
 See [Installation](#installation) for details.
 
 ### Email Reconfirmation
-DTA and Devise support email reconfirmation. When the `confirmable` module is added to your
-resource, an email is sent to the provided email address when the `signUp` mutation is used.
-You can also use this gem so every time a user updates the `email` field, a new email gets sent
-for the user to confirm the new email address. Only after clicking on the confirmation link,
-the email will be updated on the database to use the new value.
+Email reconfirmation is supported just like in Devise and DTA, but we want reconfirmable
+in this gem to work on model basis instead of having a global configuration like in Devise.
+**For this reason Devise's global `reconfirmable` setting is ignored.**
 
-In order to use this feature there are a couple of things to setup first:
-1. Make user your model includes the `:confirmable` module.
-1. Add an `unconfirmed_email` String column to your resource's table.
+For a resource to be considered reconfirmable it has to meet 2 conditions:
+1. Include the `:confirmable` module.
+1. Has an `unconfirmed_email` column in the resource's table.
 
-After that is done, you simply need to call a different update method on your resource,
-`update_with_email`. This method behaves exactly the same as ActiveRecord's `update` method
-if the previous steps are not performed, or if you are not updating the `email` attribute.
-It is also mandatory to provide two additional attributes when email will change or an error
+In order to trigger the reconfirmation email in a reconfirmable resource, you simply needi
+to call a different update method on your resource,`update_with_email`.
+When the resource is not reconfirmable or the email is not updated, this method behaves exactly
+the same as ActiveRecord's `update`.
+`update_with_email` requires two additional attributes when email will change or an error
 will be raised:
 
 1. `schema_url`: The full url where your GQL schema is mounted. You can get this value from the
@@ -354,6 +353,9 @@ user.update_with_email(
   confirmation_success_url: 'https://google.com'
 )
 ```
+
+ We want reconfirmable in this gem to work separately
+ from DTA's or Devise (too much complexity in the model based on callbacks).
 
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,

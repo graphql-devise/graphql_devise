@@ -7,12 +7,14 @@ module GraphqlDevise
     Model = DeviseTokenAuth::Concerns::User
 
     Model.module_eval do
-      def update_with_email(attributes = {})
-        GraphqlDevise::Model::WithEmailUpdater.new(self, attributes).call
+      class_methods do
+        def reconfirmable
+          devise_modules.include?(:confirmable) && column_names.include?('unconfirmed_email')
+        end
       end
 
-      def pending_reconfirmation?
-        devise_modules.include?(:confirmable) && try(:unconfirmed_email).present?
+      def update_with_email(attributes = {})
+        GraphqlDevise::Model::WithEmailUpdater.new(self, attributes).call
       end
     end
   end
