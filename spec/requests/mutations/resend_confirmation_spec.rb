@@ -5,10 +5,11 @@ require 'rails_helper'
 RSpec.describe 'Resend confirmation' do
   include_context 'with graphql query request'
 
-  let!(:user)    { create(:user, confirmed_at: nil, email: 'mwallace@wallaceinc.com') }
-  let(:email)    { user.email }
-  let(:id)       { user.id }
-  let(:redirect) { Faker::Internet.url }
+  let(:confirmed_at) { nil }
+  let!(:user)        { create(:user, confirmed_at: nil, email: 'mwallace@wallaceinc.com') }
+  let(:email)        { user.email }
+  let(:id)           { user.id }
+  let(:redirect)     { Faker::Internet.url }
   let(:query) do
     <<-GRAPHQL
       mutation {
@@ -99,12 +100,11 @@ RSpec.describe 'Resend confirmation' do
   end
 
   context 'when the email was changed' do
-    let(:email) { 'new-email@wallaceinc.com' }
-    let(:new_email) { email }
+    let(:confirmed_at) { 2.seconds.ago }
+    let(:email)        { 'new-email@wallaceinc.com' }
+    let(:new_email)    { email }
 
     before do
-      user.class.reconfirmable = true
-      user.confirm
       user.update_with_email(
         email:                    new_email,
         schema_url:               'http://localhost/test',
