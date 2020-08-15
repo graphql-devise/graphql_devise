@@ -11,8 +11,6 @@ module GraphqlDevise
         GraphqlDevise::Model::WithEmailUpdater.new(self, attributes).call
       end
 
-      private
-
       def pending_reconfirmation?
         devise_modules.include?(:confirmable) && try(:unconfirmed_email).present?
       end
