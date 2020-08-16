@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.13.4](https://github.com/graphql-devise/graphql_devise/tree/v0.13.4) (2020-08-15)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.3...v0.13.4)
+
+**Implemented enhancements:**
+
+- Allow resend of confirmation with unconfirmed email [\#127](https://github.com/graphql-devise/graphql_devise/pull/127) ([j15e](https://github.com/j15e))
+
 ## [v0.13.3](https://github.com/graphql-devise/graphql_devise/tree/v0.13.3) (2020-08-13)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.2...v0.13.3)
