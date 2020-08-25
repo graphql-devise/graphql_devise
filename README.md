@@ -47,7 +47,8 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
 <!--te-->
 
 ## Introduction
-Graphql-Devise heavily relies on two gems:
+Graphql-Devise heavily relies on 3 gems:
+- [GraphQL Ruby](https://github.com/rmosolgo/graphql-ruby)
 - [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA)
 - [Devise](https://github.com/heartcombo/devise) (which is a DTA dependency)
 
