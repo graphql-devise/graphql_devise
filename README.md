@@ -1,5 +1,5 @@
 # GraphqlDevise
-[![Build Status](https://travis-ci.org/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.org/graphql-devise/graphql_devise)
+[![Build Status](https://travis-ci.com/graphql-devise/graphql_devise.svg?branch=master)](https://travis-ci.com/graphql-devise/graphql_devise)
 [![Coverage Status](https://coveralls.io/repos/github/graphql-devise/graphql_devise/badge.svg?branch=master)](https://coveralls.io/github/graphql-devise/graphql_devise?branch=master)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
@@ -108,7 +108,7 @@ and `api/auth` could be any mount path you would like to use for auth.
  - Avoid passing the `--mount` option or the gem will try to use an existing schema.
 
 #### Mounting Operations in Your Own Schema (> v0.12.0)
-To configure the gem to use your own GQL schema use the `--mount` option. 
+To configure the gem to use your own GQL schema use the `--mount` option.
 For instance the executing:
 
 ```bash
