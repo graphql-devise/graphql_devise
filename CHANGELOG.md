@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.13.5](https://github.com/graphql-devise/graphql_devise/tree/v0.13.5) (2020-11-20)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.4...v0.13.5)
+
+**Implemented enhancements:**
+
+- Fixes connection\_config deprecation warning [\#135](https://github.com/graphql-devise/graphql_devise/pull/135) ([artplan1](https://github.com/artplan1))
+
 ## [v0.13.4](https://github.com/graphql-devise/graphql_devise/tree/v0.13.4) (2020-08-15)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.3...v0.13.4)
