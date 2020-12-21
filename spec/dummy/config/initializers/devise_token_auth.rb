@@ -39,6 +39,8 @@ DeviseTokenAuth.setup do |config|
 
   config.default_confirm_success_url = 'https://google.com'
 
+  config.redirect_whitelist = ['https://google.com']
+
   # By default we will use callbacks for single omniauth.
   # It depends on fields like email, provider and uid.
   # config.default_callbacks = true

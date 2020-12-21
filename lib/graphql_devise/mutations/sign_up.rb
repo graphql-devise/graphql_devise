@@ -23,7 +23,7 @@ module GraphqlDevise
         end
 
         if blacklisted_redirect_url?(redirect_url)
-          raise_user_error(I18n.t('graphql_devise.registrations.redirect_url_not_allowed', redirect_url: redirect_url))
+          raise_user_error(I18n.t('graphql_devise.redirect_url_not_allowed', redirect_url: redirect_url))
         end
 
         resource.skip_confirmation_notification! if resource.respond_to?(:skip_confirmation_notification!)

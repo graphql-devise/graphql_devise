@@ -1,5 +1,6 @@
 en:
   graphql_devise:
+    redirect_url_not_allowed: "Redirect to '%{redirect_url}' not allowed."
     registration_failed: "User couldn't be registered"
     resource_build_failed: "Resource couldn't be built, execution stopped."
     not_authenticated: "User is not logged in."
@@ -7,7 +8,6 @@ en:
     invalid_resource: "Errors present in the resource."
     registrations:
       missing_confirm_redirect_url: "Missing 'confirm_success_url' parameter. Required when confirmable module is enabled."
-      redirect_url_not_allowed: "Redirect to '%{redirect_url}' not allowed."
     passwords:
       update_password_error: "Unable to update user password"
       missing_passwords: "You must fill out the fields labeled 'Password' and 'Password confirmation'."
