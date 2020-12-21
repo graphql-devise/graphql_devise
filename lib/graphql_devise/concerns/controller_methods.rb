@@ -7,6 +7,12 @@ module GraphqlDevise
 
       private
 
+      def check_redirect_url_whitelist!(redirect_url)
+        if blacklisted_redirect_url?(redirect_url)
+          raise_user_error(I18n.t('graphql_devise.redirect_url_not_allowed', redirect_url: redirect_url))
+        end
+      end
+
       def raise_user_error(message)
         raise GraphqlDevise::UserError, message
       end

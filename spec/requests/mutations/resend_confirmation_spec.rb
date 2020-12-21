@@ -9,7 +9,7 @@ RSpec.describe 'Resend confirmation' do
   let!(:user)        { create(:user, confirmed_at: nil, email: 'mwallace@wallaceinc.com') }
   let(:email)        { user.email }
   let(:id)           { user.id }
-  let(:redirect)     { Faker::Internet.url }
+  let(:redirect)     { 'https://google.com' }
   let(:query) do
     <<-GRAPHQL
       mutation {
@@ -21,6 +21,21 @@ RSpec.describe 'Resend confirmation' do
         }
       }
     GRAPHQL
+  end
+
+  context 'when redirect_url is not whitelisted' do
+    let(:redirect) { 'https://not-safe.com' }
+
+    it 'returns a not whitelisted redirect url error' do
+      expect { post_request }.to not_change(ActionMailer::Base.deliveries, :count)
+
+      expect(json_response[:errors]).to containing_exactly(
+        hash_including(
+          message:    "Redirect to '#{redirect}' not allowed.",
+          extensions: { code: 'USER_ERROR' }
+        )
+      )
+    end
   end
 
   context 'when params are correct' do

@@ -7,6 +7,8 @@ module GraphqlDevise
       argument :redirect_url,       String, required: true
 
       def resolve(confirmation_token:, redirect_url:)
+        check_redirect_url_whitelist!(redirect_url)
+
         resource = resource_class.confirm_by_token(confirmation_token)
 
         if resource.errors.empty?

@@ -9,7 +9,6 @@ RSpec.describe 'Additional Mutations' do
   let(:password)              { Faker::Internet.password }
   let(:password_confirmation) { password }
   let(:email)                 { Faker::Internet.email }
-  let(:redirect)              { Faker::Internet.url }
 
   context 'when using the user model' do
     let(:query) do

@@ -9,6 +9,8 @@ module GraphqlDevise
       field :message, String, null: false
 
       def resolve(email:, redirect_url:)
+        check_redirect_url_whitelist!(redirect_url)
+
         resource = find_confirmable_resource(email)
 
         if resource

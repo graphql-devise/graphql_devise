@@ -7,7 +7,7 @@ RSpec.describe 'Account confirmation' do
 
   context 'when using the user model' do
     let(:user)     { create(:user, confirmed_at: nil) }
-    let(:redirect) { Faker::Internet.url }
+    let(:redirect) { 'https://google.com' }
     let(:query) do
       <<-GRAPHQL
         {
@@ -41,6 +41,21 @@ RSpec.describe 'Account confirmation' do
 
         expect(response).to redirect_to("#{redirect}?account_confirmation_success=true")
         expect(user).to be_active_for_authentication
+      end
+
+      context 'when redirect_url is not whitelisted' do
+        let(:redirect) { 'https://not-safe.com' }
+
+        it 'returns a not whitelisted redirect url error' do
+          expect { post_request }.to not_change(ActionMailer::Base.deliveries, :count)
+
+          expect(json_response[:errors]).to containing_exactly(
+            hash_including(
+              message:    "Redirect to '#{redirect}' not allowed.",
+              extensions: { code: 'USER_ERROR' }
+            )
+          )
+        end
       end
 
       context 'when unconfirmed_email is present' do
@@ -81,7 +96,7 @@ RSpec.describe 'Account confirmation' do
 
   context 'when using the admin model' do
     let(:admin)    { create(:admin, confirmed_at: nil) }
-    let(:redirect) { Faker::Internet.url }
+    let(:redirect) { 'https://google.com' }
     let(:query) do
       <<-GRAPHQL
         {

@@ -7,7 +7,7 @@ RSpec.describe 'Send Password Reset Requests' do
 
   let!(:user)        { create(:user, :confirmed, email: 'jwinnfield@wallaceinc.com') }
   let(:email)        { user.email }
-  let(:redirect_url) { Faker::Internet.url }
+  let(:redirect_url) { 'https://google.com' }
   let(:query) do
     <<-GRAPHQL
       mutation {
@@ -19,6 +19,21 @@ RSpec.describe 'Send Password Reset Requests' do
         }
       }
     GRAPHQL
+  end
+
+  context 'when redirect_url is not whitelisted' do
+    let(:redirect_url) { 'https://not-safe.com' }
+
+    it 'returns a not whitelisted redirect url error' do
+      expect { post_request }.to not_change(ActionMailer::Base.deliveries, :count)
+
+      expect(json_response[:errors]).to containing_exactly(
+        hash_including(
+          message:    "Redirect to '#{redirect_url}' not allowed.",
+          extensions: { code: 'USER_ERROR' }
+        )
+      )
+    end
   end
 
   context 'when params are correct' do
