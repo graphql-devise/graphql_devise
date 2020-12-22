@@ -27,6 +27,7 @@ module GraphqlDevise
           )
 
           if redirect_url.present?
+            check_redirect_url_whitelist!(redirect_url)
             controller.redirect_to(resource.build_auth_url(redirect_url, built_redirect_headers))
           else
             set_auth_headers(resource)

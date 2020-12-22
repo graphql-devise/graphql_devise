@@ -8,7 +8,7 @@ RSpec.describe 'Sign Up process' do
   let(:name)     { Faker::Name.name }
   let(:password) { Faker::Internet.password }
   let(:email)    { Faker::Internet.email }
-  let(:redirect) { Faker::Internet.url }
+  let(:redirect) { 'https://google.com' }
 
   context 'when using the user model' do
     let(:query) do
@@ -29,6 +29,24 @@ RSpec.describe 'Sign Up process' do
           }
         }
       GRAPHQL
+    end
+
+    context 'when redirect_url is not whitelisted' do
+      let(:redirect) { 'https://not-safe.com' }
+
+      it 'returns a not whitelisted redirect url error' do
+        expect { post_request }.to(
+          not_change(User, :count)
+          .and(not_change(ActionMailer::Base.deliveries, :count))
+        )
+
+        expect(json_response[:errors]).to containing_exactly(
+          hash_including(
+            message:    "Redirect to '#{redirect}' not allowed.",
+            extensions: { code: 'USER_ERROR' }
+          )
+        )
+      end
     end
 
     context 'when params are correct' do

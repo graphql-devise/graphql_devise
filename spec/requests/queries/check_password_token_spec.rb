@@ -54,6 +54,21 @@ RSpec.describe 'Check Password Token Requests' do
           expect(response.body).to include('uid=')
           expect(response.body).to include('expiry=')
         end
+
+        context 'when redirect_url is not whitelisted' do
+          let(:redirect_url) { 'https://not-safe.com' }
+
+          before { post_request }
+
+          it 'returns a not whitelisted redirect url error' do
+            expect(json_response[:errors]).to containing_exactly(
+              hash_including(
+                message:    "Redirect to '#{redirect_url}' not allowed.",
+                extensions: { code: 'USER_ERROR' }
+              )
+            )
+          end
+        end
       end
 
       context 'when token has expired' do

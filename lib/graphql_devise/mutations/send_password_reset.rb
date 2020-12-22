@@ -9,6 +9,8 @@ module GraphqlDevise
       field :message, String, null: false
 
       def resolve(email:, redirect_url:)
+        check_redirect_url_whitelist!(redirect_url)
+
         resource = find_resource(:email, get_case_insensitive_field(:email, email))
 
         if resource
