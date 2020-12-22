@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.13.6](https://github.com/graphql-devise/graphql_devise/tree/v0.13.6) (2020-12-22)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.5...v0.13.6)
+
+**Security fixes:**
+
+- Possible security issue with password reset and redirectUrl [\#136](https://github.com/graphql-devise/graphql_devise/issues/136)
+- Add redirect whitelist validation to all queries and mutations [\#140](https://github.com/graphql-devise/graphql_devise/pull/140) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.13.5](https://github.com/graphql-devise/graphql_devise/tree/v0.13.5) (2020-11-20)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.4...v0.13.5)
