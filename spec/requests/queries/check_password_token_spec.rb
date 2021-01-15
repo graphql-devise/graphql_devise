@@ -89,7 +89,7 @@ RSpec.describe 'Check Password Token Requests' do
     context 'when reset password token is not found' do
       let(:token) { user.send(:set_reset_password_token) + 'invalid' }
 
-      it 'redirects to redirect url' do
+      it 'returns an error message' do
         get_request
 
         expect(json_response[:errors]).to contain_exactly(

@@ -9,6 +9,7 @@ en:
     registrations:
       missing_confirm_redirect_url: "Missing 'confirm_success_url' parameter. Required when confirmable module is enabled."
     passwords:
+      password_recovery_disabled: "You must enable password recovery for this model."
       update_password_error: "Unable to update user password"
       missing_passwords: "You must fill out the fields labeled 'Password' and 'Password confirmation'."
       password_not_required: "This account does not require a password. Sign in using your '%{provider}' account instead."
