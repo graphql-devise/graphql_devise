@@ -10,7 +10,7 @@ module GraphqlDevise
       field :credentials,
             GraphqlDevise::Types::CredentialType,
             null:        true,
-            description: 'Authentication credentials. Resource must be signed_in in order for credentials to be returned.'
+            description: 'Authentication credentials. Resource must be signed_in for credentials to be returned.'
 
       def resolve(reset_password_token:, **attrs)
         raise_user_error(I18n.t('graphql_devise.passwords.password_recovery_disabled')) unless recoverable_enabled?
