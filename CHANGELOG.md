@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.14.0](https://github.com/graphql-devise/graphql_devise/tree/v0.14.0) (2021-01-19)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.6...v0.14.0)
+
+**Implemented enhancements:**
+
+- Alternate reset password flow, only 2 steps, no redirect [\#146](https://github.com/graphql-devise/graphql_devise/pull/146) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.13.6](https://github.com/graphql-devise/graphql_devise/tree/v0.13.6) (2020-12-22)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.5...v0.13.6)
