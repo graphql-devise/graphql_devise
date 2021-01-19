@@ -34,6 +34,7 @@ RSpec.describe 'Update Password With Token' do
           user.reload
         end.to change(user, :encrypted_password)
 
+        expect(user).to be_valid_password(password)
         expect(json_response[:data][:userUpdatePasswordWithToken][:credentials]).to     be_nil
         expect(json_response[:data][:userUpdatePasswordWithToken][:authenticatable]).to include(email: user.email)
       end
@@ -107,6 +108,7 @@ RSpec.describe 'Update Password With Token' do
           admin.reload
         end.to change(admin, :encrypted_password)
 
+        expect(admin).to be_valid_password(password)
         expect(json_response[:data][:adminUpdatePasswordWithToken]).to include(
           credentials:     { uid: admin.email },
           authenticatable: { email: admin.email }
