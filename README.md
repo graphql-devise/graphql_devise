@@ -33,6 +33,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
          * [Making Requests](#making-requests)
             * [Mutations](#mutations)
             * [Queries](#queries)
+         * [Reset Password Flow](#reset-password-flow)
          * [More Configuration Options](#more-configuration-options)
             * [Devise Token Auth Initializer](#devise-token-auth-initializer)
             * [Devise Initializer](#devise-initializer)
@@ -42,7 +43,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Contributing](#contributing)
       * [License](#license)
 
-<!-- Added by: david, at: mar jul 14 08:08:02 -05 2020 -->
+<!-- Added by: mcelicalderon, at: Mon Jan 25 22:48:17 -05 2021 -->
 
 <!--te-->
 
@@ -288,10 +289,12 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 :login
 :logout
 :sign_up
-:update_password
-:send_password_reset
 :confirm_account
+:send_password_reset
 :check_password_token
+:update_password
+:send_password_reset_with_token
+:update_password_with_token
 ```
 
 ### Configuring Model
@@ -458,9 +461,11 @@ Operation | Description | Example
 login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload
 logout | | userLogout: UserLogoutPayload
 signUp | The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload
-sendResetPassword | | userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload
-updatePassword | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload
+sendPasswordResetWithToken | Sends an email to the provided address with a link to reset the password of the resource. First step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload
+updatePasswordWithToken | Uses a `resetPasswordToken` to update the password of a resource. Second and last step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(resetPasswordToken: String!, password: String!, passwordConfirmation: String!): UserUpdatePasswordWithTokenPayload
 resendConfirmation | The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them | userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload
+sendResetPassword | Sends an email to the provided address with a link to reset the password of the resource. **This mutation is part of the first and soon to be deprecated password reset flow.** | userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload
+updatePassword | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). **This mutation is part of the first and soon to be deprecated password reset flow.** | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload
 
 #### Queries
 Operation | Description | Example
@@ -477,6 +482,11 @@ We will continue to build better docs for the gem after this first release, but 
 you can use [our specs](spec/requests) to better understand how to use the gem.
 Also, the [dummy app](spec/dummy) used in our specs will give you
 a clear idea on how to configure the gem on your Rails application.
+
+### Reset Password Flow
+This gem supports two password recovery flows. The most recently implemented is preferred and
+requires less steps. More detail on how it works can be found
+[here](docs/usage/reset_password_flow.md).
 
 ### More Configuration Options
 As mentioned in the introduction there are many configurations that will change how this gem behaves. You can change
