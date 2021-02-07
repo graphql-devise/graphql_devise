@@ -40,18 +40,21 @@ module GraphqlDevise
     private
 
     def set_current_resource(context)
-      controller                 = context[:controller]
-      resource_names             = Array(context[:resource_name])
-      context[:current_resource] = resource_names.find do |resource_name|
-        unless Devise.mappings.key?(resource_name)
-          raise(
-            GraphqlDevise::Error,
-            "Invalid resource_name `#{resource_name}` provided to `graphql_context`. Possible values are: #{Devise.mappings.keys}."
-          )
-        end
+      controller     = context[:controller]
+      resource_names = Array(context[:resource_name])
 
-        found = controller.set_resource_by_token(resource_name)
-        break found if found
+      if context[:current_resource].blank?
+        context[:current_resource] = resource_names.find do |resource_name|
+          unless Devise.mappings.key?(resource_name)
+            raise(
+              GraphqlDevise::Error,
+              "Invalid resource_name `#{resource_name}` provided to `graphql_context`. Possible values are: #{Devise.mappings.keys}."
+            )
+          end
+
+          found = controller.set_resource_by_token(resource_name)
+          break found if found
+        end
       end
 
       context
