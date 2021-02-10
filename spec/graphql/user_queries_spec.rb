@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Sign Up process' do
+RSpec.describe 'Users controller specs' do
   include_context 'with graphql schema test'
 
   let(:schema)          { DummySchema }
@@ -58,12 +58,6 @@ RSpec.describe 'Sign Up process' do
           end
         end
       end
-
-      context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(response[:errors]).to contain_exactly(hash_including(**private_error))
-        end
-      end
     end
 
     context 'when using an interpreter schema' do
@@ -74,12 +68,6 @@ RSpec.describe 'Sign Up process' do
 
         it 'allows to perform the query' do
           expect(response[:data][:privateField]).to eq(private_message)
-        end
-      end
-
-      context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(response[:errors]).to contain_exactly(hash_including(**private_error))
         end
       end
     end
@@ -104,14 +92,6 @@ RSpec.describe 'Sign Up process' do
 
         it 'allows to perform the query' do
           expect(response[:data][:user]).to match(**user_data)
-        end
-      end
-
-      context 'when user is not authenticated' do
-        let(:field) { 'user' }
-
-        it 'returns a must sign in error' do
-          expect(response[:errors]).to contain_exactly(hash_including(**private_error))
         end
       end
     end

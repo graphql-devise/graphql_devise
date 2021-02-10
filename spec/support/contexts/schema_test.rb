@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.shared_context 'with graphql schema test' do
   let(:variables)      { {} }
-  let(:resource_names) { [] }
+  let(:resource_names) { [:user] }
   let(:resource)       { nil }
   let(:controller)     { instance_double(GraphqlDevise::GraphqlController) }
   let(:context) do
