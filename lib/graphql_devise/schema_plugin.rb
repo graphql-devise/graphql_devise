@@ -24,13 +24,12 @@ module GraphqlDevise
       # Authenticate only root level queries
       return yield unless event == 'execute_field' && path(trace_data).count == 1
 
-      field = traced_field(trace_data)
-      provided_value = authenticate_option(field, trace_data)
-      context = set_current_resource(context_from_data(trace_data))
+      field         = traced_field(trace_data)
+      auth_required = authenticate_option(field, trace_data)
+      context       = context_from_data(trace_data)
 
-      if !provided_value.nil?
-        raise_on_missing_resource(context, field) if provided_value
-      elsif @authenticate_default
+      if auth_required
+        context = set_current_resource(context)
         raise_on_missing_resource(context, field)
       end
 
@@ -40,9 +39,10 @@ module GraphqlDevise
     private
 
     def set_current_resource(context)
-      controller                 = context[:controller]
-      resource_names             = Array(context[:resource_name])
-      context[:current_resource] = resource_names.find do |resource_name|
+      controller     = context[:controller]
+      resource_names = Array(context[:resource_name])
+
+      context[:current_resource] ||= resource_names.find do |resource_name|
         unless Devise.mappings.key?(resource_name)
           raise(
             GraphqlDevise::Error,
@@ -88,11 +88,13 @@ module GraphqlDevise
     end
 
     def authenticate_option(field, trace_data)
-      if trace_data[:context]
+      auth_required = if trace_data[:context]
         field.metadata[:authenticate]
       else
         field.graphql_definition.metadata[:authenticate]
       end
+
+      auth_required.nil? ? @authenticate_default : auth_required
     end
 
     def reconfigure_warden!
