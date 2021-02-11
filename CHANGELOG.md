@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.14.1](https://github.com/graphql-devise/graphql_devise/tree/v0.14.1) (2021-02-11)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.0...v0.14.1)
+
+**Implemented enhancements:**
+
+- Testing Authenticated Elements [\#138](https://github.com/graphql-devise/graphql_devise/issues/138)
+- Add support for GraphQL 1.12 [\#150](https://github.com/graphql-devise/graphql_devise/pull/150) ([mengqing](https://github.com/mengqing))
+- Allow setting current resource in tests [\#149](https://github.com/graphql-devise/graphql_devise/pull/149) ([00dav00](https://github.com/00dav00))
+
+**Merged pull requests:**
+
+- Document password reset flows [\#147](https://github.com/graphql-devise/graphql_devise/pull/147) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.14.0](https://github.com/graphql-devise/graphql_devise/tree/v0.14.0) (2021-01-19)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.6...v0.14.0)
