@@ -2,13 +2,16 @@
 
 module GraphqlDevise
   class SchemaPlugin
+    # NOTE: Based on GQL-Ruby docs  https://graphql-ruby.org/schema/introspection.html
+    INTROSPECTION_FIELDS = ['__schema', '__type', '__typename']
     DEFAULT_NOT_AUTHENTICATED = ->(field) { raise GraphqlDevise::AuthenticationError, "#{field} field requires authentication" }
 
-    def initialize(query: nil, mutation: nil, authenticate_default: true, resource_loaders: [], unauthenticated_proc: DEFAULT_NOT_AUTHENTICATED)
+    def initialize(query: nil, mutation: nil, authenticate_default: true, public_introspection: true, resource_loaders: [], unauthenticated_proc: DEFAULT_NOT_AUTHENTICATED)
       @query                = query
       @mutation             = mutation
       @resource_loaders     = resource_loaders
       @authenticate_default = authenticate_default
+      @public_introspection = public_introspection
       @unauthenticated_proc = unauthenticated_proc
 
       # Must happen on initialize so operations are loaded before the types are added to the schema on GQL < 1.10
@@ -28,7 +31,7 @@ module GraphqlDevise
       auth_required = authenticate_option(field, trace_data)
       context       = context_from_data(trace_data)
 
-      if auth_required
+      if auth_required && !(@public_introspection && introspection_field?(field))
         context = set_current_resource(context)
         raise_on_missing_resource(context, field)
       end
@@ -108,6 +111,10 @@ module GraphqlDevise
 
         resource_loader.call(@query, @mutation)
       end
+    end
+
+    def introspection_field?(field)
+      INTROSPECTION_FIELDS.include?(field.name)
     end
   end
 end
