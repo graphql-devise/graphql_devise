@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'rails_helper'
 
@@ -5,69 +6,72 @@ RSpec.describe 'Login Requests' do
   include_context 'with graphql query request'
 
   let(:query) do
-      <<-GRAPHQL
-        query IntrospectionQuery {
-          __schema {
-            queryType { name }
-            mutationType { name }
-            subscriptionType { name }
-            types {
-              ...FullType
-            }
-            directives {
-              name
-              description
-              args {
-                ...InputValue
-              }
-              onOperation
-              onFragment
-              onField
-            }
+    <<-GRAPHQL
+      query IntrospectionQuery {
+        __schema {
+          queryType { name }
+          mutationType { name }
+          subscriptionType { name }
+          types {
+            ...FullType
           }
-        }
-
-        fragment FullType on __Type {
-          kind
-          name
-          description
-          fields(includeDeprecated: true) {
+          directives {
             name
             description
             args {
               ...InputValue
             }
-            type {
-              ...TypeRef
-            }
-            isDeprecated
-            deprecationReason
-          }
-          inputFields {
-            ...InputValue
-          }
-          interfaces {
-            ...TypeRef
-          }
-          enumValues(includeDeprecated: true) {
-            name
-            description
-            isDeprecated
-            deprecationReason
-          }
-          possibleTypes {
-            ...TypeRef
+            onOperation
+            onFragment
+            onField
           }
         }
+      }
 
-        fragment InputValue on __InputValue {
+      fragment FullType on __Type {
+        kind
+        name
+        description
+        fields(includeDeprecated: true) {
           name
           description
-          type { ...TypeRef }
-          defaultValue
+          args {
+            ...InputValue
+          }
+          type {
+            ...TypeRef
+          }
+          isDeprecated
+          deprecationReason
         }
+        inputFields {
+          ...InputValue
+        }
+        interfaces {
+          ...TypeRef
+        }
+        enumValues(includeDeprecated: true) {
+          name
+          description
+          isDeprecated
+          deprecationReason
+        }
+        possibleTypes {
+          ...TypeRef
+        }
+      }
 
-        fragment TypeRef on __Type {
+      fragment InputValue on __InputValue {
+        name
+        description
+        type { ...TypeRef }
+        defaultValue
+      }
+
+      fragment TypeRef on __Type {
+        kind
+        name
+        ofType {
           kind
           name
           ofType {
@@ -76,15 +80,12 @@ RSpec.describe 'Login Requests' do
             ofType {
               kind
               name
-              ofType {
-                kind
-                name
-              }
             }
           }
         }
+      }
 
-      GRAPHQL
+    GRAPHQL
   end
 
   context 'when using a schema plugin to mount devise operations' do
@@ -114,9 +115,13 @@ RSpec.describe 'Login Requests' do
         end
 
         context 'and introspection is set to require auth' do
-          before { allow(DummySchema).to receive(:allow_introspection).and_return(false) }
+          before do
+            allow_any_instance_of(GraphqlDevise::SchemaPlugin).to(
+              receive(:public_introspection).and_return(false)
+            )
+          end
 
-          it 'return the schema information' do
+          it 'return an error' do
             post_request('/api/v1/graphql')
 
             expect(json_response[:data]).to be_nil

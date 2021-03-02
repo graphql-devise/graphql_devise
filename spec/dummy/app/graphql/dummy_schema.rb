@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
 class DummySchema < GraphQL::Schema
-
-  # Method created for testing purposes
-  def self.allow_introspection
-    true
-  end
   use GraphqlDevise::SchemaPlugin.new(
     query:                Types::QueryType,
     mutation:             Types::MutationType,
-    public_introspection: allow_introspection,
+    public_introspection: true,
     resource_loaders:     [
       GraphqlDevise::ResourceLoader.new(
         'User',

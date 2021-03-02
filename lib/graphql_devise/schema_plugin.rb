@@ -6,7 +6,7 @@ module GraphqlDevise
     INTROSPECTION_FIELDS = ['__schema', '__type', '__typename']
     DEFAULT_NOT_AUTHENTICATED = ->(field) { raise GraphqlDevise::AuthenticationError, "#{field} field requires authentication" }
 
-    def initialize(query: nil, mutation: nil, authenticate_default: true, public_introspection: true, resource_loaders: [], unauthenticated_proc: DEFAULT_NOT_AUTHENTICATED)
+    def initialize(query: nil, mutation: nil, authenticate_default: true, public_introspection: !Rails.env.production?, resource_loaders: [], unauthenticated_proc: DEFAULT_NOT_AUTHENTICATED)
       @query                = query
       @mutation             = mutation
       @resource_loaders     = resource_loaders
@@ -31,7 +31,7 @@ module GraphqlDevise
       auth_required = authenticate_option(field, trace_data)
       context       = context_from_data(trace_data)
 
-      if auth_required && !(@public_introspection && introspection_field?(field))
+      if auth_required && !(public_introspection && introspection_field?(field))
         context = set_current_resource(context)
         raise_on_missing_resource(context, field)
       end
@@ -40,6 +40,8 @@ module GraphqlDevise
     end
 
     private
+
+    attr_reader :public_introspection
 
     def set_current_resource(context)
       controller     = context[:controller]
