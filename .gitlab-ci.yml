@@ -1,0 +1,109 @@
+---
+default:
+  cache:
+    key:
+      files:
+        - Gemfile.lock
+      prefix: ${CI_COMMIT_REF_NAME}
+    paths:
+      - vendor/bundle/
+  before_script:
+    - bundle install
+
+variables:
+  EAGER_LOAD: 'true'
+  BUNDLE_PATH: 'vendor/bundle'
+
+test:2.3:
+  stage: test
+  image: ruby:2.3
+  script:
+    - bundle exec rspec
+  parallel:
+    matrix:
+      - BUNDLE_GEMFILE: gemfiles/rails4.2_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.0_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.0_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.10.gemfile
+
+test:2.4:
+  stage: test
+  image: ruby:2.4
+  script:
+    - bundle exec rspec
+  parallel:
+    matrix:
+      - BUNDLE_GEMFILE: gemfiles/rails4.2_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.0_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.0_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.10.gemfile
+
+test:2.5:
+  stage: test
+  image: ruby:2.5
+  script:
+    - bundle exec rspec
+  parallel:
+    matrix:
+      - BUNDLE_GEMFILE: gemfiles/rails5.0_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.10.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.12.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.12.gemfile
+
+test:2.6:
+  stage: test
+  image: ruby:2.6
+  script:
+    - bundle exec rspec
+  parallel:
+    matrix:
+      - BUNDLE_GEMFILE: gemfiles/rails5.0_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.1_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.10.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails5.2_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.12.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.12.gemfile
+
+test:2.7:
+  stage: test
+  image: ruby:2.7
+  script:
+    - bundle exec rspec
+  parallel:
+    matrix:
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.8.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.9.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.10.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.0_graphql1.12.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.10.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.11.gemfile
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql1.12.gemfile
+
+test:edge:
+  stage: test
+  image: ruby:2.7
+  allow_failure: true
+  script:
+    - bundle exec rspec
+  parallel:
+    matrix:
+      - BUNDLE_GEMFILE: gemfiles/rails6.1_graphql_edge.gemfile
