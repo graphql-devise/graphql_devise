@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.14.2](https://github.com/graphql-devise/graphql_devise/tree/v0.14.2) (2021-03-08)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.1...v0.14.2)
+
+**Implemented enhancements:**
+
+- Add config for public introspection query on schema plugin [\#154](https://github.com/graphql-devise/graphql_devise/pull/154) ([00dav00](https://github.com/00dav00))
+
 ## [v0.14.1](https://github.com/graphql-devise/graphql_devise/tree/v0.14.1) (2021-02-11)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.0...v0.14.1)
