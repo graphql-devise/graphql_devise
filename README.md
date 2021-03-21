@@ -31,6 +31,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
             * [Authenticate in Your GQL Schema](#authenticate-in-your-gql-schema)
             * [Important](#important-2)
          * [Making Requests](#making-requests)
+            * [Introspection query](#introspection-query)
             * [Mutations](#mutations)
             * [Queries](#queries)
          * [Reset Password Flow](#reset-password-flow)
@@ -226,6 +227,12 @@ authentication unless specified otherwise using the `authenticate: true` option 
 one argument (field name) and is called whenever a field that requires authentication
 is called without an authenticated resource. By default a `GraphQL::ExecutionError` will be
 raised if authentication fails. This will provide a GQL like error message on the response.
+1. `public_introspection`: The [introspection query](https://graphql.org/learn/introspection/) is a very useful GQL resource that provides
+information about what queries the schema supports. This query is very powerful and
+there may be some case in which you want to limit its usage to authenticated users.
+To accomplish this the schema plugin provides the `public_introspection` option. This option
+accepts a boolean value and by default will consider introspection queries public in all
+environments but production.
 
 ### Available Mount Options
 Both the `mount_graphql_devise_for` method and the `GraphqlDevise::ResourceLoader` class
@@ -453,6 +460,9 @@ Remember to check `performed?` before rendering the result of the graphql operat
 
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
+
+#### Introspection query
+If you are using the schema plugin, you can require authentication before doing an introspection query by modifying the `public_introspection` option of the plugin. Check the [plugin config section](#mounting-operations-into-your-own-schema) for more information.
 
 #### Mutations
 
