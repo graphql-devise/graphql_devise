@@ -9,10 +9,13 @@ default:
       - vendor/bundle/
   before_script:
     - bundle install
+  after_script:
+    - curl "https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN" -d "payload[build_num]=$CI_PIPELINE_ID&payload[status]=done"
 
 variables:
   EAGER_LOAD: 'true'
   BUNDLE_PATH: 'vendor/bundle'
+  COVERALLS_PARALLEL: 'true'
 
 test:2.3:
   stage: test

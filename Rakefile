@@ -18,7 +18,7 @@ end
 
 require 'github_changelog_generator/task'
 
-GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+GitHubChangelogGenerator::RakeTask.new do |config|
   config.user = 'graphql-devise'
   config.project = 'graphql_devise'
   config.future_release = ENV['FUTURE_RELEASE']
