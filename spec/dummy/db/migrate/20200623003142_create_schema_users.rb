@@ -41,6 +41,5 @@ class CreateSchemaUsers < ActiveRecord::Migration[6.0]
     add_index :schema_users, [:uid, :provider],     unique: true
     add_index :schema_users, :reset_password_token, unique: true
     add_index :schema_users, :confirmation_token,   unique: true
-    add_index :schema_users, :unlock_token,         unique: true
   end
 end

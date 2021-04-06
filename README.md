@@ -1,6 +1,6 @@
 # GraphqlDevise
-[![Build Status](https://gitlab.com/graphql-devise/graphql_devise/badges/master/pipeline.svg)](https://gitlab.com/graphql-devise/graphql_devise/-/commits/master)
-[![Coverage Status](https://coveralls.io/repos/gitlab/graphql-devise/graphql_devise/badge.svg?branch=master)](https://coveralls.io/gitlab/graphql-devise/graphql_devise?branch=master)
+[![Build Status](https://circleci.com/gh/graphql-devise/graphql_devise.svg?style=svg)](https://app.circleci.com/pipelines/github/graphql-devise/graphql_devise)
+[![Coverage Status](https://coveralls.io/repos/github/graphql-devise/graphql_devise/badge.svg)](https://coveralls.io/github/graphql-devise/graphql_devise)
 [![Gem Version](https://badge.fury.io/rb/graphql_devise.svg)](https://badge.fury.io/rb/graphql_devise)
 
 GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth) (DTA) gem.
