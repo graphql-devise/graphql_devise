@@ -6,13 +6,13 @@ module Api
       include GraphqlDevise::Concerns::SetUserByToken
 
       def graphql
-        result = DummySchema.execute(params[:query], execute_params(params))
+        result = DummySchema.execute(params[:query], **execute_params(params))
 
         render json: result unless performed?
       end
 
       def interpreter
-        render json: InterpreterSchema.execute(params[:query], execute_params(params))
+        render json: InterpreterSchema.execute(params[:query], **execute_params(params))
       end
 
       def failing_resource_name
