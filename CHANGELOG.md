@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.14.3](https://github.com/graphql-devise/graphql_devise/tree/v0.14.3) (2021-04-28)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.2...v0.14.3)
+
+**Implemented enhancements:**
+
+- Add Support for Ruby 3 [\#170](https://github.com/graphql-devise/graphql_devise/pull/170) ([00dav00](https://github.com/00dav00))
+
+**Fixed bugs:**
+
+- ArgumentError \(wrong number of arguments \(given 2, expected 0..1\)\) [\#169](https://github.com/graphql-devise/graphql_devise/issues/169)
+
 ## [v0.14.2](https://github.com/graphql-devise/graphql_devise/tree/v0.14.2) (2021-03-08)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.1...v0.14.2)
@@ -47,7 +59,7 @@
 
 - Fixes connection\_config deprecation warning [\#135](https://github.com/graphql-devise/graphql_devise/pull/135) ([artplan1](https://github.com/artplan1))
 
-## [v0.13.4](https://github.com/graphql-devise/graphql_devise/tree/v0.13.4) (2020-08-15)
+## [v0.13.4](https://github.com/graphql-devise/graphql_devise/tree/v0.13.4) (2020-08-16)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.3...v0.13.4)
 
@@ -71,7 +83,7 @@
 
 - Save resource after generating credentials in resource confirmation [\#125](https://github.com/graphql-devise/graphql_devise/pull/125) ([mcelicalderon](https://github.com/mcelicalderon))
 
-## [v0.13.1](https://github.com/graphql-devise/graphql_devise/tree/v0.13.1) (2020-07-29)
+## [v0.13.1](https://github.com/graphql-devise/graphql_devise/tree/v0.13.1) (2020-07-30)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.13.0...v0.13.1)
 
@@ -84,7 +96,7 @@
 - Checking for `performed?` when mounting into your graphql schema. [\#110](https://github.com/graphql-devise/graphql_devise/issues/110)
 - no query string for email reset [\#104](https://github.com/graphql-devise/graphql_devise/issues/104)
 
-## [v0.13.0](https://github.com/graphql-devise/graphql_devise/tree/v0.13.0) (2020-06-22)
+## [v0.13.0](https://github.com/graphql-devise/graphql_devise/tree/v0.13.0) (2020-06-23)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.3...v0.13.0)
 
@@ -101,7 +113,7 @@
 - CookieOverflow for Own Schema Mount [\#112](https://github.com/graphql-devise/graphql_devise/issues/112)
 - Reconfirmable not setting unconfirmed\_email [\#102](https://github.com/graphql-devise/graphql_devise/issues/102)
 
-## [v0.12.3](https://github.com/graphql-devise/graphql_devise/tree/v0.12.3) (2020-06-19)
+## [v0.12.3](https://github.com/graphql-devise/graphql_devise/tree/v0.12.3) (2020-06-20)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.12.2...v0.12.3)
 
@@ -154,7 +166,7 @@
 
 **Implemented enhancements:**
 
-- Default `change\_headers\_on\_each\_request` to false [\#76](https://github.com/graphql-devise/graphql_devise/issues/76)
+- Default `change_headers_on_each_request` to false [\#76](https://github.com/graphql-devise/graphql_devise/issues/76)
 - Replace the auth model concern on generator execution [\#53](https://github.com/graphql-devise/graphql_devise/issues/53)
 - Generator. Use our modules, change defaults [\#91](https://github.com/graphql-devise/graphql_devise/pull/91) ([mcelicalderon](https://github.com/mcelicalderon))
 
@@ -172,6 +184,7 @@
 
 **Implemented enhancements:**
 
+- Add case insensitive fields to sign\_up and login [\#66](https://github.com/graphql-devise/graphql_devise/issues/66)
 - Honor Devise's case insensitive fields [\#81](https://github.com/graphql-devise/graphql_devise/pull/81) ([mcelicalderon](https://github.com/mcelicalderon))
 
 **Fixed bugs:**
@@ -182,7 +195,6 @@
 
 - Get the Mutations going [\#83](https://github.com/graphql-devise/graphql_devise/issues/83)
 - Improve docs. Better reference to Devise and DTA. [\#75](https://github.com/graphql-devise/graphql_devise/issues/75)
-- Add case insensitive fields to sign\_up and login [\#66](https://github.com/graphql-devise/graphql_devise/issues/66)
 
 **Merged pull requests:**
 
