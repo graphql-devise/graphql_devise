@@ -4,7 +4,7 @@ RSpec.shared_context 'with graphql query request' do
   let(:headers)   { {} }
   let(:variables) { {} }
   let(:graphql_params) do
-    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0') || Rails::VERSION::MAJOR >= 5
+    if Rails::VERSION::MAJOR >= 5
       { params: { query: query, variables: variables }, headers: headers }
     else
       [{ query: query, variables: variables }, headers]
@@ -20,7 +20,7 @@ RSpec.shared_context 'with graphql query request' do
   end
 
   def send_request(path, method)
-    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0') || Rails::VERSION::MAJOR >= 5
+    if Rails::VERSION::MAJOR >= 5
       public_send(method, path, **graphql_params)
     else
       public_send(method, path, *graphql_params)
