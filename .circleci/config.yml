@@ -53,6 +53,7 @@ workflows:
                 - '2.5'
                 - '2.6'
                 - '2.7'
+                - '3.0'
               gemfile:
                 - gemfiles/rails4.2_graphql1.8.gemfile
                 - gemfiles/rails5.0_graphql1.8.gemfile
@@ -94,6 +95,24 @@ workflows:
                 gemfile: gemfiles/rails6.1_graphql1.12.gemfile
               - ruby-version: '2.7'
                 gemfile: gemfiles/rails4.2_graphql1.8.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails4.2_graphql1.8.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.0_graphql1.8.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.0_graphql1.9.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.1_graphql1.8.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.1_graphql1.9.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.2_graphql1.8.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.2_graphql1.9.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.2_graphql1.10.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails5.2_graphql1.11.gemfile
       - report-coverage:
           requires:
             - test

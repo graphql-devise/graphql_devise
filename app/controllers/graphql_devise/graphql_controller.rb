@@ -14,7 +14,7 @@ module GraphqlDevise
           end
         )
       else
-        GraphqlDevise::Schema.execute(params[:query], execute_params(params))
+        GraphqlDevise::Schema.execute(params[:query], **execute_params(params))
       end
 
       render json: result unless performed?

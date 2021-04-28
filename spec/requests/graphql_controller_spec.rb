@@ -6,20 +6,13 @@ RSpec.describe GraphqlDevise::GraphqlController do
   let(:password) { 'password123' }
   let(:user)     { create(:user, :confirmed, password: password) }
   let(:params)   { { query: query, variables: variables } }
-  let(:request_params) do
-    if Rails::VERSION::MAJOR >= 5
-      { params: params }
-    else
-      params
-    end
-  end
 
   context 'when variables are a string' do
     let(:variables) { "{\"email\": \"#{user.email}\"}" }
     let(:query)     { "mutation($email: String!) { userLogin(email: $email, password: \"#{password}\") { user { email name signInCount } } }" }
 
     it 'parses the string variables' do
-      post '/api/v1/graphql_auth', request_params
+      post_request('/api/v1/graphql_auth')
 
       expect(json_response).to match(
         data: { userLogin: { user: { email: user.email, name: user.name, signInCount: 1 } } }
@@ -31,7 +24,7 @@ RSpec.describe GraphqlDevise::GraphqlController do
       let(:query)     { "mutation { userLogin(email: \"#{user.email}\", password: \"#{password}\") { user { email name signInCount } } }" }
 
       it 'returns an empty hash as variables' do
-        post '/api/v1/graphql_auth', request_params
+        post_request('/api/v1/graphql_auth')
 
         expect(json_response).to match(
           data: { userLogin: { user: { email: user.email, name: user.name, signInCount: 1 } } }
@@ -46,7 +39,7 @@ RSpec.describe GraphqlDevise::GraphqlController do
 
     it 'raises an error' do
       expect do
-        post '/api/v1/graphql_auth', request_params
+        post_request('/api/v1/graphql_auth')
       end.to raise_error(ArgumentError)
     end
   end
@@ -62,7 +55,7 @@ RSpec.describe GraphqlDevise::GraphqlController do
     end
 
     it 'executes multiple queries in the same request' do
-      post '/api/v1/graphql_auth', request_params
+      post_request('/api/v1/graphql_auth')
 
       expect(json_response).to match(
         [
@@ -77,6 +70,14 @@ RSpec.describe GraphqlDevise::GraphqlController do
           }
         ]
       )
+    end
+  end
+
+  def post_request(path)
+    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0') || Rails::VERSION::MAJOR >= 5
+      post(path, params: params)
+    else
+      post(path, params)
     end
   end
 end
