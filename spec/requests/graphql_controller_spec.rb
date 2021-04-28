@@ -74,7 +74,7 @@ RSpec.describe GraphqlDevise::GraphqlController do
   end
 
   def post_request(path)
-    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.0.0') || Rails::VERSION::MAJOR >= 5
+    if Rails::VERSION::MAJOR >= 5
       post(path, params: params)
     else
       post(path, params)
