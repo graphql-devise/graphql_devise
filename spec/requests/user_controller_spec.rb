@@ -42,6 +42,16 @@ RSpec.describe "Integrations with the user's controller" do
       GRAPHQL
     end
 
+    context 'when authenticating before using the GQL schema' do
+      let(:headers) { create(:schema_user).create_new_auth_token }
+
+      before { post_request('/api/v1/controller_auth') }
+
+      it 'allows authentication at the controller level' do
+        expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
+      end
+    end
+
     context 'when using a regular schema' do
       before { post_request('/api/v1/graphql') }
 

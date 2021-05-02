@@ -29,12 +29,21 @@ module GraphqlDevise
   end
 
   def self.add_mapping(mapping_name, resource)
-    return if Devise.mappings.key?(mapping_name)
+    return if Devise.mappings.key?(mapping_name.to_sym)
 
     Devise.add_mapping(
       mapping_name.to_s.pluralize.to_sym,
       module: :devise, class_name: resource
     )
+  end
+
+  def self.reconfigure_warden!
+    Devise.class_variable_set(:@@warden_configured, nil)
+    Devise.configure_warden!
+  end
+
+  def self.to_mapping_name(resource)
+    resource.to_s.underscore.tr('/', '_')
   end
 end
 

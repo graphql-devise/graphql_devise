@@ -10,7 +10,7 @@ module GraphqlDevise
     end
 
     def call(query, mutation)
-      mapping_name = @resource.to_s.underscore.tr('/', '_').to_sym
+      mapping_name = GraphqlDevise.to_mapping_name(@resource).to_sym
 
       # clean_options responds to all keys defined in GraphqlDevise::MountMethod::SUPPORTED_OPTIONS
       clean_options = GraphqlDevise::MountMethod::OptionSanitizer.new(@options).call!

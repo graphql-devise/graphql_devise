@@ -5,6 +5,8 @@ module Api
     class GraphqlController < ApplicationController
       include GraphqlDevise::Concerns::SetUserByToken
 
+      set_resource_by_model SchemaUser, only: [:controller_auth]
+
       def graphql
         result = DummySchema.execute(params[:query], **execute_params(params))
 
@@ -17,6 +19,12 @@ module Api
 
       def failing_resource_name
         render json: DummySchema.execute(params[:query], context: graphql_context([:user, :fail]))
+      end
+
+      def controller_auth
+        result = DummySchema.execute(params[:query], **execute_params(params))
+
+        render json: result unless performed?
       end
 
       private

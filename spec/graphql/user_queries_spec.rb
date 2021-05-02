@@ -78,7 +78,9 @@ RSpec.describe 'Users controller specs' do
     let(:query) do
       <<-GRAPHQL
         query {
-          user(id: #{user.id}) {
+          user(
+            id: #{user.id}
+          ) {
             id
             email
           }
