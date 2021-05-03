@@ -3,13 +3,13 @@
 module GraphqlDevise
   module MountMethod
     module OperationPreparers
-      class ResourceNameSetter
-        def initialize(name)
-          @name = name
+      class ResourceKlassSetter
+        def initialize(klass)
+          @klass = klass
         end
 
         def call(operation, **)
-          operation.instance_variable_set(:@resource_name, @name)
+          operation.instance_variable_set(:@resource_klass, @klass)
 
           operation
         end

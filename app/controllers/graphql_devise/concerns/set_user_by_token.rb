@@ -10,9 +10,8 @@ module GraphqlDevise
       class_methods do
         def set_resource_by_model(models, **kwargs)
           Array(models).each do |model|
-            GraphqlDevise.add_mapping(GraphqlDevise.to_mapping_name(model.to_s), model.to_s)
+            GraphqlDevise.configure_warden_serializer_for_model(model)
           end
-          GraphqlDevise.reconfigure_warden!
 
           before_action(**kwargs) do
             authenticate_model(models)
@@ -23,19 +22,14 @@ module GraphqlDevise
       def authenticate_model(models)
         Array(models).each do |model|
           set_resource_by_token(model)
-          return @resource
+          return @resource if @resource.present?
         end
 
         nil
       end
 
       def resource_class(resource = nil)
-        return super unless resource.is_a?(Class)
-
-        if (Object.const_defined?('ActiveRecord::Base') && resource < ActiveRecord::Base) ||
-           (Object.const_defined?('Mongoid::Document') && resource < Mongoid::Document)
-          return resource
-        end
+        return resource if resource.respond_to?(:find_by)
 
         super
       end

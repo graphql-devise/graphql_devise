@@ -40,11 +40,11 @@ module GraphqlDevise
       end
 
       def resource_name
-        self.class.instance_variable_get(:@resource_name)
+        GraphqlDevise.to_mapping_name(resource_class)
       end
 
       def resource_class
-        controller.send(:resource_class, resource_name)
+        self.class.instance_variable_get(:@resource_klass)
       end
 
       def recoverable_enabled?
@@ -60,7 +60,7 @@ module GraphqlDevise
       end
 
       def current_resource
-        @current_resource ||= controller.send(:set_user_by_token, resource_name)
+        @current_resource ||= controller.send(:set_user_by_token, resource_class)
       end
 
       def client

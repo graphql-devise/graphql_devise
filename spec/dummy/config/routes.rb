@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   }
 
   mount_graphql_devise_for(
-    'Admin',
+    Admin,
     authenticatable_type: Types::CustomAdminType,
     skip:                 [:sign_up, :check_password_token],
     operations:           {

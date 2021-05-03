@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::CustomOperationPreparer do
   describe '#call' do
-    subject(:prepared) { described_class.new(selected_keys: selected_keys, custom_operations: operations, mapping_name: mapping_name).call }
+    subject(:prepared) { described_class.new(selected_keys: selected_keys, custom_operations: operations, model: model).call }
 
     let(:login_operation)  { double(:confirm_operation, graphql_name: nil) }
     let(:logout_operation) { double(:sign_up_operation, graphql_name: nil) }
-    let(:mapping_name)     { :user }
+    let(:model)            { User }
     let(:operations)       { { login: login_operation, logout: logout_operation, invalid: double(:invalid) } }
     let(:selected_keys)    { [:login, :logout, :sign_up, :confirm] }
 
@@ -22,8 +22,8 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::CustomOperationPr
 
       prepared
 
-      expect(login_operation.instance_variable_get(:@resource_name)).to eq(:user)
-      expect(logout_operation.instance_variable_get(:@resource_name)).to eq(:user)
+      expect(login_operation.instance_variable_get(:@resource_klass)).to eq(User)
+      expect(logout_operation.instance_variable_get(:@resource_klass)).to eq(User)
     end
 
     context 'when no selected keys are provided' do

@@ -43,12 +43,22 @@ RSpec.describe "Integrations with the user's controller" do
     end
 
     context 'when authenticating before using the GQL schema' do
-      let(:headers) { create(:schema_user).create_new_auth_token }
-
       before { post_request('/api/v1/controller_auth') }
 
-      it 'allows authentication at the controller level' do
-        expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
+      context 'when user is authenticated' do
+        let(:headers) { create(:schema_user).create_new_auth_token }
+
+        it 'allows authentication at the controller level' do
+          expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
+        end
+      end
+
+      context 'when user is not authenticated' do
+        it 'returns a must sign in error' do
+          expect(json_response[:errors]).to contain_exactly(
+            hash_including(message: 'privateField field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
+          )
+        end
       end
     end
 

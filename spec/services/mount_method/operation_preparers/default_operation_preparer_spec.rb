@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::DefaultOperationPreparer do
   describe '#call' do
     subject(:prepared) { default_preparer.call }
 
-    let(:default_preparer)  { described_class.new(selected_operations: operations, custom_keys: custom_keys, mapping_name: mapping_name, preparer: preparer) }
+    let(:default_preparer)  { described_class.new(selected_operations: operations, custom_keys: custom_keys, model: model, preparer: preparer) }
     let(:confirm_operation) { double(:confirm_operation, graphql_name: nil) }
     let(:sign_up_operation) { double(:sign_up_operation, graphql_name: nil) }
     let(:login_operation)   { double(:confirm_operation, graphql_name: nil) }
     let(:logout_operation)  { double(:sign_up_operation, graphql_name: nil) }
-    let(:mapping_name)      { :user }
+    let(:model)             { User }
     let(:preparer)          { double(:preparer) }
     let(:custom_keys)       { [:login, :logout] }
     let(:operations) do
@@ -46,8 +46,8 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparers::DefaultOperationP
 
       prepared
 
-      expect(confirm_operation.instance_variable_get(:@resource_name)).to eq(:user)
-      expect(sign_up_operation.instance_variable_get(:@resource_name)).to eq(:user)
+      expect(confirm_operation.instance_variable_get(:@resource_klass)).to eq(User)
+      expect(sign_up_operation.instance_variable_get(:@resource_klass)).to eq(User)
     end
 
     context 'when no custom keys are provided' do

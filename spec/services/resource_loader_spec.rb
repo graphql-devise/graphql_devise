@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe GraphqlDevise::ResourceLoader do
   describe '#call' do
@@ -15,8 +15,8 @@ RSpec.describe GraphqlDevise::ResourceLoader do
 
     before do
       allow(GraphqlDevise).to receive(:add_mapping).with(:user, resource)
-      allow(GraphqlDevise).to receive(:resource_mounted?).with(:user).and_return(mounted)
-      allow(GraphqlDevise).to receive(:mount_resource).with(:user)
+      allow(GraphqlDevise).to receive(:resource_mounted?).with(User).and_return(mounted)
+      allow(GraphqlDevise).to receive(:mount_resource).with(User)
     end
 
     it 'loads operations into the provided types' do
@@ -64,13 +64,13 @@ RSpec.describe GraphqlDevise::ResourceLoader do
 
       it 'adds mappings' do
         expect(GraphqlDevise).to receive(:add_mapping).with(:user, resource)
-        expect(GraphqlDevise).to receive(:mount_resource).with(:user)
+        expect(GraphqlDevise).to receive(:mount_resource).with(User)
 
         loader
       end
 
       context 'when resource was already mounted' do
-        before { allow(GraphqlDevise).to receive(:resource_mounted?).with(:user).and_return(true) }
+        before { allow(GraphqlDevise).to receive(:resource_mounted?).with(User).and_return(true) }
 
         it 'skips schema loading' do
           expect(query).not_to         receive(:field)

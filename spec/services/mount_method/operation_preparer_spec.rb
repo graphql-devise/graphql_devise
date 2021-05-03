@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe GraphqlDevise::MountMethod::OperationPreparer do
   describe '#call' do
     subject(:prepared_operations) do
       described_class.new(
-        mapping_name:          mapping,
+        model:                 model,
         selected_operations:   selected,
         preparer:              preparer,
         custom:                custom,
@@ -15,14 +15,14 @@ RSpec.describe GraphqlDevise::MountMethod::OperationPreparer do
     end
 
     let(:logout_class) { Class.new(GraphQL::Schema::Resolver) }
-    let(:mapping)      { :user }
+    let(:model)        { User }
     let(:preparer)     { double(:preparer, call: logout_class) }
     let(:custom)       { { login: double(:custom_login, graphql_name: nil) } }
     let(:additional)   { { user_additional: double(:user_additional) } }
     let(:selected) do
       {
-        login: { klass: double(:login_default) },
-        logout:{ klass: logout_class }
+        login:  { klass: double(:login_default) },
+        logout: { klass: logout_class }
       }
     end
 
