@@ -33,7 +33,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
 
-      assert_file 'app/graphql/gqld_dummy_schema.rb', /\s+#{Regexp.escape("GraphqlDevise::ResourceLoader.new('Admin')")}/
+      assert_file 'app/graphql/gqld_dummy_schema.rb', /\s+#{Regexp.escape("GraphqlDevise::ResourceLoader.new(Admin)")}/
     end
   end
 
