@@ -60,7 +60,7 @@ module GraphqlDevise
       end
 
       def current_resource
-        @current_resource ||= controller.send(:set_user_by_token, resource_class)
+        @current_resource ||= controller.send(:set_resource_by_token, resource_class)
       end
 
       def client

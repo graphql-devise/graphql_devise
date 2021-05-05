@@ -43,7 +43,6 @@ module GraphqlDevise
         query.field(action, resolver: resolver, authenticate: false)
       end
 
-      GraphqlDevise.configure_warden_serializer_for_model(model)
       GraphqlDevise.add_mapping(GraphqlDevise.to_mapping_name(@resource).to_sym, @resource)
       GraphqlDevise.mount_resource(model) if @routing
 

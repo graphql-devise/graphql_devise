@@ -4,17 +4,14 @@ require 'graphql_devise/model/with_email_updater'
 
 module GraphqlDevise
   module Concerns
-    Model = DeviseTokenAuth::Concerns::User
+    module Model
+      extend ActiveSupport::Concern
 
-    Model.module_eval do
-      class_methods do
-        def reconfirmable
-          devise_modules.include?(:confirmable) && column_names.include?('unconfirmed_email')
-        end
-      end
+      included do
+        include DeviseTokenAuth::Concerns::User
+        include GraphqlDevise::Concerns::AdditionalModelMethods
 
-      def update_with_email(attributes = {})
-        GraphqlDevise::Model::WithEmailUpdater.new(self, attributes).call
+        GraphqlDevise.configure_warden_serializer_for_model(self)
       end
     end
   end
