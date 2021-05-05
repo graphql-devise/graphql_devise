@@ -15,6 +15,7 @@ module GraphqlDevise
 
       model = @resource.is_a?(String) ? @resource.constantize : @resource
 
+      # Necesary when mounting a resource via route file as Devise forces the reloading of routes
       return clean_options if GraphqlDevise.resource_mounted?(model) && @routing
 
       validate_options!(clean_options)

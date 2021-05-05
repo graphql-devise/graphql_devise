@@ -26,6 +26,7 @@ module GraphqlDevise
       end
 
       def resource_class(resource = nil)
+        # Return the resource class instead of looking for a Devise mapping if resource is already a resource class
         return resource if resource.respond_to?(:find_by)
 
         super
