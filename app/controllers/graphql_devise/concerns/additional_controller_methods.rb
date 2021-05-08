@@ -41,6 +41,17 @@ module GraphqlDevise
       end
 
       def graphql_context(resource_name)
+        ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+          `graphql_context` is deprecated and will be removed in a future version of this gem.
+           Use `gql_devise_context(models)` instead.
+
+           EXAMPLE
+           include GraphqlDevise::Concerns::SetUserByToken
+
+           DummySchema.execute(params[:query], context: gql_devise_context(User))
+           DummySchema.execute(params[:query], context: gql_devise_context([User, Admin]))
+        DEPRECATION
+
         {
           resource_name: resource_name,
           controller:    self

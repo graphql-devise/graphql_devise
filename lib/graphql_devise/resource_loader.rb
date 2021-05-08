@@ -13,7 +13,21 @@ module GraphqlDevise
       # clean_options responds to all keys defined in GraphqlDevise::MountMethod::SUPPORTED_OPTIONS
       clean_options = GraphqlDevise::MountMethod::OptionSanitizer.new(@options).call!
 
-      model = @resource.is_a?(String) ? @resource.constantize : @resource
+      model = if @resource.is_a?(String)
+        ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+          Providing a String as the model you want to mount is deprecated and will be removed in a future version of
+          this gem. Please use the actual model constant instead.
+
+          EXAMPLE
+
+          GraphqlDevise::ResourceLoader.new(User) # instead of GraphqlDevise::ResourceLoader.new('User')
+
+          mount_graphql_devise_for User # instead of mount_graphql_devise_for 'User'
+        DEPRECATION
+        @resource.constantize
+      else
+        @resource
+      end
 
       # Necesary when mounting a resource via route file as Devise forces the reloading of routes
       return clean_options if GraphqlDevise.resource_mounted?(model) && @routing

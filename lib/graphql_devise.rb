@@ -33,7 +33,7 @@ module GraphqlDevise
 
     Devise.add_mapping(
       mapping_name.to_s.pluralize.to_sym,
-      module: :devise, class_name: resource
+      module: :devise, class_name: resource.to_s
     )
   end
 

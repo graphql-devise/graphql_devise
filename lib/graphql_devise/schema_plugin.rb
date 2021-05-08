@@ -30,6 +30,20 @@ module GraphqlDevise
       auth_required = authenticate_option(field, trace_data)
       context       = context_from_data(trace_data)
 
+      if context.key?(:resource_name)
+        ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+          Providing `resource_name` as part of the GQL context, or doing so by using the `graphql_context(resource_name)`
+          method on your controller is deprecated and will be removed in a future version of this gem.
+          Please use `gql_devise_context` in you controller instead.
+
+          EXAMPLE
+          include GraphqlDevise::Concerns::SetUserByToken
+
+          DummySchema.execute(params[:query], context: gql_devise_context(User))
+          DummySchema.execute(params[:query], context: gql_devise_context([User, Admin]))
+        DEPRECATION
+      end
+
       if auth_required && !(public_introspection && introspection_field?(field))
         context = set_current_resource(context)
         raise_on_missing_resource(context, field)

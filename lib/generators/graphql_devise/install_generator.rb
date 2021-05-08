@@ -83,7 +83,7 @@ module GraphqlDevise
     query:            Types::QueryType,
     mutation:         Types::MutationType,
     resource_loaders: [
-      GraphqlDevise::ResourceLoader.new('#{user_class}'),
+      GraphqlDevise::ResourceLoader.new(#{user_class})
     ]
   )
 RUBY
