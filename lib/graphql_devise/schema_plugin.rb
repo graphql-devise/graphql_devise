@@ -40,7 +40,7 @@ module GraphqlDevise
           include GraphqlDevise::Concerns::SetUserByToken
 
           DummySchema.execute(params[:query], context: gql_devise_context(User))
-          DummySchema.execute(params[:query], context: gql_devise_context([User, Admin]))
+          DummySchema.execute(params[:query], context: gql_devise_context(User, Admin))
         DEPRECATION
       end
 

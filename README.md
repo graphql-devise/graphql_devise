@@ -403,8 +403,7 @@ class MyController < ApplicationController
   end
 end
 ```
-The argument for `gql_devise_context` is the model you want to authenticate or an array of models if
-you want to authenticate more than one, like this:
+`gql_devise_context` receives as many models as you need to authenticate in the request, like this:
 ```ruby
 # app/controllers/my_controller.rb
 
@@ -412,7 +411,7 @@ class MyController < ApplicationController
   include GraphqlDevise::Concerns::SetUserByToken
 
   def my_action
-    result = DummySchema.execute(params[:query], context: gql_devise_context([User, Admin]))
+    result = DummySchema.execute(params[:query], context: gql_devise_context(User, Admin))
     render json: result unless performed?
   end
 end
@@ -420,9 +419,13 @@ end
 Internally in your own mutations and queries a key `current_resource` will be available in
 the context if a resource was successfully authenticated or `nil` otherwise.
 
-Keep in mind that sending an array to the `gql_devise_context` method means that depending
+Keep in mind that sending multiple models to the `gql_devise_context` method means that depending
 on who makes the request, the context value `current_resource` might contain instances of the
-different models you provided in the array.
+different models you provided.
+
+**Note:** If for any reason you need more control over how users are authenticated, you can use the `authenticate_model`
+method anywhere in your controller. The method will return the authenticated resource or nil if authentication fails.
+It will also set the instance variable `@resource` in the controller.
 
 Please note that by using this mechanism your GQL schema will be in control of what queries are
 restricted to authenticated users and you can only do this at the root level fields of your GQL

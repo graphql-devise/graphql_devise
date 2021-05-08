@@ -24,7 +24,7 @@ module Api
           params[:query],
           operation_name: params[:operationName],
           variables:      ensure_hash(params[:variables]),
-          context:        gql_devise_context(SchemaUser)
+          context:        gql_devise_context(SchemaUser, User)
         )
 
         render json: result unless performed?
