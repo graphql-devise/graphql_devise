@@ -19,6 +19,17 @@ module Api
         render json: DummySchema.execute(params[:query], context: graphql_context([:user, :fail]))
       end
 
+      def controller_auth
+        result = DummySchema.execute(
+          params[:query],
+          operation_name: params[:operationName],
+          variables:      ensure_hash(params[:variables]),
+          context:        gql_devise_context(SchemaUser)
+        )
+
+        render json: result unless performed?
+      end
+
       private
 
       def execute_params(item)

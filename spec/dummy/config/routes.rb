@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   }
 
   mount_graphql_devise_for(
-    'Admin',
+    Admin,
     authenticatable_type: Types::CustomAdminType,
     skip:                 [:sign_up, :check_password_token],
     operations:           {
@@ -37,4 +37,5 @@ Rails.application.routes.draw do
   post '/api/v1/graphql', to: 'api/v1/graphql#graphql'
   post '/api/v1/interpreter', to: 'api/v1/graphql#interpreter'
   post '/api/v1/failing', to: 'api/v1/graphql#failing_resource_name'
+  post '/api/v1/controller_auth', to: 'api/v1/graphql#controller_auth'
 end

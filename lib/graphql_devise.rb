@@ -20,21 +20,35 @@ module GraphqlDevise
     @schema_loaded = true
   end
 
-  def self.resource_mounted?(mapping_name)
-    @mounted_resources.include?(mapping_name)
+  def self.resource_mounted?(model)
+    @mounted_resources.include?(model)
   end
 
-  def self.mount_resource(mapping_name)
-    @mounted_resources << mapping_name
+  def self.mount_resource(model)
+    @mounted_resources << model
   end
 
   def self.add_mapping(mapping_name, resource)
-    return if Devise.mappings.key?(mapping_name)
+    return if Devise.mappings.key?(mapping_name.to_sym)
 
     Devise.add_mapping(
       mapping_name.to_s.pluralize.to_sym,
       module: :devise, class_name: resource
     )
+  end
+
+  def self.to_mapping_name(resource)
+    resource.to_s.underscore.tr('/', '_')
+  end
+
+  def self.configure_warden_serializer_for_model(model)
+    Devise.warden_config.serialize_into_session(to_mapping_name(model)) do |record|
+      model.serialize_into_session(record)
+    end
+
+    Devise.warden_config.serialize_from_session(to_mapping_name(model)) do |args|
+      model.serialize_from_session(*args)
+    end
   end
 end
 
