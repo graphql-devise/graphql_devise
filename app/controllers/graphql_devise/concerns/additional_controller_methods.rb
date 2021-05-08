@@ -9,15 +9,15 @@ module GraphqlDevise
         attr_accessor :client_id, :token, :resource
       end
 
-      def gql_devise_context(models)
+      def gql_devise_context(*models)
         {
-          current_resource: authenticate_model(models),
+          current_resource: authenticate_model(*models),
           controller:       self
         }
       end
 
-      def authenticate_model(models)
-        Array(models).each do |model|
+      def authenticate_model(*models)
+        models.each do |model|
           set_resource_by_token(model)
           return @resource if @resource.present?
         end
@@ -43,13 +43,13 @@ module GraphqlDevise
       def graphql_context(resource_name)
         ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
           `graphql_context` is deprecated and will be removed in a future version of this gem.
-           Use `gql_devise_context(models)` instead.
+           Use `gql_devise_context(model)` instead.
 
            EXAMPLE
            include GraphqlDevise::Concerns::SetUserByToken
 
            DummySchema.execute(params[:query], context: gql_devise_context(User))
-           DummySchema.execute(params[:query], context: gql_devise_context([User, Admin]))
+           DummySchema.execute(params[:query], context: gql_devise_context(User, Admin))
         DEPRECATION
 
         {
