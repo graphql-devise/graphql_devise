@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.15.0](https://github.com/graphql-devise/graphql_devise/tree/v0.15.0) (2021-05-09)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.3...v0.15.0)
+
+**Implemented enhancements:**
+
+- Allow controller level authentication [\#175](https://github.com/graphql-devise/graphql_devise/pull/175) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Deprecated:**
+
+- Deprecate authenticating resources inside the GQL schema [\#176](https://github.com/graphql-devise/graphql_devise/pull/176) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Merged pull requests:**
+
+- Add controller level auth documentation [\#177](https://github.com/graphql-devise/graphql_devise/pull/177) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.14.3](https://github.com/graphql-devise/graphql_devise/tree/v0.14.3) (2021-04-28)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.2...v0.14.3)
