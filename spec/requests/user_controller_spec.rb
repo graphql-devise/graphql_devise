@@ -5,6 +5,14 @@ require 'rails_helper'
 RSpec.describe "Integrations with the user's controller" do
   include_context 'with graphql query request'
 
+  shared_examples 'returns a must authenticate error' do |field|
+    it 'returns a must sign in error' do
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(message: "#{field} field requires authentication", extensions: { code: 'AUTHENTICATION_ERROR' })
+      )
+    end
+  end
+
   let(:user) { create(:user, :confirmed) }
 
   describe 'publicField' do
@@ -54,11 +62,7 @@ RSpec.describe "Integrations with the user's controller" do
       end
 
       context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'privateField field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
-          )
-        end
+        it_behaves_like 'returns a must authenticate error', 'privateField'
       end
     end
 
@@ -82,11 +86,7 @@ RSpec.describe "Integrations with the user's controller" do
       end
 
       context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'privateField field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
-          )
-        end
+        it_behaves_like 'returns a must authenticate error', 'privateField'
       end
 
       context 'when using the failing route' do
@@ -111,11 +111,7 @@ RSpec.describe "Integrations with the user's controller" do
       end
 
       context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'privateField field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
-          )
-        end
+        it_behaves_like 'returns a must authenticate error', 'privateField'
       end
     end
   end
@@ -141,11 +137,7 @@ RSpec.describe "Integrations with the user's controller" do
       end
 
       context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
-          )
-        end
+        it_behaves_like 'returns a must authenticate error', 'dummyMutation'
       end
     end
 
@@ -161,11 +153,7 @@ RSpec.describe "Integrations with the user's controller" do
       end
 
       context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'dummyMutation field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
-          )
-        end
+        it_behaves_like 'returns a must authenticate error', 'dummyMutation'
       end
     end
   end
@@ -199,11 +187,7 @@ RSpec.describe "Integrations with the user's controller" do
       end
 
       context 'when user is not authenticated' do
-        it 'returns a must sign in error' do
-          expect(json_response[:errors]).to contain_exactly(
-            hash_including(message: 'user field requires authentication', extensions: { code: 'AUTHENTICATION_ERROR' })
-          )
-        end
+        it_behaves_like 'returns a must authenticate error', 'user'
       end
     end
 
@@ -269,6 +253,63 @@ RSpec.describe "Integrations with the user's controller" do
       end.to change(user, :email).from(original_email).to('updated@gmail.com').and(
         change(user, :uid).from(original_email).to('updated@gmail.com')
       )
+    end
+  end
+
+  describe 'vipField' do
+    let(:error_message) { 'Field available only for VIP Users' }
+    let(:query) do
+      <<-GRAPHQL
+        query { vipField }
+      GRAPHQL
+    end
+
+    context 'when using a regular schema' do
+      before { post_request('/api/v1/graphql') }
+
+      context 'when user is authenticated' do
+        let(:headers) { user.create_new_auth_token }
+
+        context 'when schema user is VIP' do
+          let(:user) { create(:user, :confirmed, vip: true) }
+
+          it 'allows to perform the query' do
+            expect(json_response[:data][:vipField]).to eq(error_message)
+          end
+        end
+
+        context 'when schema user is not VIP' do
+          it_behaves_like 'returns a must authenticate error', 'vipField'
+        end
+      end
+
+      context 'when user is not authenticated' do
+        it_behaves_like 'returns a must authenticate error', 'vipField'
+      end
+    end
+
+    context 'when using the interpreter schema' do
+      before { post_request('/api/v1/interpreter') }
+
+      context 'when user is authenticated' do
+        let(:headers) { user.create_new_auth_token }
+
+        context 'when schema user is VIP' do
+          let(:user) { create(:user, :confirmed, vip: true) }
+
+          it 'allows to perform the query' do
+            expect(json_response[:data][:vipField]).to eq(error_message)
+          end
+        end
+
+        context 'when schema user is not VIP' do
+          it_behaves_like 'returns a must authenticate error', 'vipField'
+        end
+      end
+
+      context 'when user is not authenticated' do
+        it_behaves_like 'returns a must authenticate error', 'vipField'
+      end
     end
   end
 end

@@ -46,7 +46,7 @@ module GraphqlDevise
 
       if auth_required && !(public_introspection && introspection_field?(field))
         context = set_current_resource(context)
-        raise_on_missing_resource(context, field)
+        raise_on_missing_resource(context, field, auth_required)
       end
 
       yield
@@ -75,8 +75,12 @@ module GraphqlDevise
       context
     end
 
-    def raise_on_missing_resource(context, field)
+    def raise_on_missing_resource(context, field, auth_required)
       @unauthenticated_proc.call(field.name) if context[:current_resource].blank?
+
+      if auth_required.respond_to?(:call) && !auth_required.call(context[:current_resource])
+        @unauthenticated_proc.call(field.name)
+      end
     end
 
     def context_from_data(trace_data)
