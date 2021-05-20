@@ -28,8 +28,10 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [I18n](#i18n)
       * [Authenticating Controller Actions](#authenticating-controller-actions)
          * [Authenticate Resource in the Controller (&gt;= v0.15.0)](#authenticate-resource-in-the-controller--v0150)
+            * [Authentication Options](#authentication-options)
          * [Authenticate Before Reaching Your GQL Schema (Deprecated)](#authenticate-before-reaching-your-gql-schema-deprecated)
          * [Authenticate in Your GQL Schema (Deprecated)](#authenticate-in-your-gql-schema-deprecated)
+            * [Authentication Options](#authentication-options-1)
          * [Important](#important-2)
       * [Making Requests](#making-requests)
          * [Introspection query](#introspection-query)
@@ -45,7 +47,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Sat May  8 12:32:03 -05 2021 -->
+<!-- Added by: mcelicalderon, at: Wed May 19 21:25:22 -05 2021 -->
 
 <!--te-->
 
@@ -432,7 +434,13 @@ restricted to authenticated users and you can only do this at the root level fie
 schema. Configure the plugin as explained [here](#mounting-operations-into-your-own-schema)
 so this can work.
 
-In you main app's schema this is how you might specify if a field needs to be authenticated or not:
+##### Authentication Options
+Wether you setup authentications as a default in the plugin, or you do it at the field level,
+these are the options you can use:
+1. **Any truthy value:** If `current_resource` is not `.present?`, query will return an authentication error.
+1. **A callable object:** Provided object will be called with `current_resource` as the only argument if `current_resource` is `.present?`. If return value of the callable object is false, query will return an authentication error.
+
+In your main app's schema this is how you might specify if a field needs to be authenticated or not:
 ```ruby
 module Types
   class QueryType < Types::BaseObject
@@ -442,13 +450,11 @@ module Types
     field :public_field, String, null: false, authenticate: false
     # this field requires authentication
     field :private_field, String, null: false, authenticate: true
+    # this field requires authenticated users to also be admins
+    field :admin_field, String, null: false, authenticate: ->(user) { user.admin? }
   end
 end
 ```
-**Important:** Currently, the only check the plugin does to see if the user is authenticated or not when executing
-the query, is verifying that `context[:current_resource].present?` in the GraphQL context.
-So, be careful not to populate that key of the context with values other than what `gql_devise_context`
-returns. The option to do more complex verifications will be added in the future.
 
 #### Authenticate Before Reaching Your GQL Schema (Deprecated)
 For this you will need to call `authenticate_<model>!` in a `before_action` controller hook.
@@ -506,7 +512,13 @@ restricted to authenticated users and you can only do this at the root level fie
 schema. Configure the plugin as explained [here](#mounting-operations-into-your-own-schema)
 so this can work.
 
-In you main app's schema this is how you might specify if a field needs to be authenticated or not:
+##### Authentication Options
+Wether you setup authentications as a default in the plugin, or you do it at the field level,
+these are the options you can use:
+1. **Any truthy value:** If `current_resource` is not `.present?`, query will return an authentication error.
+1. **A callable object:** Provided object will be called with `current_resource` as the only argument if `current_resource` is `.present?`. If return value of the callable object is false, query will return an authentication error.
+
+In your main app's schema this is how you might specify if a field needs to be authenticated or not:
 ```ruby
 module Types
   class QueryType < Types::BaseObject
@@ -516,6 +528,8 @@ module Types
     field :public_field, String, null: false, authenticate: false
     # this field requires authentication
     field :private_field, String, null: false, authenticate: true
+    # this field requires authenticated users to also be admins
+    field :admin_field, String, null: false, authenticate: ->(user) { user.admin? }
   end
 end
 ```
