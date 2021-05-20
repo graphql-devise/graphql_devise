@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.16.0](https://github.com/graphql-devise/graphql_devise/tree/v0.16.0) (2021-05-20)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.15.0...v0.16.0)
+
+**Implemented enhancements:**
+
+- Allow checking of authenticaded resource via callable object [\#180](https://github.com/graphql-devise/graphql_devise/pull/180) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Merged pull requests:**
+
+- Document authenticate with callable [\#181](https://github.com/graphql-devise/graphql_devise/pull/181) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.15.0](https://github.com/graphql-devise/graphql_devise/tree/v0.15.0) (2021-05-09)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.14.3...v0.15.0)
