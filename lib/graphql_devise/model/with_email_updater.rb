@@ -9,7 +9,7 @@ module GraphqlDevise
       end
 
       def call
-        resource_attributes = @attributes.except(:schema_url, :confirmation_success_url)
+        resource_attributes = @attributes.except(:schema_url, :confirmation_success_url, :confirmation_url)
         return @resource.update(resource_attributes) unless requires_reconfirmation?(resource_attributes)
 
         @resource.assign_attributes(resource_attributes)
@@ -27,7 +27,7 @@ module GraphqlDevise
         else
           raise(
             GraphqlDevise::Error,
-            'Method `update_with_email` requires attributes `confirmation_success_url` and `schema_url` for email reconfirmation to work'
+            'Method `update_with_email` requires attribute `confirmation_url` for email reconfirmation to work'
           )
         end
       end
@@ -35,8 +35,19 @@ module GraphqlDevise
       private
 
       def required_reconfirm_attributes?
-        @attributes[:schema_url].present? &&
-          (@attributes[:confirmation_success_url].present? || DeviseTokenAuth.default_confirm_success_url.present?)
+        if @attributes[:schema_url].present?
+          ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+            Providing `schema_url` and `confirmation_success_url` to `update_with_email` is deprecated and will be
+            removed in a future version of this gem.
+
+            Now you must only provide `confirmation_url` and the email will contain the new format of the confirmation
+            url that needs to be used with the new `confirmAccountWithToken` on the client application.
+          DEPRECATION
+
+          [@attributes[:confirmation_success_url], DeviseTokenAuth.default_confirm_success_url].any?(&:present?)
+        else
+          [@attributes[:confirmation_url], DeviseTokenAuth.default_confirm_success_url].any?(&:present?)
+        end
       end
 
       def requires_reconfirmation?(resource_attributes)
@@ -60,13 +71,22 @@ module GraphqlDevise
         end
       end
 
+      def confirmation_method_params
+        if @attributes[:schema_url].present?
+          {
+            redirect_url: @attributes[:confirmation_success_url] || DeviseTokenAuth.default_confirm_success_url,
+            schema_url:   @attributes[:schema_url]
+          }
+        else
+          { redirect_url: @attributes[:confirmation_url] || DeviseTokenAuth.default_confirm_success_url }
+        end
+      end
+
       def send_confirmation_instructions(saved)
         return unless saved
 
         @resource.send_confirmation_instructions(
-          redirect_url:  @attributes[:confirmation_success_url] || DeviseTokenAuth.default_confirm_success_url,
-          template_path: ['graphql_devise/mailer'],
-          schema_url:    @attributes[:schema_url]
+          confirmation_method_params.merge(template_path: ['graphql_devise/mailer'])
         )
       end
     end
