@@ -2,4 +2,10 @@
 
 <p><%= t('.confirm_link_msg') %></p>
 
-<p><%= link_to t('.confirm_account_link'), "#{message['schema_url']}?#{confirmation_query(resource_name: @resource.class.to_s, redirect_url: message['redirect-url'], token: @token).to_query}" %></p>
+<p>
+  <% if message['schema_url'].present? %>
+    <%= link_to t('.confirm_account_link'), "#{message['schema_url']}?#{confirmation_query(resource_name: @resource.class.to_s, redirect_url: message['redirect-url'], token: @token).to_query}" %>
+  <% else %>
+    <%= link_to t('.confirm_account_link'), "#{CGI.escape(message['redirect-url'].to_s)}?#{{ confirmationToken: @token }.to_query}" %>
+  <% end %>
+</p>

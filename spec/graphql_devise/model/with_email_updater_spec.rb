@@ -4,6 +4,57 @@ require 'rails_helper'
 
 RSpec.describe GraphqlDevise::Model::WithEmailUpdater do
   describe '#call' do
+    shared_examples 'all required arguments are provided' do |base_attributes|
+      let(:attributes) { base_attributes.merge(email: 'new@gmail.com', name: 'Updated Name') }
+
+      it 'postpones email update' do
+        expect do
+          updater
+          resource.reload
+        end.to not_change(resource, :email).from(resource.email).and(
+          not_change(resource, :uid).from(resource.uid)
+        ).and(
+          change(resource, :unconfirmed_email).from(nil).to('new@gmail.com')
+        ).and(
+          change(resource, :name).from(resource.name).to('Updated Name')
+        )
+      end
+
+      it 'sends out a confirmation email to the unconfirmed_email' do
+        expect { updater }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+        email = ActionMailer::Base.deliveries.first
+        expect(email.to).to contain_exactly('new@gmail.com')
+      end
+
+      context 'when email value is the same on the DB' do
+        let(:attributes) { base_attributes.merge(email: resource.email, name: 'changed') }
+
+        it 'updates attributes and does not send confirmation email' do
+          expect do
+            updater
+            resource.reload
+          end.to change(resource, :name).from(resource.name).to('changed').and(
+            not_change(resource, :email).from(resource.email)
+          ).and(
+            not_change(ActionMailer::Base.deliveries, :count).from(0)
+          )
+        end
+      end
+
+      context 'when provided params are invalid' do
+        let(:attributes) { base_attributes.merge(email: 'newgmail.com', name: '') }
+
+        it 'returns false and adds errors to the model' do
+          expect(updater).to be_falsey
+          expect(resource.errors.full_messages).to contain_exactly(
+            'Email is not an email',
+            "Name can't be blank"
+          )
+        end
+      end
+    end
+
     subject(:updater) { described_class.new(resource, attributes).call }
 
     context 'when the model does not have an unconfirmed_email column' do
@@ -38,90 +89,68 @@ RSpec.describe GraphqlDevise::Model::WithEmailUpdater do
       end
 
       context 'when attributes contain email' do
-        context 'when schema_url is missing' do
-          let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name' } }
+        context 'when confirmation_success_url is used' do
+          it_behaves_like 'all required arguments are provided', schema_url: 'http://localhost/test', confirmation_success_url: 'https://google.com'
 
-          it 'raises an error' do
-            expect { updater }.to raise_error(
-              GraphqlDevise::Error,
-              'Method `update_with_email` requires attributes `confirmation_success_url` and `schema_url` for email reconfirmation to work'
-            )
-          end
+          context 'when confirmation_success_url is missing and no default is set' do
+            let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name', schema_url: 'http://localhost/test' } }
 
-          context 'when email will not change' do
-            let(:attributes) { { email: resource.email, name: 'changed' } }
+            before { allow(DeviseTokenAuth).to receive(:default_confirm_success_url).and_return(nil) }
 
-            it 'updates name and does not raise an error' do
-              expect do
-                updater
-                resource.reload
-              end.to change(resource, :name).from(resource.name).to('changed').and(
-                not_change(resource, :email).from(resource.email)
-              ).and(
-                not_change(ActionMailer::Base.deliveries, :count).from(0)
+            it 'raises an error' do
+              expect { updater }.to raise_error(
+                GraphqlDevise::Error,
+                'Method `update_with_email` requires attribute `confirmation_url` for email reconfirmation to work'
               )
+            end
+
+            context 'when email will not change' do
+              let(:attributes) { { email: resource.email, name: 'changed', confirmation_success_url: 'https://google.com' } }
+
+              it 'updates name and does not raise an error' do
+                expect do
+                  updater
+                  resource.reload
+                end.to change(resource, :name).from(resource.name).to('changed').and(
+                  not_change(resource, :email).from(resource.email)
+                ).and(
+                  not_change(ActionMailer::Base.deliveries, :count).from(0)
+                )
+              end
             end
           end
         end
 
-        context 'when only confirmation_success_url is missing' do
-          let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name', schema_url: 'http://localhost/test' } }
+        context 'when confirm_url is used' do
+          it_behaves_like 'all required arguments are provided', confirmation_url: 'https://google.com'
 
-          it 'uses DTA default_confirm_success_url on the email' do
-            expect { updater }.to change(ActionMailer::Base.deliveries, :count).by(1)
-
-            email = ActionMailer::Base.deliveries.first
-            expect(email.body.decoded).to include(CGI.escape('https://google.com'))
+          context 'when arguments hash has strings as keys' do
+            it_behaves_like 'all required arguments are provided', 'confirmation_url' => 'https://google.com'
           end
         end
 
-        context 'when both required urls are provided' do
-          let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name', schema_url: 'http://localhost/test', confirmation_success_url: 'https://google.com' } }
+        context 'when no confirmation url is provided is provided' do
+          context 'when schema_url is provided' do
+            let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name', schema_url: 'http://localhost/test' } }
 
-          it 'postpones email update' do
-            expect do
-              updater
-              resource.reload
-            end.to not_change(resource, :email).from(resource.email).and(
-              not_change(resource, :uid).from(resource.uid)
-            ).and(
-              change(resource, :unconfirmed_email).from(nil).to('new@gmail.com')
-            ).and(
-              change(resource, :name).from(resource.name).to('Updated Name')
-            )
-          end
+            it 'uses DTA default_confirm_success_url on the email with redirect flow' do
+              expect { updater }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-          it 'sends out a confirmation email to the unconfirmed_email' do
-            expect { updater }.to change(ActionMailer::Base.deliveries, :count).by(1)
-
-            email = ActionMailer::Base.deliveries.first
-            expect(email.to).to contain_exactly('new@gmail.com')
-          end
-
-          context 'when email value is the same on the DB' do
-            let(:attributes) { { email: resource.email, name: 'changed', schema_url: 'http://localhost/test', confirmation_success_url: 'https://google.com' } }
-
-            it 'updates attributes and does not send confirmation email' do
-              expect do
-                updater
-                resource.reload
-              end.to change(resource, :name).from(resource.name).to('changed').and(
-                not_change(resource, :email).from(resource.email)
-              ).and(
-                not_change(ActionMailer::Base.deliveries, :count).from(0)
-              )
+              email = ActionMailer::Base.deliveries.first
+              expect(email.body.decoded).to include(CGI.escape('https://google.com'))
+              expect(email.body.decoded).to include(CGI.escape('ConfirmAccount('))
             end
           end
 
-          context 'when provided params are invalid' do
-            let(:attributes) { { email: 'newgmail.com', name: '', schema_url: 'http://localhost/test', confirmation_success_url: 'https://google.com' } }
+          context 'when schema_url is not provided' do
+            let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name' } }
 
-            it 'returns false and adds errors to the model' do
-              expect(updater).to be_falsey
-              expect(resource.errors.full_messages).to contain_exactly(
-                'Email is not an email',
-                "Name can't be blank"
-              )
+            it 'uses DTA default_confirm_success_url on the email and new confirmation flow' do
+              expect { updater }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+              email = ActionMailer::Base.deliveries.first
+              expect(email.body.decoded).to include(CGI.escape('https://google.com'))
+              expect(email.body.decoded).to include('?confirmationToken=')
             end
           end
         end

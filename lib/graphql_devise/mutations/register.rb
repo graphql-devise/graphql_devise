@@ -2,22 +2,22 @@
 
 module GraphqlDevise
   module Mutations
-    class SignUp < Base
+    class Register < Base
       argument :email,                 String, required: true
       argument :password,              String, required: true
       argument :password_confirmation, String, required: true
-      argument :confirm_success_url,   String, required: false
+      argument :confirm_url,           String, required: false
 
       field :credentials,
             GraphqlDevise::Types::CredentialType,
             null:        true,
             description: 'Authentication credentials. Null if after signUp resource is not active for authentication (e.g. Email confirmation required).'
 
-      def resolve(confirm_success_url: nil, **attrs)
+      def resolve(confirm_url: nil, **attrs)
         resource = build_resource(attrs.merge(provider: provider))
         raise_user_error(I18n.t('graphql_devise.resource_build_failed')) if resource.blank?
 
-        redirect_url = confirm_success_url || DeviseTokenAuth.default_confirm_success_url
+        redirect_url = confirm_url || DeviseTokenAuth.default_confirm_success_url
         if confirmable_enabled? && redirect_url.blank?
           raise_user_error(I18n.t('graphql_devise.registrations.missing_confirm_redirect_url'))
         end
@@ -32,8 +32,7 @@ module GraphqlDevise
           unless resource.confirmed?
             resource.send_confirmation_instructions(
               redirect_url:  redirect_url,
-              template_path: ['graphql_devise/mailer'],
-              schema_url:    controller.full_url_without_params
+              template_path: ['graphql_devise/mailer']
             )
           end
 
