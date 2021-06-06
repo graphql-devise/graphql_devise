@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Account confirmation with token' do
+RSpec.describe 'Registration confirmation with token' do
   include_context 'with graphql query request'
 
   context 'when using the user model' do
@@ -10,7 +10,7 @@ RSpec.describe 'Account confirmation with token' do
     let(:query) do
       <<-GRAPHQL
         mutation {
-          userConfirmAccountWithToken(
+          userConfirmRegistrationWithToken(
             confirmationToken: "#{token}"
           ) {
             authenticatable {
@@ -38,7 +38,7 @@ RSpec.describe 'Account confirmation with token' do
           user.reload
         end.to(change(user, :confirmed_at).from(nil))
 
-        expect(json_response[:data][:userConfirmAccountWithToken]).to include(
+        expect(json_response[:data][:userConfirmRegistrationWithToken]).to include(
           authenticatable: { email: user.email, name: user.name },
           credentials:     { client: user.tokens.keys.first }
         )
@@ -84,7 +84,7 @@ RSpec.describe 'Account confirmation with token' do
     let(:query) do
       <<-GRAPHQL
         mutation {
-          adminConfirmAccountWithToken(
+          adminConfirmRegistrationWithToken(
             confirmationToken: "#{token}"
           ) {
             authenticatable { email }

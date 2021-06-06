@@ -2,7 +2,7 @@
 
 module GraphqlDevise
   module Mutations
-    class ConfirmAccountWithToken < Base
+    class ConfirmRegistrationWithToken < Base
       argument :confirmation_token, String, required: true
 
       field :credentials,

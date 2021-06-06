@@ -123,6 +123,10 @@ RSpec.describe GraphqlDevise::Model::WithEmailUpdater do
 
         context 'when confirm_url is used' do
           it_behaves_like 'all required arguments are provided', confirmation_url: 'https://google.com'
+
+          context 'when arguments hash has strings as keys' do
+            it_behaves_like 'all required arguments are provided', 'confirmation_url' => 'https://google.com'
+          end
         end
 
         context 'when no confirmation url is provided is provided' do
