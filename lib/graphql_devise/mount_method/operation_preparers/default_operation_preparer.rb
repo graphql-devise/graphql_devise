@@ -17,7 +17,7 @@ module GraphqlDevise
           @selected_operations.except(*@custom_keys).each_with_object({}) do |(action, operation_info), result|
             mapped_action = "#{mapping_name}_#{action}"
             operation     = operation_info[:klass]
-            options       = operation_info.except(:klass)
+            options       = operation_info.except(:klass, :deprecation_reason)
 
             result[mapped_action.to_sym] = [
               OperationPreparers::GqlNameSetter.new(mapped_action),

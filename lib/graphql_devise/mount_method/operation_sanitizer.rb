@@ -18,12 +18,23 @@ module GraphqlDevise
       end
 
       def call
-        if @only.present?
+        operations = if @only.present?
           @default.slice(*@only)
         elsif @skipped.present?
           @default.except(*@skipped)
         else
           @default
+        end
+
+        operations.each do |operation, values|
+          if values[:deprecation_reason].present?
+            ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+              `#{operation}` is deprecated and will be removed in a future version of this gem.
+              #{values[:deprecation_reason]}
+
+              You can supress this message by skipping `#{operation}` on your ResourceLoader.
+            DEPRECATION
+          end
         end
       end
     end

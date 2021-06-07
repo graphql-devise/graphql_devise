@@ -18,13 +18,13 @@ module GraphqlDevise
     MUTATIONS = {
       login:                           { klass: GraphqlDevise::Mutations::Login, authenticatable: true },
       logout:                          { klass: GraphqlDevise::Mutations::Logout, authenticatable: true },
-      sign_up:                         { klass: GraphqlDevise::Mutations::SignUp, authenticatable: true },
+      sign_up:                         { klass: GraphqlDevise::Mutations::SignUp, authenticatable: true, deprecation_reason: 'use register instead' },
       register:                        { klass: GraphqlDevise::Mutations::Register, authenticatable: true },
       update_password:                 { klass: GraphqlDevise::Mutations::UpdatePassword, authenticatable: true },
       update_password_with_token:      { klass: GraphqlDevise::Mutations::UpdatePasswordWithToken, authenticatable: true },
       send_password_reset:             { klass: GraphqlDevise::Mutations::SendPasswordReset, authenticatable: false },
       send_password_reset_with_token:  { klass: GraphqlDevise::Mutations::SendPasswordResetWithToken, authenticatable: false },
-      resend_confirmation:             { klass: GraphqlDevise::Mutations::ResendConfirmation, authenticatable: false },
+      resend_confirmation:             { klass: GraphqlDevise::Mutations::ResendConfirmation, authenticatable: false, deprecation_reason: 'use resendConfirmationWithToken instead' },
       resend_confirmation_with_token:  { klass: GraphqlDevise::Mutations::ResendConfirmationWithToken, authenticatable: false },
       confirm_registration_with_token: { klass: GraphqlDevise::Mutations::ConfirmRegistrationWithToken, authenticatable: true }
     }.freeze
