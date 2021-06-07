@@ -4,6 +4,7 @@ require 'graphql_devise/mutations/base'
 require 'graphql_devise/mutations/login'
 require 'graphql_devise/mutations/logout'
 require 'graphql_devise/mutations/resend_confirmation'
+require 'graphql_devise/mutations/resend_confirmation_with_token'
 require 'graphql_devise/mutations/send_password_reset'
 require 'graphql_devise/mutations/send_password_reset_with_token'
 require 'graphql_devise/mutations/sign_up'
@@ -24,6 +25,7 @@ module GraphqlDevise
       send_password_reset:             { klass: GraphqlDevise::Mutations::SendPasswordReset, authenticatable: false },
       send_password_reset_with_token:  { klass: GraphqlDevise::Mutations::SendPasswordResetWithToken, authenticatable: false },
       resend_confirmation:             { klass: GraphqlDevise::Mutations::ResendConfirmation, authenticatable: false },
+      resend_confirmation_with_token:  { klass: GraphqlDevise::Mutations::ResendConfirmationWithToken, authenticatable: false },
       confirm_registration_with_token: { klass: GraphqlDevise::Mutations::ConfirmRegistrationWithToken, authenticatable: true }
     }.freeze
   end

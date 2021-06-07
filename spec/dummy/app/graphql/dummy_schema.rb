@@ -7,17 +7,18 @@ class DummySchema < GraphQL::Schema
     public_introspection: true,
     resource_loaders:     [
       GraphqlDevise::ResourceLoader.new(
-        'User',
+        User,
         only: [
           :login,
           :confirm_account,
           :send_password_reset,
           :resend_confirmation,
+          :resend_confirmation_with_token,
           :check_password_token
         ]
       ),
-      GraphqlDevise::ResourceLoader.new('Guest', only: [:logout]),
-      GraphqlDevise::ResourceLoader.new('SchemaUser')
+      GraphqlDevise::ResourceLoader.new(Guest, only: [:logout]),
+      GraphqlDevise::ResourceLoader.new(SchemaUser)
     ]
   )
 
