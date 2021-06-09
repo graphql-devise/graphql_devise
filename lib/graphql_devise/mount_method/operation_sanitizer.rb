@@ -27,14 +27,15 @@ module GraphqlDevise
         end
 
         operations.each do |operation, values|
-          if values[:deprecation_reason].present?
-            ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+          next if values[:deprecation_reason].blank?
+
+          ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
               `#{operation}` is deprecated and will be removed in a future version of this gem.
               #{values[:deprecation_reason]}
 
-              You can supress this message by skipping `#{operation}` on your ResourceLoader.
-            DEPRECATION
-          end
+              You can supress this message by skipping `#{operation}` on your ResourceLoader or the
+              mount_graphql_devise_for method on your routes file.
+          DEPRECATION
         end
       end
     end
