@@ -1,5 +1,23 @@
 # Changelog
 
+## [v0.17.0](https://github.com/graphql-devise/graphql_devise/tree/v0.17.0) (2021-06-09)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.16.0...v0.17.0)
+
+**Implemented enhancements:**
+
+- Another click in confirm account results in error [\#184](https://github.com/graphql-devise/graphql_devise/issues/184)
+- Add resendConfirmationWithToken mutation [\#186](https://github.com/graphql-devise/graphql_devise/pull/186) ([mcelicalderon](https://github.com/mcelicalderon))
+- Add register mutation and alternate confirmation flow [\#185](https://github.com/graphql-devise/graphql_devise/pull/185) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Deprecated:**
+
+- Deprecate mutations and queries that required a redirect [\#187](https://github.com/graphql-devise/graphql_devise/pull/187) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Merged pull requests:**
+
+- Document new registration and confirmation flow [\#188](https://github.com/graphql-devise/graphql_devise/pull/188) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.16.0](https://github.com/graphql-devise/graphql_devise/tree/v0.16.0) (2021-05-20)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.15.0...v0.16.0)
