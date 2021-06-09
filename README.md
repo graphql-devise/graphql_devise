@@ -24,6 +24,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Available Operations](#available-operations)
       * [Configuring Model](#configuring-model)
       * [Email Reconfirmation](#email-reconfirmation)
+         * [Deprecated flow - Do Not Use](#deprecated-flow---do-not-use)
       * [Customizing Email Templates](#customizing-email-templates)
       * [I18n](#i18n)
       * [Authenticating Controller Actions](#authenticating-controller-actions)
@@ -47,7 +48,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Wed May 19 21:25:22 -05 2021 -->
+<!-- Added by: mcelicalderon, at: Tue Jun  8 22:47:12 -05 2021 -->
 
 <!--te-->
 
@@ -158,7 +159,7 @@ Rails.application.routes.draw do
     operations: {
       login: Mutations::Login
     },
-    skip: [:sign_up],
+    skip: [:register],
     additional_mutations: {
       # generates mutation { adminUserSignUp }
       admin_user_sign_up: Mutations::AdminUserSignUp
@@ -190,7 +191,7 @@ class DummySchema < GraphQL::Schema
     query:            Types::QueryType,
     mutation:         Types::MutationType,
     resource_loaders: [
-      GraphqlDevise::ResourceLoader.new(User, only: [:login, :confirm_account])
+      GraphqlDevise::ResourceLoader.new(User, only: [:login, :confirm_registration_with_token])
     ]
   )
 
@@ -298,13 +299,17 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 ```ruby
 :login
 :logout
-:sign_up
-:confirm_account
-:send_password_reset
-:check_password_token
-:update_password
-:send_password_reset_with_token
+:sign_up (deprecated)
+:register
+:update_password (deprecated)
 :update_password_with_token
+:send_password_reset (deprecated)
+:send_password_reset_with_token
+:resend_confirmation (deprecated)
+:resend_confirmation_with_token
+:confirm_registration_with_token
+:confirm_account (deprecated)
+:check_password_token (deprecated)
 ```
 
 ### Configuring Model
@@ -332,6 +337,9 @@ The install generator can do this for you if you specify the `user_class` option
 See [Installation](#installation) for details.
 
 ### Email Reconfirmation
+We want reconfirmable in this gem to work separately
+from DTA's or Devise (too much complexity in the model based on callbacks).
+
 Email reconfirmation is supported just like in Devise and DTA, but we want reconfirmable
 in this gem to work on model basis instead of having a global configuration like in Devise.
 **For this reason Devise's global `reconfirmable` setting is ignored.**
@@ -340,10 +348,29 @@ For a resource to be considered reconfirmable it has to meet 2 conditions:
 1. Include the `:confirmable` module.
 1. Has an `unconfirmed_email` column in the resource's table.
 
-In order to trigger the reconfirmation email in a reconfirmable resource, you simply needi
+In order to trigger the reconfirmation email in a reconfirmable resource, you simply need
 to call a different update method on your resource,`update_with_email`.
 When the resource is not reconfirmable or the email is not updated, this method behaves exactly
 the same as ActiveRecord's `update`.
+
+`update_with_email` requires one additional attribute when email will change or an error
+will be raised:
+
+1. `confirmation_url`: The full url of your client application. The confirmation email will contain this url plus
+a confirmation token. You need to call `confirmRegistrationWithToken` with the given token on
+your client application.
+
+So, it's up to you where you require confirmation of changing emails.
+Here's a demonstration on the method usage:
+```ruby
+user.update_with_email(
+  name:             'New Name',
+  email:            'new@domain.com',
+  confirmation_url: 'https://google.com'
+)
+```
+
+#### Deprecated flow - Do Not Use
 `update_with_email` requires two additional attributes when email will change or an error
 will be raised:
 
@@ -367,9 +394,6 @@ user.update_with_email(
   confirmation_success_url: 'https://google.com'
 )
 ```
-
- We want reconfirmable in this gem to work separately
- from DTA's or Devise (too much complexity in the model based on callbacks).
 
 ### Customizing Email Templates
 The approach of this gem is a bit different from DeviseTokenAuth. We have placed our templates in `app/views/graphql_devise/mailer`,
@@ -547,20 +571,22 @@ If you are using the schema plugin, you can require authentication before doing 
 
 Operation | Description | Example
 :--- | :--- | :------------------:
-login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload
-logout | | userLogout: UserLogoutPayload
-signUp | The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload
-sendPasswordResetWithToken | Sends an email to the provided address with a link to reset the password of the resource. First step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload
-updatePasswordWithToken | Uses a `resetPasswordToken` to update the password of a resource. Second and last step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(resetPasswordToken: String!, password: String!, passwordConfirmation: String!): UserUpdatePasswordWithTokenPayload
-resendConfirmation | The `UserResendConfirmationPayload` will return the `authenticatable` resource that was sent the confirmation instructions but also has a `message: String!` that can be used to notify a user what to do after the instructions were sent to them | userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload
-sendResetPassword | Sends an email to the provided address with a link to reset the password of the resource. **This mutation is part of the first and soon to be deprecated password reset flow.** | userSendResetPassword(email: String!, redirectUrl: String!): UserSendReserPasswordPayload
-updatePassword | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). **This mutation is part of the first and soon to be deprecated password reset flow.** | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload
+login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload |
+logout | requires authentication headers. Deletes current session if successful. | userLogout: UserLogoutPayload |
+signUp **(Deprecated)** | The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload |
+register | The parameter `confirmUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userRegister(email: String!, password: String!, passwordConfirmation: String!, confirmUrl: String): UserRegisterPayload |
+sendPasswordResetWithToken | Sends an email to the provided address with a link to reset the password of the resource. First step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload |
+updatePasswordWithToken | Uses a `resetPasswordToken` to update the password of a resource. Second and last step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(resetPasswordToken: String!, password: String!, passwordConfirmation: String!): UserUpdatePasswordWithTokenPayload |
+resendConfirmation **(Deprecated)** | The `UserResendConfirmationPayload` will return a `message: String!` that can be used to notify a user what to do after the instructions were sent to them | userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload |
+resendConfirmationWithToken | The `UserResendConfirmationWithTokenPayload` will return a `message: String!` that can be used to notify a user what to do after the instructions were sent to them. Email will contain a link to the provided `confirmUrl` and a `confirmationToken` query param. | userResendConfirmationWithToken(email: String!, confirmUrl: String!): UserResendConfirmationWithTokenPayload |
+sendResetPassword **(Deprecated)** | Sends an email to the provided address with a link to reset the password of the resource. **This mutation is part of the first and soon to be deprecated password reset flow.** | userSendResetPassword(email: String!, redirectUrl: String!): UserSendResetPasswordPayload |
+updatePassword **(Deprecated)** | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). **This mutation is part of the first and soon to be deprecated password reset flow.** | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload |
 
 #### Queries
 Operation | Description | Example
 :--- | :--- | :------------------:
-confirmAccount | Performs a redirect using the `redirectUrl` param | userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User
-checkPasswordToken | Performs a redirect using the `redirectUrl` param | userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User
+confirmAccount **(Deprecated)** | Performs a redirect using the `redirectUrl` param | userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User
+checkPasswordToken **(Deprecated)** | Performs a redirect using the `redirectUrl` param | userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User
 
 The reason for having 2 queries is that these 2 are going to be accessed when clicking on
 the confirmation and reset password email urls. There is no limitation for making mutation
