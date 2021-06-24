@@ -8,47 +8,46 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
 ## Table of Contents
 
 <!--ts-->
-* [GraphqlDevise](#graphqldevise)
-   * [Table of Contents](#table-of-contents)
-   * [Introduction](#introduction)
-   * [Installation](#installation)
-      * [Running the Generator](#running-the-generator)
-         * [Mounting the Schema in a Separate Route](#mounting-the-schema-in-a-separate-route)
+   * [GraphqlDevise](#graphqldevise)
+      * [Table of Contents](#table-of-contents)
+      * [Introduction](#introduction)
+      * [Installation](#installation)
+         * [Running the Generator](#running-the-generator)
+            * [Mounting the Schema in a Separate Route](#mounting-the-schema-in-a-separate-route)
+            * [Mounting Operations in an Existing Schema (&gt; v0.12.0)](#mounting-operations-in-an-existing-schema--v0120)
+      * [Usage](#usage)
+         * [Mounting Auth Schema on a Separate Route](#mounting-auth-schema-on-a-separate-route)
+         * [Mounting Operations In an Existing Schema](#mounting-operations-in-an-existing-schema)
+         * [Available Mount Options](#available-mount-options)
+         * [Available Operations](#available-operations)
+         * [Configuring Model](#configuring-model)
+         * [Email Reconfirmation](#email-reconfirmation)
+            * [Current flow](#current-flow)
+            * [Deprecated flow - Do Not Use](#deprecated-flow---do-not-use)
+         * [Customizing Email Templates](#customizing-email-templates)
+         * [I18n](#i18n)
+         * [Authenticating Controller Actions](#authenticating-controller-actions)
+            * [Authenticate Resource in the Controller (&gt;= v0.15.0)](#authenticate-resource-in-the-controller--v0150)
+               * [Authentication Options](#authentication-options)
+            * [Authenticate Before Reaching Your GQL Schema (Deprecated)](#authenticate-before-reaching-your-gql-schema-deprecated)
+            * [Authenticate in an Existing Schema (Deprecated)](#authenticate-in-an-existing-schema-deprecated)
+               * [Authentication Options](#authentication-options-1)
             * [Important](#important)
-         * [Mounting Operations in Your Own Schema (&gt; v0.12.0)](#mounting-operations-in-your-own-schema--v0120)
-            * [Important](#important-1)
-   * [Usage](#usage)
-      * [Mounting Auth Schema on a Separate Route](#mounting-auth-schema-on-a-separate-route)
-      * [Mounting Operations Into Your Own Schema](#mounting-operations-into-your-own-schema)
-      * [Available Mount Options](#available-mount-options)
-      * [Available Operations](#available-operations)
-      * [Configuring Model](#configuring-model)
-      * [Email Reconfirmation](#email-reconfirmation)
-         * [Deprecated flow - Do Not Use](#deprecated-flow---do-not-use)
-      * [Customizing Email Templates](#customizing-email-templates)
-      * [I18n](#i18n)
-      * [Authenticating Controller Actions](#authenticating-controller-actions)
-         * [Authenticate Resource in the Controller (&gt;= v0.15.0)](#authenticate-resource-in-the-controller--v0150)
-            * [Authentication Options](#authentication-options)
-         * [Authenticate Before Reaching Your GQL Schema (Deprecated)](#authenticate-before-reaching-your-gql-schema-deprecated)
-         * [Authenticate in Your GQL Schema (Deprecated)](#authenticate-in-your-gql-schema-deprecated)
-            * [Authentication Options](#authentication-options-1)
-         * [Important](#important-2)
-      * [Making Requests](#making-requests)
-         * [Introspection query](#introspection-query)
-         * [Mutations](#mutations)
-         * [Queries](#queries)
-      * [Reset Password Flow](#reset-password-flow)
-      * [More Configuration Options](#more-configuration-options)
-         * [Devise Token Auth Initializer](#devise-token-auth-initializer)
-         * [Devise Initializer](#devise-initializer)
-      * [GraphQL Interpreter](#graphql-interpreter)
-      * [Using Alongside Standard Devise](#using-alongside-standard-devise)
-   * [Future Work](#future-work)
-   * [Contributing](#contributing)
-   * [License](#license)
+         * [Making Requests](#making-requests)
+            * [Introspection query](#introspection-query)
+            * [Mutations](#mutations)
+            * [Queries](#queries)
+         * [Reset Password Flow](#reset-password-flow)
+         * [More Configuration Options](#more-configuration-options)
+            * [Devise Token Auth Initializer](#devise-token-auth-initializer)
+            * [Devise Initializer](#devise-initializer)
+         * [GraphQL Interpreter](#graphql-interpreter)
+         * [Using Alongside Standard Devise](#using-alongside-standard-devise)
+      * [Future Work](#future-work)
+      * [Contributing](#contributing)
+      * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Tue Jun  8 22:47:12 -05 2021 -->
+<!-- Added by: david, at: jue jun 24 08:22:00 -05 2021 -->
 
 <!--te-->
 
@@ -82,11 +81,10 @@ Graphql Devise generator will execute `Devise` and `Devise Token Auth` generator
 ```bash
 $ bundle exec rails generate graphql_devise:install
 ```
-The generator accepts 2 params:
+The generator accepts 2 params and 1 option:
 - `user_class`: Model name in which `Devise` modules will be included. This uses a `find or create` strategy. Defaults to `User`.
 - `mount_path`: Path in which the dedicated graphql schema for devise will be mounted. Defaults to `/graphql_auth`.
-
-The option `mount` is available starting from `v0.12.0`. This option will allow you to mount the operations in your own schema instead of a dedicated one. When this option is provided `mount_path` param is not used.
+- `--mount`: This options is available starting from `v0.12.0`, it allows you to mount the operations in your own schema instead of a dedicated one. When provided `mount_path` param is ignored.
 
 #### Mounting the Schema in a Separate Route
 
@@ -109,12 +107,12 @@ Will do the following:
 `Admin` could be any model name you are going to be using for authentication,
 and `api/auth` could be any mount path you would like to use for auth.
 
-##### Important
+**Important**
  - Remember that by default this gem mounts a completely separate GraphQL schema on a separate controller in the route provided by the `at` option in the `mount_graphql_devise_for` method in the `config/routes.rb` file. If no `at` option is provided, the route will be `/graphql_auth`.
- - Avoid passing the `--mount` option or the gem will try to use an existing schema.
+ - Avoid passing the `--mount` option if you want to use a separate route and schema.
 
-#### Mounting Operations in Your Own Schema (> v0.12.0)
-To configure the gem to use your own GQL schema use the `--mount` option.
+#### Mounting Operations in an Existing Schema (> v0.12.0)
+To configure the gem to use an existing GQL schema use the `--mount` option.
 For instance the executing:
 
 ```bash
@@ -130,8 +128,8 @@ Will do the following:
   - Add `SchemaPlugin` to the specified schema.
 
 
-##### Important
- - When using the `--mount` option the `mount_path` params is ignored.
+**Important**
+ - When using the `--mount` option the `mount_path` param is ignored.
  - The generator will look for your schema under `app/graphql/` directory. We are expecting the name of the file is the same as the as the one passed in the mount option transformed with `underscore`. In the example, passing `MySchema`, will try to find the file `app/graphql/my_schema.rb`.
  - You can actually mount a resource's auth schema in a separate route and in your app's schema at the same time, but that's probably not a common scenario.
 
@@ -176,10 +174,10 @@ The second argument of the `mount_graphql_devise` method is a hash of options wh
 customize how the queries and mutations are mounted into the schema. For a list of available
 options go [here](#available-mount-options)
 
-### Mounting Operations Into Your Own Schema
+### Mounting Operations In an Existing Schema
 
-Starting with `v0.12.0` you can now mount the GQL operations provided by this gem into your
-app's main schema.
+Starting with `v0.12.0` you can mount the GQL operations provided by this gem into an
+existing schema in you app.
 
 ```ruby
 # app/graphql/dummy_schema.rb
@@ -353,10 +351,11 @@ to call a different update method on your resource,`update_with_email`.
 When the resource is not reconfirmable or the email is not updated, this method behaves exactly
 the same as ActiveRecord's `update`.
 
+#### Current flow
 `update_with_email` requires one additional attribute when email will change or an error
 will be raised:
 
-1. `confirmation_url`: The full url of your client application. The confirmation email will contain this url plus
+- `confirmation_url`: The full url of your client application. The confirmation email will contain this url plus
 a confirmation token. You need to call `confirmRegistrationWithToken` with the given token on
 your client application.
 
@@ -374,12 +373,12 @@ user.update_with_email(
 `update_with_email` requires two additional attributes when email will change or an error
 will be raised:
 
-1. `schema_url`: The full url where your GQL schema is mounted. You can get this value from the
+- `schema_url`: The full url where your GQL schema is mounted. You can get this value from the
 controller available in the context of your mutations and queries like this:
 ```ruby
   context[:controller].full_url_without_params
 ```
-1. `confirmation_success_url`: This the full url where you want users to be redirected after
+- `confirmation_success_url`: This the full url where you want users to be redirected after
 the email has changed successfully (usually a front-end url). This value is mandatory
 unless you have set `default_confirm_success_url` in your devise_token_auth initializer.
 
@@ -459,7 +458,7 @@ schema. Configure the plugin as explained [here](#mounting-operations-into-your-
 so this can work.
 
 ##### Authentication Options
-Wether you setup authentications as a default in the plugin, or you do it at the field level,
+Whether you setup authentications as a default in the plugin, or you do it at the field level,
 these are the options you can use:
 1. **Any truthy value:** If `current_resource` is not `.present?`, query will return an authentication error.
 1. **A callable object:** Provided object will be called with `current_resource` as the only argument if `current_resource` is `.present?`. If return value of the callable object is false, query will return an authentication error.
@@ -501,7 +500,7 @@ end
 The install generator can include the concern in you application controller.
 If authentication fails for a request, execution will halt and a REST error will be returned since the request never reaches your GQL schema.
 
-#### Authenticate in Your GQL Schema (Deprecated)
+#### Authenticate in an Existing Schema (Deprecated)
 For this you will need to add the `GraphqlDevise::SchemaPlugin` to your schema as described
 [here](#mounting-operations-into-your-own-schema).
 
@@ -537,7 +536,7 @@ schema. Configure the plugin as explained [here](#mounting-operations-into-your-
 so this can work.
 
 ##### Authentication Options
-Wether you setup authentications as a default in the plugin, or you do it at the field level,
+Whether you setup authentications as a default in the plugin, or you do it at the field level,
 these are the options you can use:
 1. **Any truthy value:** If `current_resource` is not `.present?`, query will return an authentication error.
 1. **A callable object:** Provided object will be called with `current_resource` as the only argument if `current_resource` is `.present?`. If return value of the callable object is false, query will return an authentication error.
