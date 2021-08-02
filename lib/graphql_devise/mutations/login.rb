@@ -24,6 +24,8 @@ module GraphqlDevise
 
           yield resource if block_given?
 
+          context[:current_resource] = resource if context[:current_resource].nil?
+
           { authenticatable: resource, credentials: new_headers }
         elsif resource && !active_for_authentication?(resource)
           if locked?(resource)
