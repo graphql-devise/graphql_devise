@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.17.1](https://github.com/graphql-devise/graphql_devise/tree/v0.17.1) (2021-08-02)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.17.0...v0.17.1)
+
+**Implemented enhancements:**
+
+- Set context\[:current\_resource\] upon login [\#193](https://github.com/graphql-devise/graphql_devise/pull/193) ([TomasBarry](https://github.com/TomasBarry))
+
+**Merged pull requests:**
+
+- Improve README [\#190](https://github.com/graphql-devise/graphql_devise/pull/190) ([00dav00](https://github.com/00dav00))
+
 ## [v0.17.0](https://github.com/graphql-devise/graphql_devise/tree/v0.17.0) (2021-06-09)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.16.0...v0.17.0)
