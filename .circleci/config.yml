@@ -47,7 +47,6 @@ workflows:
           matrix:
             parameters:
               ruby-version:
-                - '2.2'
                 - '2.3'
                 - '2.4'
                 - '2.5'
@@ -69,14 +68,6 @@ workflows:
                 - gemfiles/rails6.1_graphql1.11.gemfile
                 - gemfiles/rails6.1_graphql1.12.gemfile
             exclude:
-              - ruby-version: '2.2'
-                gemfile: gemfiles/rails6.0_graphql1.11.gemfile
-              - ruby-version: '2.2'
-                gemfile: gemfiles/rails6.0_graphql1.12.gemfile
-              - ruby-version: '2.2'
-                gemfile: gemfiles/rails6.1_graphql1.11.gemfile
-              - ruby-version: '2.2'
-                gemfile: gemfiles/rails6.1_graphql1.12.gemfile
               - ruby-version: '2.3'
                 gemfile: gemfiles/rails6.0_graphql1.11.gemfile
               - ruby-version: '2.3'

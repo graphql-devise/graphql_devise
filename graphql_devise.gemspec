@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").select { |f| f.match(%r{^spec/}) }
   end
 
-  spec.required_ruby_version = '>= 2.2.0'
+  spec.required_ruby_version = '>= 2.3.0'
 
   spec.add_dependency 'devise_token_auth', '>= 0.1.43', '< 2.0'
   spec.add_dependency 'graphql', '>= 1.8', '< 1.13.0'
@@ -41,8 +41,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake', '>= 12.3.3'
   spec.add_development_dependency 'rspec-rails', '~> 4.0'
-  spec.add_development_dependency 'rubocop', '0.68.1'
-  spec.add_development_dependency 'rubocop-performance'
-  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'rubocop', '< 0.82.0'
+  spec.add_development_dependency 'rubocop-performance', '< 1.6.0'
+  spec.add_development_dependency 'rubocop-rails', '< 2.6.0'
+  spec.add_development_dependency 'rubocop-rspec', '< 1.39.0'
   spec.add_development_dependency 'sqlite3', '~> 1.3'
 end
