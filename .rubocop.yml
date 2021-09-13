@@ -1,11 +1,10 @@
-require: rubocop-rspec
-require: rubocop-performance
-
-Rails:
-  Enabled: true
+require:
+  - rubocop-rspec
+  - rubocop-performance
+  - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
   DisplayCopNames: true
   Exclude:
     - bin/**/*
@@ -82,7 +81,7 @@ Style/FrozenStringLiteralComment:
 Style/StringMethods:
   Enabled: true
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/MethodLength:
@@ -91,16 +90,16 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Enabled: false
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
   SupportedStyles:
     - with_first_parameter
     - with_fixed_indentation
 
-Lint/EndAlignment:
+Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
   SupportedStylesAlignWith:
     - keyword
