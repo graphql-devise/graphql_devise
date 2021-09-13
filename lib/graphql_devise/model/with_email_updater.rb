@@ -9,9 +9,7 @@ module GraphqlDevise
       end
 
       def call
-        check_deprecated_attributes
-
-        resource_attributes = @attributes.except(:schema_url, :confirmation_success_url, :confirmation_url)
+        resource_attributes = @attributes.except(:confirmation_url)
         return @resource.update(resource_attributes) unless requires_reconfirmation?(resource_attributes)
 
         @resource.assign_attributes(resource_attributes)
@@ -36,24 +34,8 @@ module GraphqlDevise
 
       private
 
-      def check_deprecated_attributes
-        if [@attributes[:schema_url], @attributes[:confirmation_success_url]].any?(&:present?)
-          ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
-            Providing `schema_url` and `confirmation_success_url` to `update_with_email` is deprecated and will be
-            removed in a future version of this gem.
-
-            Now you must only provide `confirmation_url` and the email will contain the new format of the confirmation
-            url that needs to be used with the new `confirmRegistrationWithToken` on the client application.
-          DEPRECATION
-        end
-      end
-
       def required_reconfirm_attributes?
-        if @attributes[:schema_url].present?
-          [@attributes[:confirmation_success_url], DeviseTokenAuth.default_confirm_success_url].any?(&:present?)
-        else
-          [@attributes[:confirmation_url], DeviseTokenAuth.default_confirm_success_url].any?(&:present?)
-        end
+        [@attributes[:confirmation_url], DeviseTokenAuth.default_confirm_success_url].any?(&:present?)
       end
 
       def requires_reconfirmation?(resource_attributes)
@@ -78,14 +60,7 @@ module GraphqlDevise
       end
 
       def confirmation_method_params
-        if @attributes[:schema_url].present?
-          {
-            redirect_url: @attributes[:confirmation_success_url] || DeviseTokenAuth.default_confirm_success_url,
-            schema_url:   @attributes[:schema_url]
-          }
-        else
-          { redirect_url: @attributes[:confirmation_url] || DeviseTokenAuth.default_confirm_success_url }
-        end
+        { redirect_url: @attributes[:confirmation_url] || DeviseTokenAuth.default_confirm_success_url }
       end
 
       def send_confirmation_instructions(saved)

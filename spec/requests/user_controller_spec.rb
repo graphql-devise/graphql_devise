@@ -245,14 +245,7 @@ RSpec.describe "Integrations with the user's controller" do
 
       email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.encoded)
       link  = email.css('a').first
-      expect(link['href']).to include('/api/v1/graphql')
-
-      expect do
-        get link['href']
-        user.reload
-      end.to change(user, :email).from(original_email).to('updated@gmail.com').and(
-        change(user, :uid).from(original_email).to('updated@gmail.com')
-      )
+      expect(link['href']).to include('https://google.com')
     end
   end
 

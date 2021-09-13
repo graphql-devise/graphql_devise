@@ -11,7 +11,7 @@ RSpec.describe GraphqlDevise::ResourceLoader do
     let(:routing)  { false }
     let(:mounted)  { false }
     let(:resource) { 'User' }
-    let(:options)  { { only: [:login, :confirm_account] } }
+    let(:options)  { { only: [:login], additional_queries: { public_user: Class.new(GraphQL::Schema::Resolver) } } }
 
     before do
       allow(GraphqlDevise).to receive(:add_mapping).with(:user, resource)
@@ -20,7 +20,7 @@ RSpec.describe GraphqlDevise::ResourceLoader do
     end
 
     it 'loads operations into the provided types' do
-      expect(query).to             receive(:field).with(:user_confirm_account, resolver: instance_of(Class), authenticate: false)
+      expect(query).to             receive(:field).with(:public_user, resolver: instance_of(Class), authenticate: false)
       expect(mutation).to          receive(:field).with(:user_login, mutation: instance_of(Class), authenticate: false)
       expect(GraphqlDevise).to     receive(:add_mapping).with(:user, resource)
       expect(GraphqlDevise).not_to receive(:mount_resource)
