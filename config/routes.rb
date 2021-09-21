@@ -14,7 +14,5 @@ GraphqlDevise::Engine.routes.draw do
     GraphqlDevise::Schema.query(GraphqlDevise::Types::QueryType)
 
     GraphqlDevise.load_schema
-
-    Devise.mailer.helper(GraphqlDevise::MailerHelper)
   end
 end

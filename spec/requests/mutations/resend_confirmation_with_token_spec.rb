@@ -105,9 +105,8 @@ RSpec.describe 'Resend confirmation with token' do
 
     before do
       user.update_with_email(
-        email:                    new_email,
-        schema_url:               'http://localhost/test',
-        confirmation_success_url: 'https://google.com'
+        email:            new_email,
+        confirmation_url: 'https://google.com'
       )
     end
 

@@ -3,7 +3,6 @@
 Rails.application.routes.draw do
   mount_graphql_devise_for 'User', at: '/api/v1/graphql_auth', operations: {
     login:    Mutations::Login,
-    sign_up:  Mutations::SignUp,
     register: Mutations::Register
   }, additional_mutations: {
     register_confirmed_user: Mutations::RegisterConfirmedUser
@@ -14,9 +13,8 @@ Rails.application.routes.draw do
   mount_graphql_devise_for(
     Admin,
     authenticatable_type: Types::CustomAdminType,
-    skip:                 [:sign_up, :register, :check_password_token],
+    skip:                 [:register],
     operations:           {
-      confirm_account:            Resolvers::ConfirmAdminAccount,
       update_password_with_token: Mutations::ResetAdminPasswordWithToken
     },
     at:                   '/api/v1/admin/graphql_auth'
@@ -24,7 +22,7 @@ Rails.application.routes.draw do
 
   mount_graphql_devise_for(
     'Guest',
-    only: [:login, :logout, :sign_up, :register],
+    only: [:login, :logout, :register],
     at:   '/api/v1/guest/graphql_auth'
   )
 
