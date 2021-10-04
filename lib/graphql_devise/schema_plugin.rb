@@ -30,22 +30,7 @@ module GraphqlDevise
       auth_required = authenticate_option(field, trace_data)
       context       = context_from_data(trace_data)
 
-      if context.key?(:resource_name)
-        ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
-          Providing `resource_name` as part of the GQL context, or doing so by using the `graphql_context(resource_name)`
-          method on your controller is deprecated and will be removed in a future version of this gem.
-          Please use `gql_devise_context` in you controller instead.
-
-          EXAMPLE
-          include GraphqlDevise::Concerns::SetUserByToken
-
-          DummySchema.execute(params[:query], context: gql_devise_context(User))
-          DummySchema.execute(params[:query], context: gql_devise_context(User, Admin))
-        DEPRECATION
-      end
-
       if auth_required && !(public_introspection && introspection_field?(field))
-        context = set_current_resource(context)
         raise_on_missing_resource(context, field, auth_required)
       end
 
@@ -55,25 +40,6 @@ module GraphqlDevise
     private
 
     attr_reader :public_introspection
-
-    def set_current_resource(context)
-      controller     = context[:controller]
-      resource_names = Array(context[:resource_name])
-
-      context[:current_resource] ||= resource_names.find do |resource_name|
-        unless Devise.mappings.key?(resource_name)
-          raise(
-            GraphqlDevise::Error,
-            "Invalid resource_name `#{resource_name}` provided to `graphql_context`. Possible values are: #{Devise.mappings.keys}."
-          )
-        end
-
-        found = controller.set_resource_by_token(resource_name)
-        break found if found
-      end
-
-      context
-    end
 
     def raise_on_missing_resource(context, field, auth_required)
       @unauthenticated_proc.call(field.name) if context[:current_resource].blank?

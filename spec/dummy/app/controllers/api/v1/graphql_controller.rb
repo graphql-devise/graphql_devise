@@ -15,28 +15,13 @@ module Api
         render json: InterpreterSchema.execute(params[:query], **execute_params(params))
       end
 
-      def failing_resource_name
-        render json: DummySchema.execute(params[:query], context: graphql_context([:user, :fail]))
-      end
-
-      def controller_auth
-        result = DummySchema.execute(
-          params[:query],
-          operation_name: params[:operationName],
-          variables:      ensure_hash(params[:variables]),
-          context:        gql_devise_context(SchemaUser, User)
-        )
-
-        render json: result unless performed?
-      end
-
       private
 
       def execute_params(item)
         {
           operation_name: item[:operationName],
           variables:      ensure_hash(item[:variables]),
-          context:        graphql_context([:user, :schema_user])
+          context:        gql_devise_context(SchemaUser, User)
         }
       end
 

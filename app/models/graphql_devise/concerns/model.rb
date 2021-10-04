@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'graphql_devise/model/with_email_updater'
-
 module GraphqlDevise
   module Concerns
     module Model

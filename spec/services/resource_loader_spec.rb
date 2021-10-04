@@ -10,7 +10,7 @@ RSpec.describe GraphqlDevise::ResourceLoader do
     let(:mutation) { class_double(GraphQL::Schema::Object) }
     let(:routing)  { false }
     let(:mounted)  { false }
-    let(:resource) { 'User' }
+    let(:resource) { User }
     let(:options)  { { only: [:login], additional_queries: { public_user: Class.new(GraphQL::Schema::Resolver) } } }
 
     before do

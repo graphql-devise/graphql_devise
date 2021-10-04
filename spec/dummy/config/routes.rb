@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount_graphql_devise_for 'User', at: '/api/v1/graphql_auth', operations: {
+  mount_graphql_devise_for User, at: '/api/v1/graphql_auth', operations: {
     login:    Mutations::Login,
     register: Mutations::Register
   }, additional_mutations: {
@@ -21,13 +21,13 @@ Rails.application.routes.draw do
   )
 
   mount_graphql_devise_for(
-    'Guest',
+    Guest,
     only: [:login, :logout, :register],
     at:   '/api/v1/guest/graphql_auth'
   )
 
   mount_graphql_devise_for(
-    'Users::Customer',
+    Users::Customer,
     only: [:login],
     at:   '/api/v1/user_customer/graphql_auth'
   )
@@ -35,6 +35,4 @@ Rails.application.routes.draw do
   get '/api/v1/graphql', to: 'api/v1/graphql#graphql'
   post '/api/v1/graphql', to: 'api/v1/graphql#graphql'
   post '/api/v1/interpreter', to: 'api/v1/graphql#interpreter'
-  post '/api/v1/failing', to: 'api/v1/graphql#failing_resource_name'
-  post '/api/v1/controller_auth', to: 'api/v1/graphql#controller_auth'
 end
