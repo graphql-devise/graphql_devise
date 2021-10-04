@@ -10,7 +10,7 @@ class DummySchema < GraphQL::Schema
         User,
         only: [
           :login,
-          :resend_confirmation_with_token,
+          :resend_confirmation_with_token
         ]
       ),
       GraphqlDevise::ResourceLoader.new(Guest, only: [:logout]),

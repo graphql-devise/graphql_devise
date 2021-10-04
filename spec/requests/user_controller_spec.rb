@@ -50,22 +50,6 @@ RSpec.describe "Integrations with the user's controller" do
       GRAPHQL
     end
 
-    context 'when authenticating before using the GQL schema' do
-      before { post_request('/api/v1/controller_auth') }
-
-      context 'when user is authenticated' do
-        let(:headers) { create(:schema_user).create_new_auth_token }
-
-        it 'allows authentication at the controller level' do
-          expect(json_response[:data][:privateField]).to eq('Field will always require authentication')
-        end
-      end
-
-      context 'when user is not authenticated' do
-        it_behaves_like 'returns a must authenticate error', 'privateField'
-      end
-    end
-
     context 'when using a regular schema' do
       before { post_request('/api/v1/graphql') }
 
@@ -87,15 +71,6 @@ RSpec.describe "Integrations with the user's controller" do
 
       context 'when user is not authenticated' do
         it_behaves_like 'returns a must authenticate error', 'privateField'
-      end
-
-      context 'when using the failing route' do
-        it 'raises an invalid resource_name error' do
-          expect { post_request('/api/v1/failing') }.to raise_error(
-            GraphqlDevise::Error,
-            'Invalid resource_name `fail` provided to `graphql_context`. Possible values are: [:user, :admin, :guest, :users_customer, :schema_user].'
-          )
-        end
       end
     end
 

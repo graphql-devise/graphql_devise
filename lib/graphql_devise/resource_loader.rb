@@ -13,24 +13,15 @@ module GraphqlDevise
       # clean_options responds to all keys defined in GraphqlDevise::MountMethod::SUPPORTED_OPTIONS
       clean_options = GraphqlDevise::MountMethod::OptionSanitizer.new(@options).call!
 
-      model = if @resource.is_a?(String)
-        ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
-          Providing a String as the model you want to mount is deprecated and will be removed in a future version of
-          this gem. Please use the actual model constant instead.
-
-          EXAMPLE
-
-          GraphqlDevise::ResourceLoader.new(User) # instead of GraphqlDevise::ResourceLoader.new('User')
-
-          mount_graphql_devise_for User # instead of mount_graphql_devise_for 'User'
-        DEPRECATION
-        @resource.constantize
-      else
-        @resource
+      unless @resource.is_a?(Class)
+        raise(
+          GraphqlDevise::InvalidMountOptionsError,
+          'A class must be provided when mounting a model. String values are no longer supported.'
+        )
       end
 
       # Necesary when mounting a resource via route file as Devise forces the reloading of routes
-      return clean_options if GraphqlDevise.resource_mounted?(model) && @routing
+      return clean_options if GraphqlDevise.resource_mounted?(@resource) && @routing
 
       validate_options!(clean_options)
 
@@ -38,7 +29,7 @@ module GraphqlDevise
                              "Types::#{@resource}Type".safe_constantize ||
                              GraphqlDevise::Types::AuthenticatableType
 
-      prepared_mutations = prepare_mutations(model, clean_options, authenticatable_type)
+      prepared_mutations = prepare_mutations(@resource, clean_options, authenticatable_type)
 
       if prepared_mutations.any? && mutation.blank?
         raise GraphqlDevise::Error, 'You need to provide a mutation type unless all mutations are skipped'
@@ -48,7 +39,7 @@ module GraphqlDevise
         mutation.field(action, mutation: prepared_mutation, authenticate: false)
       end
 
-      prepared_resolvers = prepare_resolvers(model, clean_options, authenticatable_type)
+      prepared_resolvers = prepare_resolvers(@resource, clean_options, authenticatable_type)
 
       if prepared_resolvers.any? && query.blank?
         raise GraphqlDevise::Error, 'You need to provide a query type unless all queries are skipped'
@@ -59,7 +50,7 @@ module GraphqlDevise
       end
 
       GraphqlDevise.add_mapping(GraphqlDevise.to_mapping_name(@resource).to_sym, @resource)
-      GraphqlDevise.mount_resource(model) if @routing
+      GraphqlDevise.mount_resource(@resource) if @routing
 
       clean_options
     end
