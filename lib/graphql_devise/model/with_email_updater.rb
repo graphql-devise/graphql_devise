@@ -15,7 +15,7 @@ module GraphqlDevise
         @resource.assign_attributes(resource_attributes)
 
         if @resource.email == email_in_database
-          return @resource.save
+          @resource.save
         elsif required_reconfirm_attributes?
           return false unless @resource.valid?
 

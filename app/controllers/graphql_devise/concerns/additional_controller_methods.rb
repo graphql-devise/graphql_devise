@@ -32,10 +32,6 @@ module GraphqlDevise
         super
       end
 
-      def full_url_without_params
-        request.base_url + request.path
-      end
-
       def set_resource_by_token(resource)
         set_user_by_token(resource)
       end
