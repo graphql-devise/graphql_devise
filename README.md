@@ -23,20 +23,14 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [Configuring Model](#configuring-model)
       * [Email Reconfirmation](#email-reconfirmation)
          * [Current flow](#current-flow)
-         * [Deprecated flow - Do Not Use](#deprecated-flow---do-not-use)
       * [Customizing Email Templates](#customizing-email-templates)
       * [I18n](#i18n)
       * [Authenticating Controller Actions](#authenticating-controller-actions)
          * [Authenticate Resource in the Controller (&gt;= v0.15.0)](#authenticate-resource-in-the-controller--v0150)
             * [Authentication Options](#authentication-options)
-         * [Authenticate Before Reaching Your GQL Schema (Deprecated)](#authenticate-before-reaching-your-gql-schema-deprecated)
-         * [Authenticate in an Existing Schema (Deprecated)](#authenticate-in-an-existing-schema-deprecated)
-            * [Authentication Options](#authentication-options-1)
-         * [Important](#important)
       * [Making Requests](#making-requests)
          * [Introspection query](#introspection-query)
          * [Mutations](#mutations)
-         * [Queries](#queries)
       * [Reset Password Flow](#reset-password-flow)
       * [More Configuration Options](#more-configuration-options)
          * [Devise Token Auth Initializer](#devise-token-auth-initializer)
@@ -47,7 +41,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: david, at: jue jun 24 18:32:27 -05 2021 -->
+<!-- Added by: mcelicalderon, at: Wed Oct 20 19:39:36 -05 2021 -->
 
 <!--te-->
 
@@ -297,17 +291,11 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 ```ruby
 :login
 :logout
-:sign_up (deprecated)
 :register
-:update_password (deprecated)
 :update_password_with_token
-:send_password_reset (deprecated)
 :send_password_reset_with_token
-:resend_confirmation (deprecated)
 :resend_confirmation_with_token
 :confirm_registration_with_token
-:confirm_account (deprecated)
-:check_password_token (deprecated)
 ```
 
 ### Configuring Model
@@ -366,31 +354,6 @@ user.update_with_email(
   name:             'New Name',
   email:            'new@domain.com',
   confirmation_url: 'https://google.com'
-)
-```
-
-#### Deprecated flow - Do Not Use
-`update_with_email` requires two additional attributes when email will change or an error
-will be raised:
-
-- `schema_url`: The full url where your GQL schema is mounted. You can get this value from the
-controller available in the context of your mutations and queries like this:
-```ruby
-  context[:controller].full_url_without_params
-```
-- `confirmation_success_url`: This the full url where you want users to be redirected after
-the email has changed successfully (usually a front-end url). This value is mandatory
-unless you have set `default_confirm_success_url` in your devise_token_auth initializer.
-
-So, it's up to you where you require confirmation of changing emails.
-[Here's an example](https://github.com/graphql-devise/graphql_devise/blob/c4dcb17e98f8d84cc5ac002c66ed98a797d3bc82/spec/dummy/app/graphql/mutations/update_user.rb#L13)
-on how you might do this. And also a demonstration on the method usage:
-```ruby
-user.update_with_email(
-  name:                     'New Name',
-  email:                    'new@domain.com',
-  schema_url:               'http://localhost:3000/graphql',
-  confirmation_success_url: 'https://google.com'
 )
 ```
 
@@ -479,87 +442,6 @@ module Types
 end
 ```
 
-#### Authenticate Before Reaching Your GQL Schema (Deprecated)
-For this you will need to call `authenticate_<model>!` in a `before_action` controller hook.
-In our example our model is `User`, so it would look like this:
-```ruby
-# app/controllers/my_controller.rb
-
-class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetUserByToken
-
-  before_action :authenticate_user!
-
-  def my_action
-    result = DummySchema.execute(params[:query], context: { current_resource: current_user })
-    render json: result unless performed?
-  end
-end
-```
-
-The install generator can include the concern in you application controller.
-If authentication fails for a request, execution will halt and a REST error will be returned since the request never reaches your GQL schema.
-
-#### Authenticate in an Existing Schema (Deprecated)
-For this you will need to add the `GraphqlDevise::SchemaPlugin` to your schema as described
-[here](#mounting-operations-into-your-own-schema).
-
-```ruby
-# app/controllers/my_controller.rb
-
-class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetUserByToken
-
-  def my_action
-    result = DummySchema.execute(params[:query], context: graphql_context(:user))
-    render json: result unless performed?
-  end
-end
-```
-The `graphql_context` method receives a symbol identifying the resource you are trying
-to authenticate. So if you mounted the `User` resource, the symbol is `:user`. You can use
-this snippet to find the symbol for more complex scenarios
-`resource_klass.to_s.underscore.tr('/', '_').to_sym`. `graphql_context` can also take an
-array of resources if you mounted more than one into your schema. The gem will try to
-authenticate a resource for each element on the array until it finds one.
-
-Internally in your own mutations and queries a key `current_resource` will be available in
-the context if a resource was successfully authenticated or `nil` otherwise.
-
-Keep in mind that sending multiple values to the `graphql_context` method means that depending
-on who makes the request, the context value `current_resource` might contain instances of the
-different models you might have mounted into the schema.
-
-Please note that by using this mechanism your GQL schema will be in control of what queries are
-restricted to authenticated users and you can only do this at the root level fields of your GQL
-schema. Configure the plugin as explained [here](#mounting-operations-into-your-own-schema)
-so this can work.
-
-##### Authentication Options
-Whether you setup authentications as a default in the plugin, or you do it at the field level,
-these are the options you can use:
-1. **Any truthy value:** If `current_resource` is not `.present?`, query will return an authentication error.
-1. **A callable object:** Provided object will be called with `current_resource` as the only argument if `current_resource` is `.present?`. If return value of the callable object is false, query will return an authentication error.
-
-In your main app's schema this is how you might specify if a field needs to be authenticated or not:
-```ruby
-module Types
-  class QueryType < Types::BaseObject
-    # user field used the default set in the Plugin's initializer
-    field :user, resolver: Resolvers::UserShow
-    # this field will never require authentication
-    field :public_field, String, null: false, authenticate: false
-    # this field requires authentication
-    field :private_field, String, null: false, authenticate: true
-    # this field requires authenticated users to also be admins
-    field :admin_field, String, null: false, authenticate: ->(user) { user.admin? }
-  end
-end
-```
-
-#### Important
-Remember to check `performed?` before rendering the result of the graphql operation. This is required because some operations perform a redirect and without this check you will get a `AbstractController::DoubleRenderError`.
-
 ### Making Requests
 Here is a list of the available mutations and queries assuming your mounted model is `User`.
 
@@ -572,30 +454,10 @@ Operation | Description | Example
 :--- | :--- | :------------------:
 login | This mutation has a second field by default. `credentials` can be fetched directly on the mutation return type.<br>Credentials are still returned in the headers of the response. | userLogin(email: String!, password: String!): UserLoginPayload |
 logout | requires authentication headers. Deletes current session if successful. | userLogout: UserLogoutPayload |
-signUp **(Deprecated)** | The parameter `confirmSuccessUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userSignUp(email: String!, password: String!, passwordConfirmation: String!, confirmSuccessUrl: String): UserSignUpPayload |
 register | The parameter `confirmUrl` is optional unless you are using the `confirmable` plugin from Devise in your `resource`'s model. If you have `confirmable` set up, you will have to provide it unless you have `config.default_confirm_success_url` set in `config/initializers/devise_token_auth.rb`. | userRegister(email: String!, password: String!, passwordConfirmation: String!, confirmUrl: String): UserRegisterPayload |
 sendPasswordResetWithToken | Sends an email to the provided address with a link to reset the password of the resource. First step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload |
 updatePasswordWithToken | Uses a `resetPasswordToken` to update the password of a resource. Second and last step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(resetPasswordToken: String!, password: String!, passwordConfirmation: String!): UserUpdatePasswordWithTokenPayload |
-resendConfirmation **(Deprecated)** | The `UserResendConfirmationPayload` will return a `message: String!` that can be used to notify a user what to do after the instructions were sent to them | userResendConfirmation(email: String!, redirectUrl: String!): UserResendConfirmationPayload |
 resendConfirmationWithToken | The `UserResendConfirmationWithTokenPayload` will return a `message: String!` that can be used to notify a user what to do after the instructions were sent to them. Email will contain a link to the provided `confirmUrl` and a `confirmationToken` query param. | userResendConfirmationWithToken(email: String!, confirmUrl: String!): UserResendConfirmationWithTokenPayload |
-sendResetPassword **(Deprecated)** | Sends an email to the provided address with a link to reset the password of the resource. **This mutation is part of the first and soon to be deprecated password reset flow.** | userSendResetPassword(email: String!, redirectUrl: String!): UserSendResetPasswordPayload |
-updatePassword **(Deprecated)** | The parameter `currentPassword` is optional if you have `config.check_current_password_before_update` set to false (disabled by default) on your generated `config/initializers/devise_token_aut.rb` or if the `resource` model supports the `recoverable` Devise plugin and the `resource`'s `allow_password_change` attribute is set to true (this is done in the `userCheckPasswordToken` query when you click on the sent email's link). **This mutation is part of the first and soon to be deprecated password reset flow.** | userUpdatePassword(password: String!, passwordConfirmation: String!, currentPassword: String): UserUpdatePasswordPayload |
-
-#### Queries
-Operation | Description | Example
-:--- | :--- | :------------------:
-confirmAccount **(Deprecated)** | Performs a redirect using the `redirectUrl` param | userConfirmAccount(confirmationToken: String!, redirectUrl: String!): User
-checkPasswordToken **(Deprecated)** | Performs a redirect using the `redirectUrl` param | userCheckPasswordToken(resetPasswordToken: String!, redirectUrl: String): User
-
-The reason for having 2 queries is that these 2 are going to be accessed when clicking on
-the confirmation and reset password email urls. There is no limitation for making mutation
-requests using the `GET` method on the Rails side, but looks like there might be a limitation
-on the [Apollo Client](https://www.apollographql.com/docs/apollo-server/v1/requests/#get-requests).
-
-We will continue to build better docs for the gem after this first release, but in the mean time
-you can use [our specs](spec/requests) to better understand how to use the gem.
-Also, the [dummy app](spec/dummy) used in our specs will give you
-a clear idea on how to configure the gem on your Rails application.
 
 ### Reset Password Flow
 This gem supports two password recovery flows. The most recently implemented is preferred and
@@ -660,6 +522,11 @@ We will continue to improve the gem and add better docs.
 1. Improve DOCS.
 1. Add support for unlockable and other Devise modules.
 1. Add feature specs for confirm account and reset password flows.
+
+We will continue to build better docs for the gem after this first release, but in the mean time
+you can use [our specs](spec/requests) to better understand how to use the gem.
+Also, the [dummy app](spec/dummy) used in our specs will give you
+a clear idea on how to configure the gem on your Rails application.
 
 ## Contributing
 

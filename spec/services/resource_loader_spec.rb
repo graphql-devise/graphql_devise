@@ -30,6 +30,17 @@ RSpec.describe GraphqlDevise::ResourceLoader do
       expect(returned).to be_a(Struct)
     end
 
+    context 'when resource is not class' do
+      let(:resource) { 'User' }
+
+      it 'raises an error' do
+        expect { loader }.to raise_error(
+          GraphqlDevise::Error,
+          'A class must be provided when mounting a model. String values are no longer supported.'
+        )
+      end
+    end
+
     context 'when mutation is nil' do
       let(:mutation) { nil }
 

@@ -89,11 +89,39 @@ RSpec.describe GraphqlDevise::Model::WithEmailUpdater do
       end
 
       context 'when attributes contain email' do
-        context 'when confirm_url is used' do
+        context 'when confirmation_url is used' do
           it_behaves_like 'all required arguments are provided', confirmation_url: 'https://google.com'
 
           context 'when arguments hash has strings as keys' do
             it_behaves_like 'all required arguments are provided', 'confirmation_url' => 'https://google.com'
+          end
+
+          context 'when confirmation_url is missing and no default is set' do
+            let(:attributes) { { email: 'new@gmail.com', name: 'Updated Name' } }
+
+            before { allow(DeviseTokenAuth).to receive(:default_confirm_success_url).and_return(nil) }
+
+            it 'raises an error' do
+              expect { updater }.to raise_error(
+                GraphqlDevise::Error,
+                'Method `update_with_email` requires attribute `confirmation_url` for email reconfirmation to work'
+              )
+            end
+
+            context 'when email will not change' do
+              let(:attributes) { { email: resource.email, name: 'changed' } }
+
+              it 'updates name and does not raise an error' do
+                expect do
+                  updater
+                  resource.reload
+                end.to change(resource, :name).from(resource.name).to('changed').and(
+                  not_change(resource, :email).from(resource.email)
+                ).and(
+                  not_change(ActionMailer::Base.deliveries, :count).from(0)
+                )
+              end
+            end
           end
         end
 
