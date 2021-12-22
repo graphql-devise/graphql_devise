@@ -16,6 +16,13 @@ module GraphqlDevise
       def update_with_email(attributes = {})
         GraphqlDevise::Model::WithEmailUpdater.new(self, attributes).call
       end
+
+      def send_confirmation_email(redirect_url)
+        token = set_reset_password_token
+        GraphqlDevise::Mailer.confirmation_instructions(self, token, redirect_url).deliver
+
+        token
+      end
     end
   end
 end

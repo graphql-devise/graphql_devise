@@ -29,12 +29,12 @@ module GraphqlDevise
   end
 
   def self.add_mapping(mapping_name, resource)
-    return if Devise.mappings.key?(mapping_name.to_sym)
-
-    Devise.add_mapping(
-      mapping_name.to_s.pluralize.to_sym,
-      module: :devise, class_name: resource.to_s
-    )
+    # return if Devise.mappings.key?(mapping_name.to_sym)
+    #
+    # Devise.add_mapping(
+    #   mapping_name.to_s.pluralize.to_sym,
+    #   module: :devise, class_name: resource.to_s
+    # )
   end
 
   def self.to_mapping_name(resource)

@@ -66,8 +66,8 @@ module GraphqlDevise
       def send_confirmation_instructions(saved)
         return unless saved
 
-        @resource.send_confirmation_instructions(
-          confirmation_method_params.merge(template_path: ['graphql_devise/mailer'])
+        @resource.send_confirmation_email(
+          @attributes[:confirmation_url] || DeviseTokenAuth.default_confirm_success_url
         )
       end
     end

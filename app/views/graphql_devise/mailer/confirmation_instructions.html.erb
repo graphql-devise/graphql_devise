@@ -3,5 +3,5 @@
 <p><%= t('.confirm_link_msg') %></p>
 
 <p>
-  <%= link_to t('.confirm_account_link'), "#{message['redirect-url'].to_s}?#{{ confirmationToken: @token }.to_query}" %>
+  <%= link_to t('.confirm_account_link'), "#{@redirect_url.to_s}?#{{ confirmationToken: @token }.to_query}" %>
 </p>
