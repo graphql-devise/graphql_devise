@@ -82,20 +82,6 @@ appraise 'rails5.2-graphql1.12' do
   gem 'rspec-rails', '< 4.0'
 end
 
-appraise 'rails6.0-graphql1.8' do
-  gem 'sqlite3', '~> 1.4'
-  gem 'devise', '>= 4.7'
-  gem 'rails', github: 'rails/rails', branch: '6-0-stable'
-  gem 'graphql', '~> 1.8.0'
-end
-
-appraise 'rails6.0-graphql1.9' do
-  gem 'sqlite3', '~> 1.4'
-  gem 'devise', '>= 4.7'
-  gem 'rails', github: 'rails/rails', branch: '6-0-stable'
-  gem 'graphql', '~> 1.9.0'
-end
-
 appraise 'rails6.0-graphql1.10' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
@@ -117,11 +103,11 @@ appraise 'rails6.0-graphql1.12' do
   gem 'graphql', '~> 1.12.0'
 end
 
-appraise 'rails6.1-graphql1.9' do
+appraise 'rails6.0-graphql1.13' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
-  gem 'rails', github: 'rails/rails', branch: '6-1-stable'
-  gem 'graphql', '~> 1.9.0'
+  gem 'rails', github: 'rails/rails', branch: '6-0-stable'
+  gem 'graphql', '~> 1.13.0'
 end
 
 appraise 'rails6.1-graphql1.10' do
@@ -145,6 +131,13 @@ appraise 'rails6.1-graphql1.12' do
   gem 'graphql', '~> 1.12.0'
 end
 
+appraise 'rails6.1-graphql1.13' do
+  gem 'sqlite3', '~> 1.4'
+  gem 'devise', '>= 4.7'
+  gem 'rails', github: 'rails/rails', branch: '6-1-stable'
+  gem 'graphql', '~> 1.13.0'
+end
+
 appraise 'rails6.1-graphql_edge' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
@@ -153,16 +146,10 @@ appraise 'rails6.1-graphql_edge' do
   gem 'graphql', github: 'rmosolgo/graphql-ruby', branch: 'master'
 end
 
-appraise 'rails7.0-graphql1.9' do
-  gem 'sqlite3', '~> 1.4'
-  gem 'devise', '>= 4.7'
-  gem 'rails', github: 'rails/rails', branch: '7-0-stable'
-  gem 'graphql', '~> 1.9.0'
-end
-
 appraise 'rails7.0-graphql1.10' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
+  gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
   gem 'rails', github: 'rails/rails', branch: '7-0-stable'
   gem 'graphql', '~> 1.10.0'
 end
@@ -170,6 +157,7 @@ end
 appraise 'rails7.0-graphql1.11' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
+  gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
   gem 'rails', github: 'rails/rails', branch: '7-0-stable'
   gem 'graphql', '~> 1.11.0'
 end
@@ -177,8 +165,17 @@ end
 appraise 'rails7.0-graphql1.12' do
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
+  gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
   gem 'rails', github: 'rails/rails', branch: '7-0-stable'
   gem 'graphql', '~> 1.12.0'
+end
+
+appraise 'rails7.0-graphql1.13' do
+  gem 'sqlite3', '~> 1.4'
+  gem 'devise', '>= 4.7'
+  gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
+  gem 'rails', github: 'rails/rails', branch: '7-0-stable'
+  gem 'graphql', '~> 1.13.0'
 end
 
 appraise 'rails7.0-graphql_edge' do
