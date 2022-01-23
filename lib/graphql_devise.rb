@@ -17,6 +17,7 @@ controller_methods_concern = "#{__dir__}/graphql_devise/concerns/controller_meth
 loader.ignore(controller_methods_concern)
 loader.collapse("#{__dir__}/graphql_devise/errors")
 loader.inflector.inflect('error_codes' => 'ERROR_CODES')
+loader.inflector.inflect('supported_options' => 'SUPPORTED_OPTIONS')
 
 loader.setup
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'supported_operations_validator'
-
 module GraphqlDevise
   module MountMethod
     module OptionValidators

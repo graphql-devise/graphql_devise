@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'supported_options'
-
 module GraphqlDevise
   module MountMethod
     class OptionSanitizer

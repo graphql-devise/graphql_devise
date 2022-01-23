@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-require 'graphql_devise/mutations/base'
-require 'graphql_devise/mutations/login'
-require 'graphql_devise/mutations/logout'
-require 'graphql_devise/mutations/resend_confirmation_with_token'
-require 'graphql_devise/mutations/send_password_reset_with_token'
-require 'graphql_devise/mutations/register'
-require 'graphql_devise/mutations/update_password_with_token'
-require 'graphql_devise/mutations/confirm_registration_with_token'
-
 module GraphqlDevise
   module DefaultOperations
     QUERIES = {}.freeze
