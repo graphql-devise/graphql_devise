@@ -11,6 +11,7 @@ require 'graphql_devise/mutations/confirm_registration_with_token'
 
 module GraphqlDevise
   module DefaultOperations
+    QUERIES = {}.freeze
     MUTATIONS = {
       login:                           { klass: GraphqlDevise::Mutations::Login, authenticatable: true },
       logout:                          { klass: GraphqlDevise::Mutations::Logout, authenticatable: true },
