@@ -147,6 +147,7 @@ appraise 'rails6.1-graphql_edge' do
 end
 
 appraise 'rails7.0-graphql1.10' do
+  gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
   gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
@@ -155,6 +156,7 @@ appraise 'rails7.0-graphql1.10' do
 end
 
 appraise 'rails7.0-graphql1.11' do
+  gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
   gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
@@ -163,6 +165,7 @@ appraise 'rails7.0-graphql1.11' do
 end
 
 appraise 'rails7.0-graphql1.12' do
+  gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
   gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
@@ -171,6 +174,7 @@ appraise 'rails7.0-graphql1.12' do
 end
 
 appraise 'rails7.0-graphql1.13' do
+  gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'
   gem 'devise', '>= 4.7'
   gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
@@ -179,6 +183,7 @@ appraise 'rails7.0-graphql1.13' do
 end
 
 appraise 'rails7.0-graphql_edge' do
+  gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'
   gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
   gem 'devise', '>= 4.7'
