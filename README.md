@@ -38,10 +38,13 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [GraphQL Interpreter](#graphql-interpreter)
       * [Using Alongside Standard Devise](#using-alongside-standard-devise)
    * [Future Work](#future-work)
+   * [Buy Us a Coffee](#buy-us-a-coffee)
+            * [BTC](#btc)
+            * [ADA](#ada)
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Wed Oct 20 19:39:36 -05 2021 -->
+<!-- Added by: mcelicalderon, at: Mon Jan 24 10:14:30 -05 2022 -->
 
 <!--te-->
 
@@ -527,6 +530,18 @@ We will continue to build better docs for the gem after this first release, but 
 you can use [our specs](spec/requests) to better understand how to use the gem.
 Also, the [dummy app](spec/dummy) used in our specs will give you
 a clear idea on how to configure the gem on your Rails application.
+
+## Buy Us a Coffee
+If you'd like to support our work, you are welcome to do so!
+
+##### BTC
+```
+bc1qntlmyl24wuf6y5jyn2vg8kduss57dwtyrcflyq
+```
+##### ADA
+```
+addr1q8e8cjzutzptcrfgjgsjl3k4t4xy5ucrmkf2dmq9qn966q8saucty53avujfc9yu9vfk7266auhdx9fz4fsryzeagqds893nfw
+```
 
 ## Contributing
 
