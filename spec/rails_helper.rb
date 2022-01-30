@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 ENV['RAILS_ENV'] ||= 'test'
-ENGINE_ROOT = File.join(File.dirname(__FILE__), '../')
+GQL_DEVISE_ROOT = File.join(File.dirname(__FILE__), '../')
 
 require File.expand_path('dummy/config/environment.rb', __dir__)
 
@@ -16,12 +16,12 @@ require 'faker'
 require 'generator_spec'
 
 # Load RSpec helpers.
-Dir[File.join(ENGINE_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
+Dir[File.join(GQL_DEVISE_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
 
 begin
   ActiveRecord::Migrator.migrations_paths = [
-    File.join(ENGINE_ROOT, 'spec/dummy/db/migrate'),
-    File.join(ENGINE_ROOT, 'spec/db/migrate')
+    File.join(GQL_DEVISE_ROOT, 'spec/dummy/db/migrate'),
+    File.join(GQL_DEVISE_ROOT, 'spec/db/migrate')
   ]
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -29,7 +29,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.fixture_path = "#{ENGINE_ROOT}/spec/fixtures"
+  config.fixture_path = "#{GQL_DEVISE_ROOT}/spec/fixtures"
 
   config.use_transactional_fixtures = true
 

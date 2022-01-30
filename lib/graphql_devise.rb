@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails'
+require 'rails/generators'
 require 'graphql'
 require 'devise_token_auth'
 require 'zeitwerk'
