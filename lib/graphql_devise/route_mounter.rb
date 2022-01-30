@@ -1,5 +1,5 @@
 module GraphqlDevise
-  module RoutesMounter
+  module RouteMounter
     def mount_graphql_devise_for(resource, options = {})
       clean_options = GraphqlDevise::ResourceLoader.new(resource, options, true).call(
         GraphqlDevise::Types::QueryType,
