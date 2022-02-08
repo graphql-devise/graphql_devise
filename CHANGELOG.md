@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.18.0](https://github.com/graphql-devise/graphql_devise/tree/v0.18.0) (2022-02-08)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.17.1...v0.18.0)
+
+**Implemented enhancements:**
+
+- Support GQL 1.13 [\#211](https://github.com/graphql-devise/graphql_devise/pull/211) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Closed issues:**
+
+- Potential Bug For MailHelper [\#144](https://github.com/graphql-devise/graphql_devise/issues/144)
+
 ## [v0.17.1](https://github.com/graphql-devise/graphql_devise/tree/v0.17.1) (2021-08-02)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.17.0...v0.17.1)
