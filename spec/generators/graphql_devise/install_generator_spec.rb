@@ -29,7 +29,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_migration 'db/migrate/devise_token_auth_create_admins.rb'
 
-      assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
+      assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Authenticatable/m
 
       assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
 
@@ -50,7 +50,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_migration 'db/migrate/devise_token_auth_create_users.rb'
 
-      assert_file 'app/models/user.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
+      assert_file 'app/models/user.rb', /^\s{2}devise :.+include GraphqlDevise::Authenticatable/m
 
       assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
     end
@@ -69,7 +69,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_migration 'db/migrate/devise_token_auth_create_admins.rb'
 
-      assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Concerns::Model/m
+      assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Authenticatable/m
 
       assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
     end
