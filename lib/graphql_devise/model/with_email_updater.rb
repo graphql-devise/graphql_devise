@@ -26,7 +26,7 @@ module GraphqlDevise
           saved
         else
           raise(
-            GraphqlDevise::Error,
+            Error,
             'Method `update_with_email` requires attribute `confirmation_url` for email reconfirmation to work'
           )
         end

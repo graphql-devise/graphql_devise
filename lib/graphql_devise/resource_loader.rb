@@ -15,7 +15,7 @@ module GraphqlDevise
 
       unless @resource.is_a?(Class)
         raise(
-          GraphqlDevise::InvalidMountOptionsError,
+          InvalidMountOptionsError,
           'A class must be provided when mounting a model. String values are no longer supported.'
         )
       end
