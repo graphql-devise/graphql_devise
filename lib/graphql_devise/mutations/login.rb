@@ -6,7 +6,7 @@ module GraphqlDevise
       argument :email,    String, required: true
       argument :password, String, required: true
 
-      field :credentials, GraphqlDevise::Types::CredentialType, null: false
+      field :credentials, Types::CredentialType, null: false
 
       def resolve(email:, password:)
         resource = find_resource(

@@ -10,7 +10,7 @@ class User < ApplicationRecord
          :validatable,
          :confirmable
 
-  include GraphqlDevise::Concerns::Model
+  include GraphqlDevise::Authenticatable
 
   validates :name, presence: true
 

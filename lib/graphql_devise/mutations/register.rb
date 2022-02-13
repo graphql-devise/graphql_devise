@@ -9,7 +9,7 @@ module GraphqlDevise
       argument :confirm_url,           String, required: false
 
       field :credentials,
-            GraphqlDevise::Types::CredentialType,
+            Types::CredentialType,
             null:        true,
             description: 'Authentication credentials. Null if after signUp resource is not active for authentication (e.g. Email confirmation required).'
 

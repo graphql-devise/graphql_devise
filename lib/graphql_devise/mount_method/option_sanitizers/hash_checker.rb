@@ -13,7 +13,7 @@ module GraphqlDevise
           return @default_value if value.blank?
 
           unless value.instance_of?(Hash)
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Hash expected. Got #{value.class}."
+            raise InvalidMountOptionsError, "`#{key}` option has an invalid value. Hash expected. Got #{value.class}."
           end
 
           value.each { |internal_key, klass| ClassChecker.new(@element_type_array).call!(klass, "#{key} -> #{internal_key}") }

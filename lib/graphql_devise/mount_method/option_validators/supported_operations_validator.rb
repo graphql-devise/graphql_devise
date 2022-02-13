@@ -15,7 +15,7 @@ module GraphqlDevise
 
           if unsupported_operations.present?
             raise(
-              GraphqlDevise::InvalidMountOptionsError,
+              InvalidMountOptionsError,
               "#{@key} option contains unsupported operations: \"#{unsupported_operations.join(', ')}\". Check for typos."
             )
           end

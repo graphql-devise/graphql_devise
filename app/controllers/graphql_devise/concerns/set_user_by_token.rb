@@ -7,7 +7,7 @@ module GraphqlDevise
 
       included do
         include DeviseTokenAuth::Concerns::SetUserByToken
-        include GraphqlDevise::Concerns::AdditionalControllerMethods
+        include AdditionalControllerMethods
       end
     end
   end

@@ -13,11 +13,11 @@ module GraphqlDevise
           return @default_value if value.blank?
 
           unless value.instance_of?(Array)
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Array expected."
+            raise InvalidMountOptionsError, "`#{key}` option has an invalid value. Array expected."
           end
 
           unless value.all? { |element| element.instance_of?(@element_type) }
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has invalid elements. #{@element_type} expected."
+            raise InvalidMountOptionsError, "`#{key}` option has invalid elements. #{@element_type} expected."
           end
 
           value

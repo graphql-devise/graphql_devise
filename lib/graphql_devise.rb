@@ -12,10 +12,11 @@ GraphQL::Schema::Field.accepts_definition(:authenticate)
 loader = Zeitwerk::Loader.for_gem
 
 ['additional_model_methods', 'controller_methods', 'model'].each do |concern_name|
-  require_relative "graphql_devise/concerns/#{concern_name}"
-  loader.ignore("#{__dir__}/graphql_devise/concerns/#{concern_name}.rb")
+  require_relative "graphql_devise/concerns/legacy/#{concern_name}"
+  loader.ignore("#{__dir__}/graphql_devise/concerns/legacy/#{concern_name}.rb")
 end
 
+loader.collapse("#{__dir__}/graphql_devise/concerns")
 loader.collapse("#{__dir__}/graphql_devise/errors")
 loader.collapse("#{__dir__}/generators")
 
@@ -29,7 +30,7 @@ ActionDispatch::Routing::Mapper.include(GraphqlDevise::RouteMounter)
 module GraphqlDevise
   class Error < StandardError; end
 
-  class InvalidMountOptionsError < GraphqlDevise::Error; end
+  class InvalidMountOptionsError < Error; end
 
   @schema_loaded     = false
   @mounted_resources = []
