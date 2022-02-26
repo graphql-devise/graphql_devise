@@ -31,7 +31,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Authenticatable/m
 
-      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::SetUserByToken/
 
       assert_file 'app/graphql/gqld_dummy_schema.rb', /\s+#{Regexp.escape("GraphqlDevise::ResourceLoader.new(Admin)")}/
     end
@@ -52,7 +52,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_file 'app/models/user.rb', /^\s{2}devise :.+include GraphqlDevise::Authenticatable/m
 
-      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::SetUserByToken/
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
 
       assert_file 'app/models/admin.rb', /^\s{2}devise :.+include GraphqlDevise::Authenticatable/m
 
-      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::Concerns::SetUserByToken/
+      assert_file 'app/controllers/application_controller.rb', /^\s{2}include GraphqlDevise::SetUserByToken/
     end
   end
 

@@ -6,8 +6,7 @@ module GraphqlDevise
       extend ActiveSupport::Concern
 
       included do
-        include DeviseTokenAuth::Concerns::User
-        include AdditionalModelMethods
+        include Authenticatable
 
         ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
           Including GraphqlDevise::Concerns::Model is deprecated and will be removed in a future version of
@@ -17,8 +16,6 @@ module GraphqlDevise
 
           include GraphqlDevise::Authenticatable
         DEPRECATION
-
-        ::GraphqlDevise.configure_warden_serializer_for_model(self)
       end
     end
   end

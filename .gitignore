@@ -30,3 +30,4 @@ README.md.*
 
 .env
 /spec/tmp/config/routes.rb
+/.byebug_history

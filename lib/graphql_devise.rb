@@ -9,10 +9,10 @@ require 'zeitwerk'
 GraphQL::Field.accepts_definitions(authenticate: GraphQL::Define.assign_metadata_key(:authenticate))
 GraphQL::Schema::Field.accepts_definition(:authenticate)
 
+legacy_concerns = ['set_user_by_token', 'model']
 loader = Zeitwerk::Loader.for_gem
 
-['additional_model_methods', 'controller_methods', 'model'].each do |concern_name|
-  require_relative "graphql_devise/concerns/legacy/#{concern_name}"
+legacy_concerns.each do |concern_name|
   loader.ignore("#{__dir__}/graphql_devise/concerns/legacy/#{concern_name}.rb")
 end
 
@@ -25,12 +25,16 @@ loader.inflector.inflect('supported_options' => 'SUPPORTED_OPTIONS')
 
 loader.setup
 
+legacy_concerns.each do |concern_name|
+  require_relative "graphql_devise/concerns/legacy/#{concern_name}"
+end
+
 ActionDispatch::Routing::Mapper.include(GraphqlDevise::RouteMounter)
 
 module GraphqlDevise
   class Error < StandardError; end
 
-  class InvalidMountOptionsError < Error; end
+  class InvalidMountOptionsError < ::GraphqlDevise::Error; end
 
   @schema_loaded     = false
   @mounted_resources = []

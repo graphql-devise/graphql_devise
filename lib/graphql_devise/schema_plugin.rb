@@ -87,7 +87,7 @@ module GraphqlDevise
 
     def load_fields
       @resource_loaders.each do |resource_loader|
-        raise Error, 'Invalid resource loader instance' unless resource_loader.instance_of?(ResourceLoader)
+        raise ::GraphqlDevise::Error, 'Invalid resource loader instance' unless resource_loader.instance_of?(ResourceLoader)
 
         resource_loader.call(@query, @mutation)
       end

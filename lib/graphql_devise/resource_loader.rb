@@ -32,7 +32,7 @@ module GraphqlDevise
       prepared_mutations = prepare_mutations(@resource, clean_options, authenticatable_type)
 
       if prepared_mutations.any? && mutation.blank?
-        raise Error, 'You need to provide a mutation type unless all mutations are skipped'
+        raise ::GraphqlDevise::Error, 'You need to provide a mutation type unless all mutations are skipped'
       end
 
       prepared_mutations.each do |action, prepared_mutation|
@@ -42,7 +42,7 @@ module GraphqlDevise
       prepared_resolvers = prepare_resolvers(@resource, clean_options, authenticatable_type)
 
       if prepared_resolvers.any? && query.blank?
-        raise Error, 'You need to provide a query type unless all queries are skipped'
+        raise ::GraphqlDevise::Error, 'You need to provide a query type unless all queries are skipped'
       end
 
       prepared_resolvers.each do |action, resolver|
