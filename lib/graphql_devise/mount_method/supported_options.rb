@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'option_sanitizers/array_checker'
-require_relative 'option_sanitizers/hash_checker'
-require_relative 'option_sanitizers/string_checker'
-require_relative 'option_sanitizers/class_checker'
-
 module GraphqlDevise
   module MountMethod
     SUPPORTED_OPTIONS = {

@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'operation_preparers/gql_name_setter'
-require_relative 'operation_preparers/mutation_field_setter'
-require_relative 'operation_preparers/resolver_type_setter'
-require_relative 'operation_preparers/resource_klass_setter'
-require_relative 'operation_preparers/default_operation_preparer'
-require_relative 'operation_preparers/custom_operation_preparer'
-
 module GraphqlDevise
   module MountMethod
     class OperationPreparer

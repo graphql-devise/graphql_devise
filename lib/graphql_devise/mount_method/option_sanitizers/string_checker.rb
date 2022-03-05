@@ -12,7 +12,7 @@ module GraphqlDevise
           return @default_string if value.blank?
 
           unless value.instance_of?(String)
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. String expected."
+            raise InvalidMountOptionsError, "`#{key}` option has an invalid value. String expected."
           end
 
           value

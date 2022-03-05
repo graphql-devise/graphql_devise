@@ -4,17 +4,17 @@ require_dependency 'graphql_devise/application_controller'
 
 module GraphqlDevise
   class GraphqlController < ApplicationController
-    include GraphqlDevise::Concerns::SetUserByToken
+    include SetUserByToken
 
     def auth
       result = if params[:_json]
-        GraphqlDevise::Schema.multiplex(
+        Schema.multiplex(
           params[:_json].map do |param|
             { query: param[:query] }.merge(execute_params(param))
           end
         )
       else
-        GraphqlDevise::Schema.execute(params[:query], **execute_params(params))
+        Schema.execute(params[:query], **execute_params(params))
       end
 
       render json: result unless performed?

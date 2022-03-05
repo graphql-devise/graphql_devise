@@ -12,7 +12,7 @@ module GraphqlDevise
         end
 
         def call
-          mapping_name = GraphqlDevise.to_mapping_name(@model)
+          mapping_name = ::GraphqlDevise.to_mapping_name(@model)
 
           @selected_operations.except(*@custom_keys).each_with_object({}) do |(action, operation_info), result|
             mapped_action = "#{mapping_name}_#{action}"

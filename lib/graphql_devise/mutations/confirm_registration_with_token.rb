@@ -6,7 +6,7 @@ module GraphqlDevise
       argument :confirmation_token, String, required: true
 
       field :credentials,
-            GraphqlDevise::Types::CredentialType,
+            Types::CredentialType,
             null:        true,
             description: 'Authentication credentials. Null unless user is signed in after confirmation.'
 

@@ -12,11 +12,11 @@ module GraphqlDevise
           return if value.nil?
 
           unless value.instance_of?(Class)
-            raise GraphqlDevise::InvalidMountOptionsError, "`#{key}` option has an invalid value. Class expected."
+            raise InvalidMountOptionsError, "`#{key}` option has an invalid value. Class expected."
           end
 
           unless @klass_array.any? { |klass| value.ancestors.include?(klass) }
-            raise GraphqlDevise::InvalidMountOptionsError,
+            raise InvalidMountOptionsError,
                   "`#{key}` option has an invalid value. #{@klass_array.join(', ')} or descendants expected. Got #{value}."
           end
 

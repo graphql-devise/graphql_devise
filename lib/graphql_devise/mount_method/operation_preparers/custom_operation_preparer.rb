@@ -11,7 +11,7 @@ module GraphqlDevise
         end
 
         def call
-          mapping_name = GraphqlDevise.to_mapping_name(@model)
+          mapping_name = ::GraphqlDevise.to_mapping_name(@model)
 
           @custom_operations.slice(*@selected_keys).each_with_object({}) do |(action, operation), result|
             mapped_action = "#{mapping_name}_#{action}"

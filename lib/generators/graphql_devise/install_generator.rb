@@ -18,13 +18,13 @@ module GraphqlDevise
       if File.exist?(File.expand_path("app/models/#{user_class.underscore}.rb", destination_root))
         gsub_file(
           "app/models/#{user_class.underscore}.rb",
-          'GraphqlDevise::Concerns::Model',
+          'GraphqlDevise::Authenticatable',
           'DeviseTokenAuth::Concerns::User'
         )
       end
       gsub_file(
         'app/controllers/application_controller.rb',
-        'GraphqlDevise::Concerns::SetUserByToken',
+        'GraphqlDevise::SetUserByToken',
         'DeviseTokenAuth::Concerns::SetUserByToken'
       )
 
@@ -54,7 +54,7 @@ module GraphqlDevise
       gsub_file(
         "app/models/#{user_class.underscore}.rb",
         /^\s+include DeviseTokenAuth::Concerns::User/,
-        '  include GraphqlDevise::Concerns::Model'
+        '  include GraphqlDevise::Authenticatable'
       )
     end
 
@@ -62,7 +62,7 @@ module GraphqlDevise
       gsub_file(
         'app/controllers/application_controller.rb',
         /^\s+include DeviseTokenAuth::Concerns::SetUserByToken/,
-        '  include GraphqlDevise::Concerns::SetUserByToken'
+        '  include GraphqlDevise::SetUserByToken'
       )
     end
 

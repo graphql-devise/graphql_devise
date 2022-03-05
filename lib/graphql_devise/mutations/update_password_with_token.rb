@@ -8,7 +8,7 @@ module GraphqlDevise
       argument :reset_password_token,  String, required: true
 
       field :credentials,
-            GraphqlDevise::Types::CredentialType,
+            Types::CredentialType,
             null:        true,
             description: 'Authentication credentials. Resource must be signed_in for credentials to be returned.'
 

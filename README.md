@@ -386,7 +386,7 @@ GQL schema execution like this:
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetUserByToken
+  include GraphqlDevise::SetUserByToken
 
   def my_action
     result = DummySchema.execute(params[:query], context: gql_devise_context(User))
@@ -399,7 +399,7 @@ end
 # app/controllers/my_controller.rb
 
 class MyController < ApplicationController
-  include GraphqlDevise::Concerns::SetUserByToken
+  include GraphqlDevise::SetUserByToken
 
   def my_action
     result = DummySchema.execute(params[:query], context: gql_devise_context(User, Admin))
