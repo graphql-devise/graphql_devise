@@ -98,4 +98,3 @@ module GraphqlDevise
     end
   end
 end
-
