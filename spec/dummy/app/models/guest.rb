@@ -6,5 +6,5 @@ class Guest < ApplicationRecord
          :recoverable,
          :validatable
 
-  include GraphqlDevise::Concerns::Model
+  include GraphqlDevise::Authenticatable
 end

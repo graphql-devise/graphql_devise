@@ -60,6 +60,10 @@ require 'graphql_devise/errors/user_error'
 require 'graphql_devise/errors/authentication_error'
 require 'graphql_devise/errors/detailed_user_error'
 
+# TODO: Remove when merged into master
+require 'graphql_devise/concerns/authenticatable'
+require 'graphql_devise/concerns/set_user_by_token.rb'
+
 require 'graphql_devise/concerns/controller_methods'
 require 'graphql_devise/schema'
 require 'graphql_devise/types/authenticatable_type'

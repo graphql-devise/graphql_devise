@@ -7,5 +7,5 @@ class Admin < ApplicationRecord
          :validatable,
          :confirmable
 
-  include GraphqlDevise::Concerns::Model
+  include GraphqlDevise::Authenticatable
 end
