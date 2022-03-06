@@ -8,6 +8,13 @@ module GraphqlDevise
       included do
         include DeviseTokenAuth::Concerns::SetUserByToken
         include GraphqlDevise::Concerns::AdditionalControllerMethods
+
+        ActiveSupport::Deprecation.warn(<<-DEPRECATION.strip_heredoc, caller)
+          Including GraphqlDevise::Concerns::SetUserByToken is deprecated and will be removed in a future version of
+          this gem. Please use GraphqlDevise::SetUserByToken instead.
+          EXAMPLE
+          include GraphqlDevise::SetUserByToken
+        DEPRECATION
       end
     end
   end

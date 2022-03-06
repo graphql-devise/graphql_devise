@@ -4,7 +4,7 @@ require_dependency 'graphql_devise/application_controller'
 
 module GraphqlDevise
   class GraphqlController < ApplicationController
-    include GraphqlDevise::Concerns::SetUserByToken
+    include GraphqlDevise::SetUserByToken
 
     def auth
       result = if params[:_json]

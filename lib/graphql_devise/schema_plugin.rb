@@ -37,7 +37,7 @@ module GraphqlDevise
           Please use `gql_devise_context` in you controller instead.
 
           EXAMPLE
-          include GraphqlDevise::Concerns::SetUserByToken
+          include GraphqlDevise::SetUserByToken
 
           DummySchema.execute(params[:query], context: gql_devise_context(User))
           DummySchema.execute(params[:query], context: gql_devise_context(User, Admin))
