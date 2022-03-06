@@ -37,6 +37,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
          * [Devise Initializer](#devise-initializer)
       * [GraphQL Interpreter](#graphql-interpreter)
       * [Using Alongside Standard Devise](#using-alongside-standard-devise)
+   * [Changelog](#changelog)
    * [Future Work](#future-work)
    * [Buy Us a Coffee](#buy-us-a-coffee)
             * [BTC](#btc)
@@ -44,7 +45,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Mon Jan 24 10:14:30 -05 2022 -->
+<!-- Added by: mcelicalderon, at: Sun Mar  6 17:22:14 -05 2022 -->
 
 <!--te-->
 
@@ -517,6 +518,9 @@ information you can check [this answer here](https://github.com/lynndylanhurley/
 
 This gem supports the same and should be easier to handle email templates due to the fact we don't override
 standard Devise templates.
+
+## Changelog
+Full list of changes in [CHANGELOG.md](CHANGELOG.md)
 
 ## Future Work
 We will continue to improve the gem and add better docs.

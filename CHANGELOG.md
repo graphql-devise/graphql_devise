@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.18.1](https://github.com/graphql-devise/graphql_devise/tree/v0.18.1) (2022-03-06)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.18.0...v0.18.1)
+
+**Deprecated:**
+
+- Deprecate model and controller concerns. Provide new versions [\#213](https://github.com/graphql-devise/graphql_devise/pull/213) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.18.0](https://github.com/graphql-devise/graphql_devise/tree/v0.18.0) (2022-02-08)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.17.1...v0.18.0)
