@@ -318,7 +318,7 @@ class User < ApplicationRecord
          :confirmable
 
   # including after calling the `devise` method is important.
-  include GraphqlDevise::Concerns::Model
+  include GraphqlDevise::Authenticatable
 end
 ```
 

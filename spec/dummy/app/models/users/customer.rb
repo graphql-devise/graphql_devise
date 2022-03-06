@@ -4,7 +4,7 @@ module Users
   class Customer < ApplicationRecord
     devise :database_authenticatable, :validatable
 
-    include GraphqlDevise::Concerns::Model
+    include GraphqlDevise::Authenticatable
 
     validates :name, presence: true
   end
