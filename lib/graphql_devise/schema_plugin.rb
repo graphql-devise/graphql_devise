@@ -113,7 +113,7 @@ module GraphqlDevise
       auth_required = if trace_data[:context]
         field.metadata[:authenticate]
       else
-        field.graphql_definition.metadata[:authenticate]
+        field.graphql_definition(silence_deprecation_warning: true).metadata[:authenticate]
       end
 
       auth_required.nil? ? @authenticate_default : auth_required
