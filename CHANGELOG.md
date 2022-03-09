@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.18.2](https://github.com/graphql-devise/graphql_devise/tree/v0.18.2) (2022-03-09)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.18.1...v0.18.2)
+
+**Implemented enhancements:**
+
+- Silence graphql\_definition deprecation warning before suporting GQL 2.0 [\#217](https://github.com/graphql-devise/graphql_devise/pull/217) ([janraasch](https://github.com/janraasch))
+
 ## [v0.18.1](https://github.com/graphql-devise/graphql_devise/tree/v0.18.1) (2022-03-06)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.18.0...v0.18.1)
