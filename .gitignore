@@ -24,6 +24,7 @@ README.md.*
 # rvm config files
 .ruby-version
 .ruby-gemset
+.tool-versions
 
 .env
 /spec/tmp/config/routes.rb
