@@ -138,14 +138,6 @@ appraise 'rails6.1-graphql1.13' do
   gem 'graphql', '~> 1.13.0'
 end
 
-appraise 'rails6.1-graphql_edge' do
-  gem 'sqlite3', '~> 1.4'
-  gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
-  gem 'devise', '>= 4.7'
-  gem 'rails', github: 'rails/rails', branch: '6-1-stable'
-  gem 'graphql', github: 'rmosolgo/graphql-ruby', branch: 'master'
-end
-
 appraise 'rails7.0-graphql1.10' do
   gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'

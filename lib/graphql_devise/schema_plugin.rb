@@ -79,7 +79,11 @@ module GraphqlDevise
       auth_required = if trace_data[:context]
         field.metadata[:authenticate]
       else
-        field.graphql_definition.metadata[:authenticate]
+        if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('1.13.1')
+          field.graphql_definition(silence_deprecation_warning: true).metadata[:authenticate]
+        else
+          field.graphql_definition.metadata[:authenticate]
+        end
       end
 
       auth_required.nil? ? @authenticate_default : auth_required
