@@ -9,6 +9,17 @@ require 'zeitwerk'
 GraphQL::Field.accepts_definitions(authenticate: GraphQL::Define.assign_metadata_key(:authenticate))
 GraphQL::Schema::Field.accepts_definition(:authenticate)
 
+loader = Zeitwerk::Loader.for_gem
+
+loader.collapse("#{__dir__}/graphql_devise/concerns")
+loader.collapse("#{__dir__}/graphql_devise/errors")
+loader.collapse("#{__dir__}/generators")
+
+loader.inflector.inflect('error_codes' => 'ERROR_CODES')
+loader.inflector.inflect('supported_options' => 'SUPPORTED_OPTIONS')
+
+loader.setup
+
 module GraphqlDevise
   class Error < StandardError; end
 
@@ -56,17 +67,6 @@ module GraphqlDevise
     end
   end
 end
-
-loader = Zeitwerk::Loader.for_gem
-
-loader.collapse("#{__dir__}/graphql_devise/concerns")
-loader.collapse("#{__dir__}/graphql_devise/errors")
-loader.collapse("#{__dir__}/generators")
-
-loader.inflector.inflect('error_codes' => 'ERROR_CODES')
-loader.inflector.inflect('supported_options' => 'SUPPORTED_OPTIONS')
-
-loader.setup
 
 ActionDispatch::Routing::Mapper.include(GraphqlDevise::RouteMounter)
 
