@@ -20,8 +20,6 @@ loader.inflector.inflect('supported_options' => 'SUPPORTED_OPTIONS')
 
 loader.setup
 
-ActionDispatch::Routing::Mapper.include(GraphqlDevise::RouteMounter)
-
 module GraphqlDevise
   class Error < StandardError; end
 
@@ -69,5 +67,7 @@ module GraphqlDevise
     end
   end
 end
+
+ActionDispatch::Routing::Mapper.include(GraphqlDevise::RouteMounter)
 
 require 'graphql_devise/engine'
