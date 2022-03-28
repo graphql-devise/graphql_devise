@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Types
-  class MutationType < Types::BaseObject
+  class MutationType < BaseObject
+    field_class GraphqlDevise::Types::BaseField if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('2.0')
+
     field :dummy_mutation, String, null: false, authenticate: true
     field :update_user, mutation: Mutations::UpdateUser
 

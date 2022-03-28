@@ -79,7 +79,11 @@ module GraphqlDevise
       auth_required = if trace_data[:context]
         field.metadata[:authenticate]
       else
-        if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('1.13.1')
+        if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('2.0')
+          # authenticate will only be defined if "field_class GraphqlDevise::Types::BaseField" is added to the type
+          # returning nil here will use the default value used when mounting the plugin
+          field.try(:authenticate)
+        elsif Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('1.13.1')
           field.graphql_definition(silence_deprecation_warning: true).metadata[:authenticate]
         else
           field.graphql_definition.metadata[:authenticate]
