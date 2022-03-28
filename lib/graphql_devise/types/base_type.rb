@@ -2,8 +2,7 @@
 
 module GraphqlDevise
   module Types
-    class AuthenticatableType < BaseType
-      field :email, String, null: false
+    class BaseType < GraphQL::Schema::Object
     end
   end
 end

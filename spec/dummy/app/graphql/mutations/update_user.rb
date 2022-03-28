@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateUser < GraphQL::Schema::Mutation
+  class UpdateUser < BaseMutation
     field :user, Types::UserType, null: false
 
     argument :email, String, required: false
