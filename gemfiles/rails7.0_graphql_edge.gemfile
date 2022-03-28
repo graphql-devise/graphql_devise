@@ -4,9 +4,9 @@ source "https://rubygems.org"
 
 gem "sassc-rails"
 gem "sqlite3", "~> 1.4"
-gem "devise_token_auth", github: "lynndylanhurley/devise_token_auth", branch: "master"
+gem "devise_token_auth", git: "https://github.com/lynndylanhurley/devise_token_auth", branch: "master"
 gem "devise", ">= 4.7"
-gem "rails", github: "rails/rails", branch: "7-0-stable"
-gem "graphql", github: "rmosolgo/graphql-ruby", branch: "master"
+gem "rails", git: "https://github.com/rails/rails", branch: "7-0-stable"
+gem "graphql", git: "https://github.com/rmosolgo/graphql-ruby", branch: "master"
 
 gemspec path: "../"
