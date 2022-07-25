@@ -138,6 +138,13 @@ appraise 'rails6.1-graphql1.13' do
   gem 'graphql', '~> 1.13.0'
 end
 
+appraise 'rails6.1-graphql2.0' do
+  gem 'sqlite3', '~> 1.4'
+  gem 'devise', '>= 4.7'
+  gem 'rails', git: 'https://github.com/rails/rails', branch: '6-1-stable'
+  gem 'graphql', '~> 2.0.1'
+end
+
 appraise 'rails7.0-graphql1.10' do
   gem 'sassc-rails'
   gem 'sqlite3', '~> 1.4'

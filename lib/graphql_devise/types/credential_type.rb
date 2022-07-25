@@ -2,7 +2,7 @@
 
 module GraphqlDevise
   module Types
-    class CredentialType < GraphQL::Schema::Object
+    class CredentialType < BaseType
       field :access_token, String, null: false
       field :uid,          String, null: false
       field :token_type,   String, null: false

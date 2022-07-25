@@ -2,8 +2,8 @@
 
 module GraphqlDevise
   module Types
-    class AuthenticatableType < BaseType
-      field :email, String, null: false
+    class BaseField < GraphQL::Schema::Field
+      include FieldAuthentication
     end
   end
 end

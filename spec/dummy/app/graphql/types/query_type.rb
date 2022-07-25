@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Types
-  class QueryType < Types::BaseObject
+  class QueryType < BaseObject
+    field_class GraphqlDevise::Types::BaseField if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('2.0')
+
     field :user, resolver: Resolvers::UserShow
     field :public_field, String, null: false, authenticate: false
     field :private_field, String, null: false, authenticate: true

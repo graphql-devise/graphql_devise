@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Types
-  class CustomAdminType < GraphQL::Schema::Object
+  class CustomAdminType < BaseObject
     field :email,        String, null: false
     field :custom_field, String, null: false
 
