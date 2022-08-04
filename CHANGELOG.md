@@ -1,5 +1,30 @@
 # Changelog
 
+## [v1.0.0](https://github.com/graphql-devise/graphql_devise/tree/v1.0.0) (2022-08-04)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.18.2...v1.0.0)
+
+**Breaking changes:**
+
+- Remove deprecated model and controller concerns [\#214](https://github.com/graphql-devise/graphql_devise/pull/214) ([mcelicalderon](https://github.com/mcelicalderon))
+- Load reqs with zeitwerk \(drop ruby 2.3 support\) [\#209](https://github.com/graphql-devise/graphql_devise/pull/209) ([00dav00](https://github.com/00dav00))
+- Remove deprecated authentication methods [\#199](https://github.com/graphql-devise/graphql_devise/pull/199) ([mcelicalderon](https://github.com/mcelicalderon))
+- Remove all deprecated queries before v1.0 release [\#198](https://github.com/graphql-devise/graphql_devise/pull/198) ([mcelicalderon](https://github.com/mcelicalderon))
+- Drop support for ruby 2.2 [\#197](https://github.com/graphql-devise/graphql_devise/pull/197) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Implemented enhancements:**
+
+- Add GraphQL 2 support [\#222](https://github.com/graphql-devise/graphql_devise/pull/222) ([mcelicalderon](https://github.com/mcelicalderon))
+- Add support for graphql 1.13 [\#205](https://github.com/graphql-devise/graphql_devise/pull/205) ([mcelicalderon](https://github.com/mcelicalderon))
+
+**Closed issues:**
+
+- Uninitialized constant GraphqlDevise [\#216](https://github.com/graphql-devise/graphql_devise/issues/216)
+
+**Merged pull requests:**
+
+- Remove deprecations from docs before v1 release [\#201](https://github.com/graphql-devise/graphql_devise/pull/201) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v0.18.2](https://github.com/graphql-devise/graphql_devise/tree/v0.18.2) (2022-03-09)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.18.1...v0.18.2)
