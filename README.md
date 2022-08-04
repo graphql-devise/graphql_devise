@@ -35,6 +35,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [More Configuration Options](#more-configuration-options)
          * [Devise Token Auth Initializer](#devise-token-auth-initializer)
          * [Devise Initializer](#devise-initializer)
+      * [GraphQL 2.0 Support (&gt;= v0.19.0)](#graphql-20-support--v0190)
       * [GraphQL Interpreter](#graphql-interpreter)
       * [Using Alongside Standard Devise](#using-alongside-standard-devise)
    * [Changelog](#changelog)
@@ -45,7 +46,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Sun Mar  6 17:22:14 -05 2022 -->
+<!-- Added by: mcelicalderon, at: Wed Aug  3 19:29:26 -05 2022 -->
 
 <!--te-->
 
@@ -503,6 +504,48 @@ In this section the most important configurations will be highlighted.
 - **email_regexp:** You can customize the regex that will validate the format of email addresses (must enable the validatable module).
 
 **Note:** Remember this gem adds a layer on top of Devise, so some configurations might not apply.
+
+### GraphQL 2.0 Support (>= v0.19.0)
+This gem now supports [GraphQL Ruby](https://github.com/rmosolgo/graphql-ruby) v2.
+There's one manual step you need to take in order for this to work.
+
+You need a custom `field_class` in your `MutationType` and `QueryType`. If you don't have one setup already, you can simply add the one
+this gem provides, like this:
+
+```ruby
+module Types
+  class MutationType < BaseObject
+    field_class GraphqlDevise::Types::BaseField
+  end
+end
+
+module Types
+  class QueryType < Types::BaseObject
+    field_class GraphqlDevise::Types::BaseField
+  end
+end
+```
+
+If you already have a `field_class` defined in any of your types, the only thing you need to do is add another `kwarg`
+to that class initializer (`authenticate`) and make that value available through an attribute reader.
+
+The next example is this gem's implementation of a custom class, but you can implement your own however you see fit
+as long as you expose an `authenticate` public method with the value that was passed to the initializer.
+
+```ruby
+module GraphqlDevise
+  module Types
+    class BaseField < GraphQL::Schema::Field
+      def initialize(*args, authenticate: nil, **kwargs, &block)
+        @authenticate = authenticate
+        super(*args, **kwargs, &block)
+      end
+
+      attr_reader :authenticate
+    end
+  end
+end
+```
 
 ### GraphQL Interpreter
 GraphQL-Ruby `>= 1.9.0` includes a new runtime module which you may use for your schema.
