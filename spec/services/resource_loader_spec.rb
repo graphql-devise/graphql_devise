@@ -91,5 +91,44 @@ RSpec.describe GraphqlDevise::ResourceLoader do
         end
       end
     end
+
+    context 'when argument errors are raised when field is set' do
+      context 'when mutation raises an argument error' do
+        before { allow(mutation).to receive(:field).and_raise(ArgumentError, 'mutation error') }
+
+        if Gem::Version.new(GraphQL::VERSION) < Gem::Version.new('2.0')
+          it 'raises the same argument error' do
+            expect { loader }.to raise_error(
+              ArgumentError,
+              'mutation error'
+            )
+          end
+        else
+          it 'raises a GraphqlDevise::Error error' do
+            expect { loader }.to raise_error(GraphqlDevise::Error)
+          end
+        end
+      end
+
+      context 'when query raises an argument error' do
+        before do
+          allow(mutation).to receive(:field)
+          allow(query).to receive(:field).and_raise(ArgumentError, 'query error')
+        end
+
+        if Gem::Version.new(GraphQL::VERSION) < Gem::Version.new('2.0')
+          it 'raises the same argument error' do
+            expect { loader }.to raise_error(
+              ArgumentError,
+              'query error'
+            )
+          end
+        else
+          it 'raises a GraphqlDevise::Error error' do
+            expect { loader }.to raise_error(GraphqlDevise::Error)
+          end
+        end
+      end
+    end
   end
 end
