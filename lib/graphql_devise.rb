@@ -15,7 +15,7 @@ loader = Zeitwerk::Loader.for_gem
 
 loader.collapse("#{__dir__}/graphql_devise/concerns")
 loader.collapse("#{__dir__}/graphql_devise/errors")
-loader.collapse("#{__dir__}/generators")
+loader.ignore("#{__dir__}/generators")
 
 loader.inflector.inflect('error_codes' => 'ERROR_CODES')
 loader.inflector.inflect('supported_options' => 'SUPPORTED_OPTIONS')
