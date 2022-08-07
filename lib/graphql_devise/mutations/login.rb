@@ -21,6 +21,9 @@ module GraphqlDevise
 
           new_headers = set_auth_headers(resource)
           controller.sign_in(:user, resource, store: false, bypass: false)
+          controller.resource = resource
+          controller.token.client = new_headers['client']
+          controller.token.token = new_headers['access-token']
 
           yield resource if block_given?
 
