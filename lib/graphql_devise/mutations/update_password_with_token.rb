@@ -23,7 +23,7 @@ module GraphqlDevise
           yield resource if block_given?
 
           response_payload               = { authenticatable: resource }
-          response_payload[:credentials] = set_auth_headers(resource) if controller.signed_in?(resource_name)
+          response_payload[:credentials] = generate_auth_headers(resource) if controller.signed_in?(resource_name)
 
           response_payload
         else
