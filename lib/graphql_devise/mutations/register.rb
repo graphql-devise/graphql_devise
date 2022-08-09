@@ -38,7 +38,7 @@ module GraphqlDevise
 
           response_payload = { authenticatable: resource }
 
-          response_payload[:credentials] = set_auth_headers(resource) if resource.active_for_authentication?
+          response_payload[:credentials] = generate_auth_headers(resource) if resource.active_for_authentication?
 
           response_payload
         else

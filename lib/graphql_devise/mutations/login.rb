@@ -19,11 +19,8 @@ module GraphqlDevise
             raise_user_error(I18n.t('graphql_devise.sessions.bad_credentials'))
           end
 
-          new_headers = set_auth_headers(resource)
+          new_headers = generate_auth_headers(resource)
           controller.sign_in(:user, resource, store: false, bypass: false)
-          controller.resource = resource
-          controller.token.client = new_headers['client']
-          controller.token.token = new_headers['access-token']
 
           yield resource if block_given?
 

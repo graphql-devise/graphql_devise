@@ -37,7 +37,7 @@ module GraphqlDevise
 
     def build_redirect_headers(access_token, client, redirect_header_options = {})
       {
-        DeviseTokenAuth.headers_names[:"access-token"] => access_token,
+        DeviseTokenAuth.headers_names[:'access-token'] => access_token,
         DeviseTokenAuth.headers_names[:client] => client,
         :config => params[:config],
         :client_id => client,

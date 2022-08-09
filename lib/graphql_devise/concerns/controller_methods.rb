@@ -66,9 +66,20 @@ module GraphqlDevise
       end
     end
 
-    def set_auth_headers(resource)
+    def generate_auth_headers(resource)
       auth_headers = resource.create_new_auth_token
-      response.headers.merge!(auth_headers)
+      controller.resource = resource
+      access_token_name = DeviseTokenAuth.headers_names[:'access-token']
+      client_name = DeviseTokenAuth.headers_names[:'client']
+
+      # NOTE: Depending on the DTA version, the token will be an object or nil
+      if controller.token
+        controller.token.client = auth_headers[client_name]
+        controller.token.token = auth_headers[access_token_name]
+      else
+        controller.client_id = auth_headers[client_name]
+        controller.token = auth_headers[access_token_name]
+      end
 
       auth_headers
     end
