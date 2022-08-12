@@ -35,7 +35,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
       * [More Configuration Options](#more-configuration-options)
          * [Devise Token Auth Initializer](#devise-token-auth-initializer)
          * [Devise Initializer](#devise-initializer)
-      * [GraphQL 2.0 Support (&gt;= v1.0.0)](#graphql-20-support--v100)
+      * [GraphQL 2.0 Support (&gt;= v0.19.0)](#graphql-20-support--v0190)
       * [GraphQL Interpreter](#graphql-interpreter)
       * [Using Alongside Standard Devise](#using-alongside-standard-devise)
    * [Changelog](#changelog)
@@ -46,7 +46,7 @@ GraphQL interface on top of the [Devise Token Auth](https://github.com/lynndylan
    * [Contributing](#contributing)
    * [License](#license)
 
-<!-- Added by: mcelicalderon, at: Wed Aug  3 22:04:10 -05 2022 -->
+<!-- Added by: mcelicalderon, at: Wed Aug  3 19:29:26 -05 2022 -->
 
 <!--te-->
 
@@ -505,7 +505,7 @@ In this section the most important configurations will be highlighted.
 
 **Note:** Remember this gem adds a layer on top of Devise, so some configurations might not apply.
 
-### GraphQL 2.0 Support (>= v1.0.0)
+### GraphQL 2.0 Support (>= v0.19.0)
 This gem now supports [GraphQL Ruby](https://github.com/rmosolgo/graphql-ruby) v2.
 There's one manual step you need to take in order for this to work.
 
