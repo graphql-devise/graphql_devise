@@ -184,4 +184,38 @@ RSpec.describe 'Login Requests' do
       )
     end
   end
+
+
+  if DeviseTokenAuth.respond_to?(:cookie_enabled)
+    context 'when using cookies for auth' do
+      let!(:user) { create(:user, :confirmed, password: password, email: 'vvega@wallaceinc.com') }
+      let(:email) { user.email }
+      let(:query) do
+        <<-GRAPHQL
+        mutation {
+          userLogin(
+            email: "#{email}",
+            password: "#{password}"
+          ) {
+            authenticatable { email }
+            credentials { accessToken uid tokenType client expiry }
+          }
+        }
+      GRAPHQL
+      end
+
+      around do |example|
+        DeviseTokenAuth.cookie_enabled = true
+        example.run
+        DeviseTokenAuth.cookie_enabled = false
+      end
+
+      before { post_request('/api/v1/graphql') }
+
+      it 'honors DTA configuration of setting auth info in cookies' do
+        cookie = cookies.get_cookie('auth_cookie')
+        expect(JSON.parse(cookie.value).keys).to include(*%w[uid access-token client])
+      end
+    end
+  end
 end

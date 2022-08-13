@@ -4,6 +4,7 @@ module Api
   module V1
     class GraphqlController < ApplicationController
       include GraphqlDevise::SetUserByToken
+      include ActionController::Cookies
 
       def graphql
         result = DummySchema.execute(params[:query], **execute_params(params))
