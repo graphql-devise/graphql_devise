@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.0.1](https://github.com/graphql-devise/graphql_devise/tree/v1.0.1) (2022-08-15)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.0.0...v1.0.1)
+
+**Fixed bugs:**
+
+- A class must be provided when mounting a model. String values are no longer supported [\#235](https://github.com/graphql-devise/graphql_devise/issues/235)
+- Use the class itself in the route generator instead of a string representation [\#236](https://github.com/graphql-devise/graphql_devise/pull/236) ([whotwagner](https://github.com/whotwagner))
+- Honor dta auth cookie when using the schema plugin in a main rails project route [\#233](https://github.com/graphql-devise/graphql_devise/pull/233) ([00dav00](https://github.com/00dav00))
+
 ## [v1.0.0](https://github.com/graphql-devise/graphql_devise/tree/v1.0.0) (2022-08-04)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v0.18.2...v1.0.0)
