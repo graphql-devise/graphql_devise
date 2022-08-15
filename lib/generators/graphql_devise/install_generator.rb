@@ -38,7 +38,7 @@ module GraphqlDevise
       if options['mount'] != 'separate_route'
         gsub_file(routes_file, /^\s+#{Regexp.escape(dta_route + "\n")}/i, '')
       else
-        gem_route = "mount_graphql_devise_for '#{user_class}', at: '#{mount_path}'"
+        gem_route = "mount_graphql_devise_for #{user_class}, at: '#{mount_path}'"
 
         if file_contains_str?(routes_file, gem_route)
           gsub_file(routes_file, /^\s+#{Regexp.escape(dta_route + "\n")}/i, '')
