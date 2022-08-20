@@ -29,6 +29,11 @@ module GraphqlDevise
 
   @schema_loaded     = false
   @mounted_resources = []
+  @base_controller   = if Rails::VERSION::MAJOR >= 5
+                         ActionController::API
+                       else
+                         ActionController::Base
+                       end
 
   def self.schema_loaded?
     @schema_loaded
@@ -44,6 +49,15 @@ module GraphqlDevise
 
   def self.mount_resource(model)
     @mounted_resources << model
+  end
+
+  def self.setup_base_controller(controller)
+    return unless controller
+    @base_controller = controller
+  end
+
+  def self.base_controller
+    @base_controller
   end
 
   def self.add_mapping(mapping_name, resource)

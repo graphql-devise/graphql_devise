@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount_graphql_devise_for User, at: '/api/v1/graphql_auth', operations: {
+  mount_graphql_devise_for User, at: '/api/v1/graphql_auth', base_controller: ApplicationController, operations: {
     login:    Mutations::Login,
     register: Mutations::Register
   }, additional_mutations: {
