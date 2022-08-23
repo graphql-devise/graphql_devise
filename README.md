@@ -176,7 +176,7 @@ options go [here](#available-mount-options)
 ### Mounting Operations In an Existing Schema
 
 Starting with `v0.12.0` you can mount the GQL operations provided by this gem into an
-existing schema in you app.
+existing schema in your app.
 
 ```ruby
 # app/graphql/dummy_schema.rb
