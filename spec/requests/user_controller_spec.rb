@@ -30,6 +30,16 @@ RSpec.describe "Integrations with the user's controller" do
       it 'does not require authentication' do
         expect(json_response[:data][:publicField]).to eq('Field does not require authentication')
       end
+
+      context 'when user sends authentication headers anyway' do
+        let(:headers) { user.create_new_auth_token }
+
+        it 'sets current resource in the context' do
+          expect(json_response[:data][:publicField]).to eq(
+            "Authenticated user on public field: #{user.email}"
+          )
+        end
+      end
     end
 
     context 'when using an interpreter schema' do
@@ -37,6 +47,16 @@ RSpec.describe "Integrations with the user's controller" do
 
       it 'does not require authentication' do
         expect(json_response[:data][:publicField]).to eq('Field does not require authentication')
+      end
+
+      context 'when user sends authentication headers anyway' do
+        let(:headers) { user.create_new_auth_token }
+
+        it 'sets current resource in the context' do
+          expect(json_response[:data][:publicField]).to eq(
+            "Authenticated user on public field: #{user.email}"
+          )
+        end
       end
     end
   end
