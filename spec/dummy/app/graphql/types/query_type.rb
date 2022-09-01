@@ -10,7 +10,11 @@ module Types
     field :vip_field, String, null: false, authenticate: ->(user) { user.is_a?(User) && user.vip? }
 
     def public_field
-      'Field does not require authentication'
+      if context[:current_resource]
+        "Authenticated user on public field: #{context[:current_resource].email}"
+      else
+        'Field does not require authentication'
+      end
     end
 
     def private_field
