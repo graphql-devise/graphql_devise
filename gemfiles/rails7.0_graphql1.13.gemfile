@@ -5,7 +5,7 @@ source "https://rubygems.org"
 gem "sassc-rails"
 gem "sqlite3", "~> 1.4"
 gem "devise", ">= 4.7"
-gem "devise_token_auth", git: "https://github.com/lynndylanhurley/devise_token_auth", branch: "master"
+gem "devise_token_auth", ">= 1.2.1"
 gem "rails", git: "https://github.com/rails/rails", branch: "7-0-stable"
 gem "graphql", "~> 1.13.0"
 
