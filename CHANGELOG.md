@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.1.1](https://github.com/graphql-devise/graphql_devise/tree/v1.1.1) (2022-10-20)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.1.0...v1.1.1)
+
+**Fixed bugs:**
+
+- Cannot make it work with Mongoid [\#244](https://github.com/graphql-devise/graphql_devise/issues/244)
+- Fix Mongoid Support [\#245](https://github.com/graphql-devise/graphql_devise/pull/245) ([jpmermoz](https://github.com/jpmermoz))
+
 ## [v1.1.0](https://github.com/graphql-devise/graphql_devise/tree/v1.1.0) (2022-09-15)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.0.1...v1.1.0)
