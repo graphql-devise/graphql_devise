@@ -85,7 +85,7 @@ module GraphqlDevise
     end
 
     def find_resource(field, value)
-      if resource_class.connection.adapter_name.downcase.include?('mysql')
+      if resource_class.respond_to?(:connection) && resource_class.connection.adapter_name.downcase.include?('mysql')
         # fix for mysql default case insensitivity
         resource_class.where("BINARY #{field} = ? AND provider= ?", value, provider).first
       elsif Gem::Version.new(DeviseTokenAuth::VERSION) < Gem::Version.new('1.1.0')

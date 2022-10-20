@@ -6,7 +6,10 @@ module GraphqlDevise
 
     class_methods do
       def reconfirmable
-        devise_modules.include?(:confirmable) && column_names.include?('unconfirmed_email')
+        column_attributes = try(:column_names) || []
+        fields_attributes = try(:fields)&.keys || []
+        has_unconfirmed_email_attr = column_attributes.include?('unconfirmed_email') || fields_attributes.include?('unconfirmed_email')
+        devise_modules.include?(:confirmable) && has_unconfirmed_email_attr
       end
     end
 
