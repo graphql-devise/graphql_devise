@@ -157,7 +157,8 @@ Rails.application.routes.draw do
       login: Mutations::Login
     },
     skip: [:register],
-    # base_controller: ApiController,
+    # optional, use only if you need a specific base controller to mount the new actions
+    base_controller: ApiController,
     additional_mutations: {
       # generates mutation { adminUserSignUp }
       admin_user_sign_up: Mutations::AdminUserSignUp
@@ -265,7 +266,11 @@ our default classes and yielding your customized code after calling `super`, exa
 and an `authenticatable` type to every query. Gem will try to use `Types::<model>Type` by
 default, so in our example you could define `Types::UserType` and every query and mutation
 will use it. But, you can override this type with this option like in the example.
-1. `base_controller`: Specifying this is optional. By default the controller used to mount the route is `GraphqlDevise::ApplicationController` which inherits from `ActionController::API` or `ActionController::Base` depending on the rails version of the main project. This option allows you to set the controller used as the parent of the controller where the route will be mounted. This config is similar to `Devise`'s `base_controller` config but in this case each route can have a different parent controller.
+1. `base_controller`: Specifying this is optional. By default the controller used to mount the route is
+`GraphqlDevise::ApplicationController` which inherits from `ActionController::API` or `ActionController::Base`
+depending on the rails version of the main project. This option allows you to set the controller used as the parent of
+the controller where the route will be mounted. This config is similar to `Devise`'s `base_controller` config but in
+this case each route can have a different parent controller. **This option only works if you are using the mount method.**
 1. `skip`: An array of the operations that should not be available in the authentication schema. All these operations are
 symbols and should belong to the list of available operations in the gem.
 1. `only`: An array of the operations that should be available in the authentication schema. The `skip` and `only` options are
