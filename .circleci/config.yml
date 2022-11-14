@@ -20,13 +20,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v2.0-<< parameters.gemfile >>-<< parameters.ruby-version >>
+            - v2.3-<< parameters.gemfile >>-<< parameters.ruby-version >>
       - run: gem install bundler -v '1.17'
       - run:
           name: Install dependencies
           command: bundle install
       - save_cache:
-          key: v2.0-<< parameters.gemfile >>-<< parameters.ruby-version >>
+          key: v2.3-<< parameters.gemfile >>-<< parameters.ruby-version >>
           paths:
             - vendor/bundle
       - run:
