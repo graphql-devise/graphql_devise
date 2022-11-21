@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.2.0](https://github.com/graphql-devise/graphql_devise/tree/v1.2.0) (2022-11-14)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.1.1...v1.2.0)
+
+**Implemented enhancements:**
+
+- Set base controller from route mount [\#237](https://github.com/graphql-devise/graphql_devise/pull/237) ([00dav00](https://github.com/00dav00))
+
 ## [v1.1.1](https://github.com/graphql-devise/graphql_devise/tree/v1.1.1) (2022-10-20)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.1.0...v1.1.1)

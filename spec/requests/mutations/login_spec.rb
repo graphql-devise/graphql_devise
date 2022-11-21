@@ -185,23 +185,22 @@ RSpec.describe 'Login Requests' do
     end
   end
 
-
   if DeviseTokenAuth.respond_to?(:cookie_enabled)
     context 'when using cookies for auth' do
       let!(:user) { create(:user, :confirmed, password: password, email: 'vvega@wallaceinc.com') }
       let(:email) { user.email }
       let(:query) do
         <<-GRAPHQL
-        mutation {
-          userLogin(
-            email: "#{email}",
-            password: "#{password}"
-          ) {
-            authenticatable { email }
-            credentials { accessToken uid tokenType client expiry }
+          mutation {
+            userLogin(
+              email: "#{email}",
+              password: "#{password}"
+            ) {
+              authenticatable { email }
+              credentials { accessToken uid tokenType client expiry }
+            }
           }
-        }
-      GRAPHQL
+        GRAPHQL
       end
 
       around do |example|
@@ -214,7 +213,7 @@ RSpec.describe 'Login Requests' do
 
       it 'honors DTA configuration of setting auth info in cookies' do
         cookie = cookies.get_cookie('auth_cookie')
-        expect(JSON.parse(cookie.value).keys).to include(*%w[uid access-token client])
+        expect(JSON.parse(cookie.value).keys).to include('uid', 'access-token', 'client')
       end
     end
   end

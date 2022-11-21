@@ -4,7 +4,7 @@ require:
   - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4.4
   DisplayCopNames: true
   Exclude:
     - bin/**/*
