@@ -13,22 +13,14 @@ jobs:
       - image: 'ruby:<< parameters.ruby-version >>'
     environment:
       BUNDLE_GEMFILE: << parameters.gemfile >>
-      BUNDLE_PATH: ../vendor/bundle
       COVERALLS_PARALLEL: true
       EAGER_LOAD: 'true'
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v2.3-<< parameters.gemfile >>-<< parameters.ruby-version >>
       - run: gem install bundler -v '1.17'
       - run:
           name: Install dependencies
           command: bundle install
-      - save_cache:
-          key: v2.3-<< parameters.gemfile >>-<< parameters.ruby-version >>
-          paths:
-            - vendor/bundle
       - run:
           name: Run Specs
           command:
