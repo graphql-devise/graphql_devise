@@ -1,6 +1,14 @@
 # Changelog
 
-## [v1.2.0](https://github.com/graphql-devise/graphql_devise/tree/v1.2.0) (2022-11-14)
+## [v1.3.0](https://github.com/graphql-devise/graphql_devise/tree/v1.3.0) (2023-09-01)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.2.0...v1.3.0)
+
+**Implemented enhancements:**
+
+- Support graphql v2.1 [\#257](https://github.com/graphql-devise/graphql_devise/pull/257) ([mcelicalderon](https://github.com/mcelicalderon))
+
+## [v1.2.0](https://github.com/graphql-devise/graphql_devise/tree/v1.2.0) (2022-11-21)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.1.1...v1.2.0)
 
