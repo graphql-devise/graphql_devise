@@ -1,0 +1,37 @@
+pt-BR:
+  graphql_devise:
+    redirect_url_not_allowed: "Redirecionamento para '%{redirect_url}' não permitido."
+    registration_failed: "Usuário não pôde ser registrado"
+    resource_build_failed: "O recurso não pôde ser construído, execução interrompida."
+    not_authenticated: "Usuário não logado."
+    user_not_found: "Usuário não encontrado ou não logado."
+    invalid_resource: "Erros presentes no recurso."
+    registrations:
+      missing_confirm_redirect_url: "Parâmetro 'confirm_success_url' ausente. Requerido quando o módulo 'confirmable' está habilitado."
+    passwords:
+      password_recovery_disabled: "Você deve habilitar a recuperação de senha para este model."
+      update_password_error: "Impossível atualizar a senha do usuário"
+      missing_passwords: "Você deve preencher os campos denominados 'Senha' e 'Confirmação de senha'."
+      password_not_required: "Esta conta não requer senha. Faça login usando sua conta '%{provider}'."
+      reset_token_not_found: "Nenhum usuário encontrado para o token de redefinição especificado."
+      reset_token_expired: "O token de redefinição de senha não é mais válido."
+      send_instructions: "Você receberá um e-mail com instruções sobre como redefinir sua senha em alguns minutos."
+    sessions:
+      bad_credentials: "Credenciais de login inválidas. Por favor, tente novamente."
+      not_confirmed: "Um e-mail de confirmação foi enviado para sua conta em '%{email}'. Você deve seguir as instruções no e-mail antes que sua conta possa ser ativada"
+    confirmations:
+      already_confirmed: "O e-mail já foi confirmado, tente fazer login"
+      invalid_token: "Token de confirmação inválido. Por favor, tente novamente"
+      user_not_found: "Não foi possível encontrar o usuário com o e-mail '%{email}'."
+      send_instructions: "Você receberá um e-mail com instruções sobre como confirmar seu endereço de e-mail em alguns minutos."
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Você pode confirmar o e-mail da sua conta através do link abaixo:"
+        confirm_account_link: "Confirmar minha conta"
+      reset_password_instructions:
+        request_reset_link_msg: "Alguém solicitou um link para alterar sua senha. Você pode fazer isso através do link abaixo."
+        password_change_link: "Altere minha senha"
+        ignore_mail_msg: "Se você não solicitou isso, ignore este e-mail."
+        no_changes_msg: "Sua senha não será alterada até que você acesse o link acima e crie uma nova."
+      unlock_instructions:
+        account_lock_msg: "Sua conta foi bloqueada devido a um número excessivo de tentativas de login malsucedidas."
