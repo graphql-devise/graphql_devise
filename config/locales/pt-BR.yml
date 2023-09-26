@@ -35,3 +35,6 @@ pt-BR:
         no_changes_msg: "Sua senha não será alterada até que você acesse o link acima e crie uma nova."
       unlock_instructions:
         account_lock_msg: "Sua conta foi bloqueada devido a um número excessivo de tentativas de login malsucedidas."
+  hello: "olá"
+  welcome: "bem-vindo(a)"
+
