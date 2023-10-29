@@ -29,7 +29,7 @@ module GraphqlDevise
         else
           raise_user_error_list(
             I18n.t('graphql_devise.passwords.update_password_error'),
-            errors: resource.errors.full_messages
+            resource: resource
           )
         end
       end

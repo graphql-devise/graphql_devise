@@ -16,8 +16,8 @@ module GraphqlDevise
       raise UserError, message
     end
 
-    def raise_user_error_list(message, errors:)
-      raise DetailedUserError.new(message, errors: errors)
+    def raise_user_error_list(message, resource:)
+      raise DetailedUserError.new(message, errors: resource.errors.full_messages)
     end
 
     def remove_resource

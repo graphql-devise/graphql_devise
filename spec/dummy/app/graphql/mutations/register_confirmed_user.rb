@@ -17,7 +17,7 @@ module Mutations
       else
         raise_user_error_list(
           'Custom registration failed',
-          errors: user.errors.full_messages
+          resource: user
         )
       end
     end
