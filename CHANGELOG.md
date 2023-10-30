@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.4.0](https://github.com/graphql-devise/graphql_devise/tree/v1.4.0) (2023-10-30)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.3.0...v1.4.0)
+
+**Implemented enhancements:**
+
+- Add ability to customize raise\_user\_error\_list method [\#262](https://github.com/graphql-devise/graphql_devise/issues/262)
+- Allow defining a custom raise\_user\_error\_list method [\#263](https://github.com/graphql-devise/graphql_devise/pull/263) ([mcelicalderon](https://github.com/mcelicalderon))
+- Create pt-BR.yml [\#260](https://github.com/graphql-devise/graphql_devise/pull/260) ([celsoMartins](https://github.com/celsoMartins))
+
 ## [v1.3.0](https://github.com/graphql-devise/graphql_devise/tree/v1.3.0) (2023-09-01)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.2.0...v1.3.0)
