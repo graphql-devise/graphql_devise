@@ -26,7 +26,7 @@ module GraphqlDevise
           if resource.errors.empty?
             { message: I18n.t('graphql_devise.passwords.send_instructions') }
           else
-            raise_user_error_list(I18n.t('graphql_devise.invalid_resource'), errors: resource.errors.full_messages)
+            raise_user_error_list(I18n.t('graphql_devise.invalid_resource'), resource: resource)
           end
         else
           raise_user_error(I18n.t('graphql_devise.user_not_found'))
