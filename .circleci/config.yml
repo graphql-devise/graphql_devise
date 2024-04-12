@@ -65,6 +65,7 @@ workflows:
                 - gemfiles/rails7.0_graphql1.13.gemfile
                 - gemfiles/rails7.0_graphql2.0.gemfile
                 - gemfiles/rails7.0_graphql2.1.gemfile
+                - gemfiles/rails7.0_graphql2.2.gemfile
             exclude:
               - ruby-version: '2.4'
                 gemfile: gemfiles/rails6.0_graphql1.11.gemfile
