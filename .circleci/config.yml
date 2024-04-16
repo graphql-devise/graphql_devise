@@ -66,6 +66,7 @@ workflows:
                 - gemfiles/rails7.0_graphql2.0.gemfile
                 - gemfiles/rails7.0_graphql2.1.gemfile
                 - gemfiles/rails7.0_graphql2.2.gemfile
+                - gemfiles/rails7.0_graphql2.3.gemfile
             exclude:
               - ruby-version: '2.4'
                 gemfile: gemfiles/rails6.0_graphql1.11.gemfile
@@ -93,6 +94,8 @@ workflows:
                 gemfile: gemfiles/rails7.0_graphql2.1.gemfile
               - ruby-version: '2.4'
                 gemfile: gemfiles/rails7.0_graphql2.2.gemfile
+              - ruby-version: '2.4'
+                gemfile: gemfiles/rails7.0_graphql2.3.gemfile
               - ruby-version: '2.5'
                 gemfile: gemfiles/rails7.0_graphql1.11.gemfile
               - ruby-version: '2.5'
@@ -119,6 +122,8 @@ workflows:
                 gemfile: gemfiles/rails6.0_graphql1.11.gemfile
               - ruby-version: '2.5'
                 gemfile: gemfiles/rails7.0_graphql2.2.gemfile
+              - ruby-version: '2.5'
+                gemfile: gemfiles/rails7.0_graphql2.3.gemfile
               - ruby-version: '2.6'
                 gemfile: gemfiles/rails7.0_graphql1.11.gemfile
               - ruby-version: '2.6'
@@ -131,6 +136,8 @@ workflows:
                 gemfile: gemfiles/rails7.0_graphql2.1.gemfile
               - ruby-version: '2.6'
                 gemfile: gemfiles/rails7.0_graphql2.2.gemfile
+              - ruby-version: '2.6'
+                gemfile: gemfiles/rails7.0_graphql2.3.gemfile
               - ruby-version: '2.7'
                 gemfile: gemfiles/rails4.2_graphql1.8.gemfile
               - ruby-version: '3.0'
