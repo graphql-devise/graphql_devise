@@ -15,6 +15,7 @@ jobs:
       BUNDLE_GEMFILE: << parameters.gemfile >>
       COVERALLS_PARALLEL: true
       EAGER_LOAD: 'true'
+      RUBYOPT: '-rostruct'
     steps:
       - checkout
       - run: gem install bundler -v '1.17'
