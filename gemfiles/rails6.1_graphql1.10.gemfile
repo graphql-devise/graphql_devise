@@ -6,5 +6,6 @@ gem "sqlite3", "~> 1.5.4"
 gem "devise", ">= 4.7"
 gem "rails", git: "https://github.com/rails/rails", branch: "6-1-stable"
 gem "graphql", "~> 1.10.0"
+gem "factory_bot", "<= 6.4.5"
 
 gemspec path: "../"

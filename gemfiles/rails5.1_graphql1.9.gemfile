@@ -7,5 +7,6 @@ gem "rails", git: "https://github.com/rails/rails", branch: "5-1-stable"
 gem "graphql", "~> 1.9.0"
 gem "devise_token_auth", "< 1.2"
 gem "rspec-rails", "< 4.0"
+gem "factory_bot", "<= 6.4.5"
 
 gemspec path: "../"

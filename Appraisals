@@ -14,6 +14,7 @@ appraise 'rails5.0-graphql1.8' do
   gem 'devise_token_auth', '0.1.43'
   gem 'devise', '>= 4.0'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.0-graphql1.9' do
@@ -22,6 +23,7 @@ appraise 'rails5.0-graphql1.9' do
   gem 'graphql', '~> 1.9.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.1-graphql1.8' do
@@ -31,6 +33,7 @@ appraise 'rails5.1-graphql1.8' do
   gem 'devise_token_auth', '0.1.43'
   gem 'devise', '>= 4.3'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.1-graphql1.9' do
@@ -39,6 +42,7 @@ appraise 'rails5.1-graphql1.9' do
   gem 'graphql', '~> 1.9.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.2-graphql1.8' do
@@ -48,6 +52,7 @@ appraise 'rails5.2-graphql1.8' do
   gem 'devise_token_auth', '0.1.43'
   gem 'devise', '>= 4.4.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.2-graphql1.9' do
@@ -56,6 +61,7 @@ appraise 'rails5.2-graphql1.9' do
   gem 'graphql', '~> 1.9.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.2-graphql1.10' do
@@ -64,6 +70,7 @@ appraise 'rails5.2-graphql1.10' do
   gem 'graphql', '~> 1.10.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.2-graphql1.11' do
@@ -72,6 +79,7 @@ appraise 'rails5.2-graphql1.11' do
   gem 'graphql', '~> 1.11.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails5.2-graphql1.12' do
@@ -80,6 +88,7 @@ appraise 'rails5.2-graphql1.12' do
   gem 'graphql', '~> 1.12.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.0-graphql1.10' do
@@ -87,6 +96,7 @@ appraise 'rails6.0-graphql1.10' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
   gem 'graphql', '~> 1.10.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.0-graphql1.11' do
@@ -95,6 +105,7 @@ appraise 'rails6.0-graphql1.11' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
   gem 'graphql', '~> 1.11.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.0-graphql1.12' do
@@ -103,6 +114,7 @@ appraise 'rails6.0-graphql1.12' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
   gem 'graphql', '~> 1.12.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.0-graphql1.13' do
@@ -110,6 +122,7 @@ appraise 'rails6.0-graphql1.13' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
   gem 'graphql', '~> 1.13.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.1-graphql1.10' do
@@ -117,6 +130,7 @@ appraise 'rails6.1-graphql1.10' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-1-stable'
   gem 'graphql', '~> 1.10.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.1-graphql1.11' do
@@ -125,6 +139,7 @@ appraise 'rails6.1-graphql1.11' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-1-stable'
   gem 'graphql', '~> 1.11.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.1-graphql1.12' do
@@ -133,6 +148,7 @@ appraise 'rails6.1-graphql1.12' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-1-stable'
   gem 'graphql', '~> 1.12.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.1-graphql1.13' do
@@ -140,6 +156,7 @@ appraise 'rails6.1-graphql1.13' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-1-stable'
   gem 'graphql', '~> 1.13.0'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails6.1-graphql2.0' do
@@ -148,6 +165,7 @@ appraise 'rails6.1-graphql2.0' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '6-1-stable'
   gem 'graphql', '~> 2.0.1'
+  gem 'factory_bot', '<= 6.4.5'
 end
 
 appraise 'rails7.0-graphql1.11' do
@@ -201,7 +219,7 @@ appraise 'rails7.0-graphql2.2' do
   gem 'devise_token_auth', '>= 1.2.1'
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '7-0-stable'
-  gem 'graphql', '>= 2.2', '< 2.3'
+  gem 'graphql', '~2.3.0'
 end
 
 appraise 'rails7.0-graphql2.3' do
@@ -210,5 +228,5 @@ appraise 'rails7.0-graphql2.3' do
   gem 'devise_token_auth', '>= 1.2.1'
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '7-0-stable'
-  gem 'graphql', '>= 2.3', '< 2.4'
+  gem 'graphql', '~2.3.0'
 end
