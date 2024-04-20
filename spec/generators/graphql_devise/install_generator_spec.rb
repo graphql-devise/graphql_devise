@@ -4,7 +4,7 @@
 require 'rails_helper'
 require 'generators/graphql_devise/install_generator'
 
-RSpec.describe GraphqlDevise::InstallGenerator, type: :generator, skip: true do
+RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
   destination File.expand_path('../../../../gqld_dummy', __dir__)
 
   let(:routes_path)    { "#{destination_root}/config/routes.rb" }
