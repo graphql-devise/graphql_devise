@@ -221,7 +221,7 @@ appraise 'rails7.0-graphql2.2' do
   gem 'devise_token_auth', '>= 1.2.1'
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '7-0-stable'
-  gem 'graphql', '2.3.0'
+  gem 'graphql', '2.2.0'
 end
 
 appraise 'rails7.0-graphql2.3' do
