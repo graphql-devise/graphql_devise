@@ -5,6 +5,8 @@ appraise 'rails4.2-graphql1.8' do
   gem 'graphql', '~> 1.8.0'
   gem 'devise_token_auth', '< 1.2'
   gem 'rspec-rails', '< 4.0'
+  gem 'bigdecimal', '1.3.5'
+  gem 'factory_bot', '<= 6.4.4'
 end
 
 appraise 'rails5.0-graphql1.8' do
