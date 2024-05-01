@@ -4,7 +4,14 @@
 require 'rails_helper'
 require 'generators/graphql_devise/install_generator'
 
-RSpec.describe GraphqlDevise::InstallGenerator, type: :generator do
+# NOTE: Skipping tests because of a problem between zeitwerk and GQL versions 2.1.0 & 2.2.14
+skip_generator_tests =
+  Gem::Version.new(GraphQL::VERSION).between?(
+    Gem::Version.new('2.1.0'),
+    Gem::Version.new('2.2.14')
+  ) && Gem::Version.new(Rails.version) >= Gem::Version.new('7.0.0')
+
+RSpec.describe GraphqlDevise::InstallGenerator, type: :generator, skip: skip_generator_tests do
   destination File.expand_path('../../../../gqld_dummy', __dir__)
 
   let(:routes_path)    { "#{destination_root}/config/routes.rb" }
