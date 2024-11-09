@@ -4,11 +4,7 @@ RSpec.shared_context 'with graphql query request' do
   let(:headers)   { {} }
   let(:variables) { {} }
   let(:graphql_params) do
-    if Rails::VERSION::MAJOR >= 5
-      { params: { query: query, variables: variables }, headers: headers }
-    else
-      [{ query: query, variables: variables }, headers]
-    end
+    { params: { query: query, variables: variables }, headers: headers }
   end
 
   def post_request(path = '/api/v1/graphql_auth')
@@ -20,10 +16,6 @@ RSpec.shared_context 'with graphql query request' do
   end
 
   def send_request(path, method)
-    if Rails::VERSION::MAJOR >= 5
-      public_send(method, path, **graphql_params)
-    else
-      public_send(method, path, *graphql_params)
-    end
+    public_send(method, path, **graphql_params)
   end
 end

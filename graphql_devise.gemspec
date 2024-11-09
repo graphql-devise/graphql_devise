@@ -25,11 +25,11 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").select { |f| f.match(%r{^spec/}) }
   end
 
-  spec.required_ruby_version = '>= 2.4.4'
+  spec.required_ruby_version = '>= 2.7.0'
 
   spec.add_dependency 'devise_token_auth', '>= 0.1.43', '< 2.0'
   spec.add_dependency 'graphql', '>= 1.8', '< 2.4'
-  spec.add_dependency 'rails', '>= 4.2', '< 7.2'
+  spec.add_dependency 'rails', '>= 6.0', '< 7.2'
   spec.add_dependency 'zeitwerk'
 
   spec.add_development_dependency 'appraisal'

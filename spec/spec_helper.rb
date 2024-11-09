@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if ENV['CI'] && !ENV['SKIP_COVERALLS'] && Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.5')
+if ENV['CI'] && !ENV['SKIP_COVERALLS']
   require 'simplecov'
   require 'coveralls'
 
