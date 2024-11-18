@@ -116,7 +116,13 @@ RSpec.describe 'Login Requests' do
 
         context 'and introspection is set to require auth' do
           before do
-            allow_any_instance_of(GraphqlDevise::SchemaPlugin).to(
+            target_class = if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('2.3')
+              GraphqlDevise::FieldAuthTracer
+            else
+              GraphqlDevise::SchemaPlugin
+            end
+
+            allow_any_instance_of(target_class).to(
               receive(:public_introspection).and_return(false)
             )
           end

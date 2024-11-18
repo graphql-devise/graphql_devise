@@ -19,7 +19,16 @@ module GraphqlDevise
     end
 
     def use(schema_definition)
-      schema_definition.tracer(self)
+      if Gem::Version.new(GraphQL::VERSION) >= Gem::Version.new('2.3')
+        schema_definition.trace_with(
+          FieldAuthTracer,
+          authenticate_default: @authenticate_default,
+          public_introspection: public_introspection,
+          unauthenticated_proc: @unauthenticated_proc
+        )
+      else
+        schema_definition.tracer(self)
+      end
     end
 
     def trace(event, trace_data)
