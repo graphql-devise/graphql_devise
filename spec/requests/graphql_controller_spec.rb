@@ -74,10 +74,6 @@ RSpec.describe GraphqlDevise::GraphqlController do
   end
 
   def post_request(path)
-    if Rails::VERSION::MAJOR >= 5
-      post(path, params: params)
-    else
-      post(path, params)
-    end
+    post(path, params: params)
   end
 end

@@ -15,13 +15,8 @@ Rails.application.configure do
   config.eager_load = ENV['EAGER_LOAD'].present?
 
   # Configure public file server for tests with Cache-Control for performance.
-  if Rails::VERSION::MAJOR >= 5
-    config.public_file_server.enabled = true
-    config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
-  else
-    config.serve_static_files = true
-    config.static_cache_control = 'public, max-age=3600'
-  end
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

@@ -18,7 +18,7 @@ jobs:
       RUBYOPT: '-rostruct'
     steps:
       - checkout
-      - run: gem install bundler -v '1.17'
+      - run: gem install bundler -v '2.4.22'
       - run:
           name: Install dependencies
           command: bundle install
@@ -40,20 +40,12 @@ workflows:
           matrix:
             parameters:
               ruby-version:
-                - '2.5'
-                - '2.6'
                 - '2.7'
                 - '3.0'
+                - '3.1'
+                - '3.2'
+                - '3.3'
               gemfile:
-                - gemfiles/rails4.2_graphql1.8.gemfile
-                - gemfiles/rails5.0_graphql1.8.gemfile
-                - gemfiles/rails5.0_graphql1.9.gemfile
-                - gemfiles/rails5.1_graphql1.8.gemfile
-                - gemfiles/rails5.1_graphql1.9.gemfile
-                - gemfiles/rails5.2_graphql1.8.gemfile
-                - gemfiles/rails5.2_graphql1.9.gemfile
-                - gemfiles/rails5.2_graphql1.10.gemfile
-                - gemfiles/rails5.2_graphql1.11.gemfile
                 - gemfiles/rails6.0_graphql1.11.gemfile
                 - gemfiles/rails6.0_graphql1.12.gemfile
                 - gemfiles/rails6.0_graphql1.13.gemfile
@@ -73,84 +65,12 @@ workflows:
                 - gemfiles/rails7.1_graphql2.2.gemfile
                 - gemfiles/rails7.1_graphql2.3.gemfile
             exclude:
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql1.11.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails6.0_graphql1.13.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails6.1_graphql1.13.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql1.12.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql1.13.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails6.1_graphql2.0.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails6.1_graphql1.12.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails6.1_graphql1.11.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails6.0_graphql1.12.gemfile
-              - ruby-version: '2.5'
+              - ruby-version: '3.3'
                 gemfile: gemfiles/rails6.0_graphql1.11.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql2.0.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql2.1.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql2.2.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.0_graphql2.3.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.1_graphql2.0.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.1_graphql2.1.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.1_graphql2.2.gemfile
-              - ruby-version: '2.5'
-                gemfile: gemfiles/rails7.1_graphql2.3.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql1.11.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql1.12.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql1.13.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql2.0.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql2.1.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql2.2.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.0_graphql2.3.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.1_graphql2.0.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.1_graphql2.1.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.1_graphql2.2.gemfile
-              - ruby-version: '2.6'
-                gemfile: gemfiles/rails7.1_graphql2.3.gemfile
-              - ruby-version: '2.7'
-                gemfile: gemfiles/rails4.2_graphql1.8.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails4.2_graphql1.8.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.0_graphql1.8.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.0_graphql1.9.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.1_graphql1.8.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.1_graphql1.9.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.2_graphql1.8.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.2_graphql1.9.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.2_graphql1.10.gemfile
-              - ruby-version: '3.0'
-                gemfile: gemfiles/rails5.2_graphql1.11.gemfile
+              - ruby-version: '3.3'
+                gemfile: gemfiles/rails6.0_graphql1.12.gemfile
+              - ruby-version: '3.3'
+                gemfile: gemfiles/rails6.0_graphql1.13.gemfile
       - report-coverage:
           requires:
             - test

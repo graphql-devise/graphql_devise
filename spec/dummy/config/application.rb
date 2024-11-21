@@ -28,7 +28,7 @@ module Dummy
     # Skip views, helpers and assets when generating a new resource.
     # config.api_only = true
 
-    if Rails::VERSION::MAJOR >= 5 && Rails::VERSION::MINOR > 1
+    if Gem::Version.new(Rails::VERSION::STRING) < Gem::Version.new('6.1')
       config.active_record.sqlite3.represent_boolean_as_integer = true
     end
   end
