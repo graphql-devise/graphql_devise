@@ -52,11 +52,7 @@ module GraphqlDevise
       end
 
       def email_in_database
-        if Devise.activerecord51?
-          @resource.email_in_database
-        else
-          @resource.email_was
-        end
+        @resource.email_in_database
       end
 
       def confirmation_method_params
