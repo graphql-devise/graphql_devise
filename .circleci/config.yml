@@ -13,7 +13,7 @@ jobs:
       - image: 'ruby:<< parameters.ruby-version >>'
     environment:
       BUNDLE_GEMFILE: << parameters.gemfile >>
-      COVERALLS_PARALLEL: true
+      COVERALLS_PARALLEL: 'true'
       EAGER_LOAD: 'true'
       RUBYOPT: '-rostruct'
     steps:
@@ -43,6 +43,8 @@ workflows:
                 - '2.7'
                 - '3.0'
                 - '3.1'
+                - '3.2'
+                - '3.3'
               gemfile:
                 - gemfiles/rails6.0_graphql1.11.gemfile
                 - gemfiles/rails6.0_graphql1.12.gemfile
@@ -83,6 +85,18 @@ workflows:
                 gemfile: gemfiles/rails7.2_graphql2.2.gemfile
               - ruby-version: '3.0'
                 gemfile: gemfiles/rails7.2_graphql2.3.gemfile
+              - ruby-version: '3.2'
+                gemfile: gemfiles/rails6.0_graphql1.11.gemfile
+              - ruby-version: '3.2'
+                gemfile: gemfiles/rails6.1_graphql1.11.gemfile
+              - ruby-version: '3.2'
+                gemfile: gemfiles/rails7.0_graphql1.11.gemfile
+              - ruby-version: '3.3'
+                gemfile: gemfiles/rails6.0_graphql1.11.gemfile
+              - ruby-version: '3.3'
+                gemfile: gemfiles/rails6.1_graphql1.11.gemfile
+              - ruby-version: '3.3'
+                gemfile: gemfiles/rails7.0_graphql1.11.gemfile
       - report-coverage:
           requires:
             - test
