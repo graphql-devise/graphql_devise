@@ -33,7 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'zeitwerk'
 
   spec.add_development_dependency 'appraisal'
-  spec.add_development_dependency 'coveralls_reborn'
   spec.add_development_dependency 'factory_bot'
   spec.add_development_dependency 'faker'
   spec.add_development_dependency 'generator_spec'
@@ -46,5 +45,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-performance', '< 1.6.0'
   spec.add_development_dependency 'rubocop-rails', '< 2.6.0'
   spec.add_development_dependency 'rubocop-rspec', '< 1.39.0'
+  spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'sqlite3'
 end
