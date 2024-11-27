@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'devise_token_auth', '>= 0.1.43', '< 2.0'
   spec.add_dependency 'graphql', '>= 1.8', '< 2.4'
-  spec.add_dependency 'rails', '>= 6.0', '< 7.2'
+  spec.add_dependency 'rails', '>= 6.0', '< 7.3'
   spec.add_dependency 'zeitwerk'
 
   spec.add_development_dependency 'appraisal'
@@ -41,10 +41,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry', '>= 0.14.2'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake', '>= 12.3.3'
-  spec.add_development_dependency 'rspec-rails', '~> 4.0'
+  spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'rubocop', '< 0.82.0'
   spec.add_development_dependency 'rubocop-performance', '< 1.6.0'
   spec.add_development_dependency 'rubocop-rails', '< 2.6.0'
   spec.add_development_dependency 'rubocop-rspec', '< 1.39.0'
-  spec.add_development_dependency 'sqlite3', '~> 1.3'
+  spec.add_development_dependency 'sqlite3'
 end

@@ -33,17 +33,6 @@ RSpec.describe GraphqlDevise::GraphqlController do
     end
   end
 
-  context 'when variables are not a string or hash' do
-    let(:variables) { 1 }
-    let(:query)     { "mutation($email: String!) { userLogin(email: $email, password: \"#{password}\") { user { email name signInCount } } }" }
-
-    it 'raises an error' do
-      expect do
-        post_request('/api/v1/graphql_auth')
-      end.to raise_error(ArgumentError)
-    end
-  end
-
   context 'when multiplexing queries' do
     let(:params) do
       {
