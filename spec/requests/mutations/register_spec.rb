@@ -128,7 +128,7 @@ RSpec.describe 'Registration process' do
 
     it 'skips the register mutation' do
       expect(json_response[:errors]).to contain_exactly(
-        hash_including(message: "Field 'adminRegister' doesn't exist on type 'Mutation'")
+        hash_including(message: a_string_including("Field 'adminRegister' doesn't exist on type 'Mutation'"))
       )
     end
   end
