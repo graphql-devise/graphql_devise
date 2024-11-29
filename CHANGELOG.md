@@ -1,5 +1,19 @@
 # Changelog
 
+## [v2.0.0](https://github.com/graphql-devise/graphql_devise/tree/v2.0.0) (2024-12-10)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.5.0...v2.0.0)
+
+**Breaking changes:**
+
+- Drop support for Rails \< 6.0 and Ruby \< 2.7 [\#276](https://github.com/graphql-devise/graphql_devise/pull/276) ([HeyNonster](https://github.com/HeyNonster))
+
+**Implemented enhancements:**
+
+- Add support for GraphQL 2.4 [\#281](https://github.com/graphql-devise/graphql_devise/pull/281) ([mcelicalderon](https://github.com/mcelicalderon))
+- Test with Ruby 3.2 and 3.3 [\#279](https://github.com/graphql-devise/graphql_devise/pull/279) ([mcelicalderon](https://github.com/mcelicalderon))
+- Add support for Rails 7.2 [\#278](https://github.com/graphql-devise/graphql_devise/pull/278) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v1.5.0](https://github.com/graphql-devise/graphql_devise/tree/v1.5.0) (2024-05-16)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.4.0...v1.5.0)
