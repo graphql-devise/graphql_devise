@@ -133,6 +133,15 @@ appraise 'rails7.0-graphql2.3' do
   gem 'graphql', '>= 2.3', '< 2.4'
 end
 
+appraise 'rails7.0-graphql2.4' do
+  gem 'sassc-rails'
+  gem 'sqlite3', '~> 1.5.4'
+  gem 'devise_token_auth', '>= 1.2.1'
+  gem 'devise', '>= 4.7'
+  gem 'rails', git: 'https://github.com/rails/rails', branch: '7-0-stable'
+  gem 'graphql', '>= 2.4', '< 2.5'
+end
+
 appraise 'rails7.1-graphql2.0' do
   gem 'sassc-rails'
   gem 'sqlite3', '~> 1.5.4'
@@ -169,6 +178,15 @@ appraise 'rails7.1-graphql2.3' do
   gem 'graphql', '>= 2.3', '< 2.4'
 end
 
+appraise 'rails7.1-graphql2.4' do
+  gem 'sassc-rails'
+  gem 'sqlite3', '~> 1.5.4'
+  gem 'devise_token_auth', '>= 1.2.1'
+  gem 'devise', '>= 4.7'
+  gem 'rails', git: 'https://github.com/rails/rails', branch: '7-1-stable'
+  gem 'graphql', '>= 2.4', '< 2.5'
+end
+
 appraise 'rails7.2-graphql2.0' do
   gem 'sassc-rails'
   gem 'devise_token_auth', '>= 1.2.1'
@@ -199,4 +217,12 @@ appraise 'rails7.2-graphql2.3' do
   gem 'devise', '>= 4.7'
   gem 'rails', git: 'https://github.com/rails/rails', branch: '7-2-stable'
   gem 'graphql', '>= 2.3', '< 2.4'
+end
+
+appraise 'rails7.2-graphql2.4' do
+  gem 'sassc-rails'
+  gem 'devise_token_auth', '>= 1.2.1'
+  gem 'devise', '>= 4.7'
+  gem 'rails', git: 'https://github.com/rails/rails', branch: '7-2-stable'
+  gem 'graphql', '>= 2.4', '< 2.5'
 end
