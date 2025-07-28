@@ -1,32 +1,3 @@
-appraise 'rails6.0-graphql1.11' do
-  gem 'psych', '< 4'
-  gem 'sqlite3', '~> 1.5.4'
-  gem 'public_suffix', '< 5'
-  gem 'devise', '>= 4.7'
-  gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
-  gem 'graphql', '~> 1.11.0'
-  gem 'factory_bot', '<= 6.4.4'
-end
-
-appraise 'rails6.0-graphql1.12' do
-  gem 'psych', '< 4'
-  gem 'sqlite3', '~> 1.5.4'
-  gem 'public_suffix', '< 5'
-  gem 'devise', '>= 4.7'
-  gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
-  gem 'graphql', '~> 1.12.0'
-  gem 'factory_bot', '<= 6.4.4'
-end
-
-appraise 'rails6.0-graphql1.13' do
-  gem 'psych', '< 4'
-  gem 'sqlite3', '~> 1.5.4'
-  gem 'devise', '>= 4.7'
-  gem 'rails', git: 'https://github.com/rails/rails', branch: '6-0-stable'
-  gem 'graphql', '~> 1.13.0'
-  gem 'factory_bot', '<= 6.4.4'
-end
-
 appraise 'rails6.1-graphql1.10' do
   gem 'sqlite3', '~> 1.5.4'
   gem 'devise', '>= 4.7'
