@@ -87,6 +87,9 @@ RSpec.describe GraphqlDevise::InstallGenerator, type: :generator, skip: skip_gen
       `rails new gqld_dummy -S -C --skip-action-mailbox --skip-action-text -T --skip-spring --skip-bundle --skip-keeps -G --skip-active-storage -J --skip-listen --skip-bootsnap`
     end
     FileUtils.cd(File.join(destination_root, '../gqld_dummy')) do
+      `rm -f config/initializers/assets.rb`
+    end
+    FileUtils.cd(File.join(destination_root, '../gqld_dummy')) do
       `rails generate graphql:install`
     end
   end
