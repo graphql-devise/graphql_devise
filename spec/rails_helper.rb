@@ -29,8 +29,6 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.fixture_path = "#{GQL_DEVISE_ROOT}/spec/fixtures"
-
   config.use_transactional_fixtures = true
 
   config.infer_spec_type_from_file_location!
