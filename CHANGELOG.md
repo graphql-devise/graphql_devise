@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.1.0](https://github.com/graphql-devise/graphql_devise/tree/v2.1.0) (2025-07-28)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Add graphql 2.5 support [\#288](https://github.com/graphql-devise/graphql_devise/pull/288) ([mcelicalderon](https://github.com/mcelicalderon))
+- Add Rails 8.0 support [\#287](https://github.com/graphql-devise/graphql_devise/pull/287) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v2.0.0](https://github.com/graphql-devise/graphql_devise/tree/v2.0.0) (2024-12-10)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v1.5.0...v2.0.0)
