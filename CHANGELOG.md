@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.1.1](https://github.com/graphql-devise/graphql_devise/tree/v2.1.1) (2026-04-15)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.1.0...v2.1.1)
+
+**Implemented enhancements:**
+
+- Object types must have fields \(FieldsAreRequiredError\) [\#283](https://github.com/graphql-devise/graphql_devise/issues/283)
+- Use has\_no\_fields\(true\) in base types to silence warnings [\#290](https://github.com/graphql-devise/graphql_devise/pull/290) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v2.1.0](https://github.com/graphql-devise/graphql_devise/tree/v2.1.0) (2025-07-28)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.0.0...v2.1.0)
