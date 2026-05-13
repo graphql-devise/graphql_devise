@@ -203,6 +203,11 @@ appraise 'rails7.2-graphql2.5' do
   gem 'graphql', '>= 2.5', '< 2.6'
 end
 
+appraise 'rails7.2-graphql2.6' do
+  gem 'rails', git: 'https://github.com/rails/rails', branch: '7-2-stable'
+  gem 'graphql', '>= 2.6', '< 2.7'
+end
+
 appraise 'rails8.0-graphql2.2' do
   gem 'rails', git: 'https://github.com/rails/rails', branch: '8-0-stable'
   gem 'graphql', '>= 2.2', '< 2.3'
@@ -221,4 +226,9 @@ end
 appraise 'rails8.0-graphql2.5' do
   gem 'rails', git: 'https://github.com/rails/rails', branch: '8-0-stable'
   gem 'graphql', '>= 2.5', '< 2.6'
+end
+
+appraise 'rails8.0-graphql2.6' do
+  gem 'rails', git: 'https://github.com/rails/rails', branch: '8-0-stable'
+  gem 'graphql', '>= 2.6', '< 2.7'
 end
