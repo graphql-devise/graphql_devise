@@ -13,6 +13,7 @@ jobs:
       - image: 'ruby:<< parameters.ruby-version >>'
     environment:
       BUNDLE_GEMFILE: << parameters.gemfile >>
+      BUNDLE_JOBS: '2'
       COVERALLS_PARALLEL: 'true'
       EAGER_LOAD: 'true'
       RUBYOPT: '-rostruct'
