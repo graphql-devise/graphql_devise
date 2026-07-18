@@ -32,6 +32,12 @@ Rails.application.routes.draw do
     at:   '/api/v1/user_customer/graphql_auth'
   )
 
+  mount_graphql_devise_for(
+    User,
+    at:                   '/api/v1/no_introspection',
+    public_introspection: false
+  )
+
   get '/api/v1/graphql', to: 'api/v1/graphql#graphql'
   post '/api/v1/graphql', to: 'api/v1/graphql#graphql'
   post '/api/v1/interpreter', to: 'api/v1/graphql#interpreter'

@@ -27,8 +27,9 @@ module GraphqlDevise
 
   class InvalidMountOptionsError < ::GraphqlDevise::Error; end
 
-  @schema_loaded     = false
-  @mounted_resources = []
+  @schema_loaded                = false
+  @mounted_resources            = []
+  @introspection_plugin_applied = false
 
   def self.schema_loaded?
     @schema_loaded
@@ -36,6 +37,14 @@ module GraphqlDevise
 
   def self.load_schema
     @schema_loaded = true
+  end
+
+  def self.introspection_plugin_applied?
+    @introspection_plugin_applied
+  end
+
+  def self.introspection_plugin_applied!
+    @introspection_plugin_applied = true
   end
 
   def self.resource_mounted?(model)
