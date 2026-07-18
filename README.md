@@ -287,6 +287,13 @@ You need to provide a hash to this option, and
 each key will be the name of the query on the schema. Also, the value provided must be a valid Resolver.
 This is also similar to what you can accomplish with
 [devise_scope](https://www.rubydoc.info/github/heartcombo/devise/master/ActionDispatch/Routing/Mapper%3Adevise_for).
+1. `public_introspection`: Defaults to `true`. When set to `false`, introspection fields (`__schema`, `__type`)
+will require authentication on the gem provided schema mounted on a separate route. Given that this schema never
+sets a `current_resource` in the GraphQL context, this effectively disables introspection on that route.
+Please note the gem provided schema is shared by all mounted resources, so setting this option to `false` on any
+mount will disable introspection for all of them. **This option only works if you are using the mount method.**
+If you are mounting the auth operations into your own schema, use the `public_introspection` option of the
+`SchemaPlugin` instead.
 
 Additional mutations and queries will be added to the schema regardless
 of other options you might have specified like `skip` or `only`.
@@ -574,6 +581,9 @@ standard Devise templates.
 ### Disable Introspection
 `GraphqlDevise::Schema` extends from `GraphQL::Schema`, which allows it to utilize the `disable_introspection_entry_points` method. By calling this method, you can disable introspection entry points in your schema. You can read more about it
 [here](https://github.com/rmosolgo/graphql-ruby/blob/master/guides/schema/introspection.md#disabling-introspection).
+
+If you are mounting the auth schema on a separate route, you can also pass `public_introspection: false` to the
+`mount_graphql_devise_for` method. Check the [available mount options](#available-mount-options) section for more information.
 
 If you are using the schema plugin and prefer to make introspection queries available only to authenticated users, you can do so by modifying the `public_introspection` option of the plugin. Check the [plugin config section](#mounting-operations-into-your-own-schema) for more information.
 

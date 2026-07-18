@@ -4,7 +4,7 @@ GraphqlDevise::Engine.routes.draw do
   # Required as Devise forces routes to reload on eager_load
   unless GraphqlDevise.schema_loaded?
     if GraphqlDevise::Types::QueryType.fields.blank?
-      GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy)
+      GraphqlDevise::Types::QueryType.field(:dummy, resolver: GraphqlDevise::Resolvers::Dummy, authenticate: false)
     end
 
     if GraphqlDevise::Types::MutationType.fields.present?

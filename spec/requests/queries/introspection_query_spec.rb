@@ -152,4 +152,42 @@ RSpec.describe 'Login Requests' do
       end
     end
   end
+
+  context 'when using the gem provided schema mounted on a route with public_introspection: false' do
+    it 'return an error' do
+      post_request('/api/v1/no_introspection')
+
+      expect(json_response[:data]).to be_nil
+      expect(json_response[:errors]).to contain_exactly(
+        hash_including(
+          message:    '__schema field requires authentication',
+          extensions: { code: 'AUTHENTICATION_ERROR' }
+        )
+      )
+    end
+
+    context 'when executing a regular operation on the same route' do
+      let(:password) { '12345678' }
+      let(:user)     { create(:user, :confirmed, password: password) }
+      let(:query) do
+        <<-GRAPHQL
+          mutation {
+            userLogin(
+              email: "#{user.email}",
+              password: "#{password}"
+            ) {
+              user { email }
+            }
+          }
+        GRAPHQL
+      end
+
+      it 'executes the operation successfully' do
+        post_request('/api/v1/no_introspection')
+
+        expect(json_response[:errors]).to be_nil
+        expect(json_response[:data][:userLogin][:user][:email]).to eq(user.email)
+      end
+    end
+  end
 end
