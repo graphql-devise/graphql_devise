@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.3.0](https://github.com/graphql-devise/graphql_devise/tree/v2.3.0) (2026-07-20)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.2.0...v2.3.0)
+
+**Implemented enhancements:**
+
+- Disable introspection [\#255](https://github.com/graphql-devise/graphql_devise/issues/255)
+- Support public\_introspection option in mount\_graphql\_devise\_for [\#294](https://github.com/graphql-devise/graphql_devise/pull/294) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v2.2.0](https://github.com/graphql-devise/graphql_devise/tree/v2.2.0) (2026-05-13)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.1.1...v2.2.0)
@@ -462,10 +471,6 @@
 **Fixed bugs:**
 
 - mutation': Second definition of 'mutation\(...\)' \(GraphqlDevise::Types::MutationType\) is invalid [\#59](https://github.com/graphql-devise/graphql_devise/issues/59)
-
-**Merged pull requests:**
-
-- Add mailer locale doc [\#44](https://github.com/graphql-devise/graphql_devise/pull/44) ([aarona](https://github.com/aarona))
 
 ## [v0.9.1](https://github.com/graphql-devise/graphql_devise/tree/v0.9.1) (2019-12-26)
 
