@@ -47,9 +47,6 @@ workflows:
                 - '3.3'
                 - '3.4'
               gemfile:
-                - gemfiles/rails7.0_graphql2.0.gemfile
-                - gemfiles/rails7.0_graphql2.1.gemfile
-                - gemfiles/rails7.0_graphql2.2.gemfile
                 - gemfiles/rails7.0_graphql2.3.gemfile
                 - gemfiles/rails7.0_graphql2.4.gemfile
                 - gemfiles/rails7.1_graphql2.0.gemfile
@@ -69,6 +66,9 @@ workflows:
                 - gemfiles/rails8.0_graphql2.4.gemfile
                 - gemfiles/rails8.0_graphql2.5.gemfile
                 - gemfiles/rails8.0_graphql2.6.gemfile
+                - gemfiles/rails8.1_graphql2.4.gemfile
+                - gemfiles/rails8.1_graphql2.5.gemfile
+                - gemfiles/rails8.1_graphql2.6.gemfile
             exclude:
               - ruby-version: '3.0'
                 gemfile: gemfiles/rails7.2_graphql2.0.gemfile
@@ -94,6 +94,12 @@ workflows:
                 gemfile: gemfiles/rails8.0_graphql2.5.gemfile
               - ruby-version: '3.0'
                 gemfile: gemfiles/rails8.0_graphql2.6.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails8.1_graphql2.4.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails8.1_graphql2.5.gemfile
+              - ruby-version: '3.0'
+                gemfile: gemfiles/rails8.1_graphql2.6.gemfile
               - ruby-version: '3.1'
                 gemfile: gemfiles/rails8.0_graphql2.2.gemfile
               - ruby-version: '3.1'
@@ -104,6 +110,12 @@ workflows:
                 gemfile: gemfiles/rails8.0_graphql2.5.gemfile
               - ruby-version: '3.1'
                 gemfile: gemfiles/rails8.0_graphql2.6.gemfile
+              - ruby-version: '3.1'
+                gemfile: gemfiles/rails8.1_graphql2.4.gemfile
+              - ruby-version: '3.1'
+                gemfile: gemfiles/rails8.1_graphql2.5.gemfile
+              - ruby-version: '3.1'
+                gemfile: gemfiles/rails8.1_graphql2.6.gemfile
       - report-coverage:
           requires:
             - test
