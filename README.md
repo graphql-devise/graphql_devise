@@ -294,6 +294,13 @@ Please note the gem provided schema is shared by all mounted resources, so setti
 mount will disable introspection for all of them. **This option only works if you are using the mount method.**
 If you are mounting the auth operations into your own schema, use the `public_introspection` option of the
 `SchemaPlugin` instead.
+1. `allow_destroy`: Defaults to `false`. The `destroy_account` operation is opt-in: it is **not** mounted
+automatically, so upgrading the gem will never add a way to delete accounts to an existing schema. Set
+`allow_destroy: true` to mount it (works alongside `skip`, and additively when no `skip`/`only` is given), or
+list `:destroy_account` in the `only` option. While the operation is available but not mounted, a warning is
+logged on boot explaining how to opt in. If you have decided you don't want the mutation and want to silence
+the warning, add `:destroy_account` to the `skip` option (for example `skip: [:destroy_account]`, or combined
+with the flag as `allow_destroy: true, skip: [:destroy_account]`).
 
 Additional mutations and queries will be added to the schema regardless
 of other options you might have specified like `skip` or `only`.
@@ -315,6 +322,7 @@ The following is a list of the symbols you can provide to the `operations`, `ski
 :send_password_reset_with_token
 :resend_confirmation_with_token
 :confirm_registration_with_token
+:destroy_account # opt-in, see the `allow_destroy` option above
 ```
 
 ### Configuring Model
@@ -479,6 +487,7 @@ register | The parameter `confirmUrl` is optional unless you are using the `conf
 sendPasswordResetWithToken | Sends an email to the provided address with a link to reset the password of the resource. First step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(email: String!, redirectUrl: String!): UserSendPasswordResetWithTokenPayload |
 updatePasswordWithToken | Uses a `resetPasswordToken` to update the password of a resource. Second and last step of the most recently implemented password reset flow. | userSendPasswordResetWithToken(resetPasswordToken: String!, password: String!, passwordConfirmation: String!): UserUpdatePasswordWithTokenPayload |
 resendConfirmationWithToken | The `UserResendConfirmationWithTokenPayload` will return a `message: String!` that can be used to notify a user what to do after the instructions were sent to them. Email will contain a link to the provided `confirmUrl` and a `confirmationToken` query param. | userResendConfirmationWithToken(email: String!, confirmUrl: String!): UserResendConfirmationWithTokenPayload |
+destroyAccount | Opt-in (see the `allow_destroy` mount option). Requires authentication headers. Destroys the current resource and clears the session so no auth headers are returned. | userDestroyAccount: UserDestroyAccountPayload |
 
 ### Reset Password Flow
 This gem supports two password recovery flows. The most recently implemented is preferred and
