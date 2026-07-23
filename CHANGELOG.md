@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.4.0](https://github.com/graphql-devise/graphql_devise/tree/v2.4.0) (2026-07-23)
+
+[Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.3.0...v2.4.0)
+
+**Implemented enhancements:**
+
+- Add Rails 8.1 support [\#297](https://github.com/graphql-devise/graphql_devise/pull/297) ([mcelicalderon](https://github.com/mcelicalderon))
+- Add opt-in destroy\_account mutation [\#296](https://github.com/graphql-devise/graphql_devise/pull/296) ([mcelicalderon](https://github.com/mcelicalderon))
+
 ## [v2.3.0](https://github.com/graphql-devise/graphql_devise/tree/v2.3.0) (2026-07-20)
 
 [Full Changelog](https://github.com/graphql-devise/graphql_devise/compare/v2.2.0...v2.3.0)
