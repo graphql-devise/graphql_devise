@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  coveralls: coveralls/coveralls@1.0.6
+  coveralls: coveralls/coveralls@2.2.5
 
 jobs:
   test:
@@ -12,9 +12,8 @@ jobs:
     docker:
       - image: 'ruby:<< parameters.ruby-version >>'
     environment:
-      BUNDLE_GEMFILE: << parameters.gemfile >>
+      BUNDLE_GEMFILE: gemfiles/<< parameters.gemfile >>.gemfile
       BUNDLE_JOBS: '2'
-      COVERALLS_PARALLEL: 'true'
       EAGER_LOAD: 'true'
       RUBYOPT: '-rostruct'
     steps:
@@ -27,6 +26,13 @@ jobs:
           name: Run Specs
           command:
             bundle exec rspec
+      - coveralls/upload:
+          parallel: true
+          coverage_file: ./coverage/.resultset.json
+          coverage_format: simplecov
+          # Parallel jobs must each report a unique flag_name or Coveralls
+          # collapses them into a single job. Keep it free of slashes.
+          flag_name: ruby-<< parameters.ruby-version >>-<< parameters.gemfile >>
   report-coverage:
     docker:
       - image: 'cimg/node:22.1.0'
@@ -47,75 +53,75 @@ workflows:
                 - '3.3'
                 - '3.4'
               gemfile:
-                - gemfiles/rails7.0_graphql2.3.gemfile
-                - gemfiles/rails7.0_graphql2.4.gemfile
-                - gemfiles/rails7.1_graphql2.0.gemfile
-                - gemfiles/rails7.1_graphql2.1.gemfile
-                - gemfiles/rails7.1_graphql2.2.gemfile
-                - gemfiles/rails7.1_graphql2.3.gemfile
-                - gemfiles/rails7.1_graphql2.4.gemfile
-                - gemfiles/rails7.2_graphql2.0.gemfile
-                - gemfiles/rails7.2_graphql2.1.gemfile
-                - gemfiles/rails7.2_graphql2.2.gemfile
-                - gemfiles/rails7.2_graphql2.3.gemfile
-                - gemfiles/rails7.2_graphql2.4.gemfile
-                - gemfiles/rails7.2_graphql2.5.gemfile
-                - gemfiles/rails7.2_graphql2.6.gemfile
-                - gemfiles/rails8.0_graphql2.2.gemfile
-                - gemfiles/rails8.0_graphql2.3.gemfile
-                - gemfiles/rails8.0_graphql2.4.gemfile
-                - gemfiles/rails8.0_graphql2.5.gemfile
-                - gemfiles/rails8.0_graphql2.6.gemfile
-                - gemfiles/rails8.1_graphql2.4.gemfile
-                - gemfiles/rails8.1_graphql2.5.gemfile
-                - gemfiles/rails8.1_graphql2.6.gemfile
+                - rails7.0_graphql2.3
+                - rails7.0_graphql2.4
+                - rails7.1_graphql2.0
+                - rails7.1_graphql2.1
+                - rails7.1_graphql2.2
+                - rails7.1_graphql2.3
+                - rails7.1_graphql2.4
+                - rails7.2_graphql2.0
+                - rails7.2_graphql2.1
+                - rails7.2_graphql2.2
+                - rails7.2_graphql2.3
+                - rails7.2_graphql2.4
+                - rails7.2_graphql2.5
+                - rails7.2_graphql2.6
+                - rails8.0_graphql2.2
+                - rails8.0_graphql2.3
+                - rails8.0_graphql2.4
+                - rails8.0_graphql2.5
+                - rails8.0_graphql2.6
+                - rails8.1_graphql2.4
+                - rails8.1_graphql2.5
+                - rails8.1_graphql2.6
             exclude:
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.0.gemfile
+                gemfile: rails7.2_graphql2.0
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.1.gemfile
+                gemfile: rails7.2_graphql2.1
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.2.gemfile
+                gemfile: rails7.2_graphql2.2
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.3.gemfile
+                gemfile: rails7.2_graphql2.3
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.4.gemfile
+                gemfile: rails7.2_graphql2.4
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.5.gemfile
+                gemfile: rails7.2_graphql2.5
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails7.2_graphql2.6.gemfile
+                gemfile: rails7.2_graphql2.6
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.0_graphql2.2.gemfile
+                gemfile: rails8.0_graphql2.2
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.0_graphql2.3.gemfile
+                gemfile: rails8.0_graphql2.3
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.0_graphql2.4.gemfile
+                gemfile: rails8.0_graphql2.4
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.0_graphql2.5.gemfile
+                gemfile: rails8.0_graphql2.5
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.0_graphql2.6.gemfile
+                gemfile: rails8.0_graphql2.6
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.1_graphql2.4.gemfile
+                gemfile: rails8.1_graphql2.4
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.1_graphql2.5.gemfile
+                gemfile: rails8.1_graphql2.5
               - ruby-version: '3.0'
-                gemfile: gemfiles/rails8.1_graphql2.6.gemfile
+                gemfile: rails8.1_graphql2.6
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.0_graphql2.2.gemfile
+                gemfile: rails8.0_graphql2.2
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.0_graphql2.3.gemfile
+                gemfile: rails8.0_graphql2.3
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.0_graphql2.4.gemfile
+                gemfile: rails8.0_graphql2.4
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.0_graphql2.5.gemfile
+                gemfile: rails8.0_graphql2.5
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.0_graphql2.6.gemfile
+                gemfile: rails8.0_graphql2.6
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.1_graphql2.4.gemfile
+                gemfile: rails8.1_graphql2.4
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.1_graphql2.5.gemfile
+                gemfile: rails8.1_graphql2.5
               - ruby-version: '3.1'
-                gemfile: gemfiles/rails8.1_graphql2.6.gemfile
+                gemfile: rails8.1_graphql2.6
       - report-coverage:
           requires:
             - test

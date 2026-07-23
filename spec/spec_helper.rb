@@ -2,9 +2,11 @@
 
 if ENV['CI'] && !ENV['SKIP_COVERALLS']
   require 'simplecov'
-  require 'coveralls'
 
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  # SimpleCov writes coverage/.resultset.json, which the Coveralls coverage-reporter
+  # (invoked by the coveralls CircleCI orb) picks up and uploads. We no longer upload
+  # from within Ruby so that every parallel job and the parallel_finished webhook share
+  # the same service number and aggregate into a single Coveralls build.
   SimpleCov.start 'rails' do
     add_filter ['spec']
   end
