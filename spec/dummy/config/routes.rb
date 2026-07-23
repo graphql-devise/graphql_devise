@@ -7,13 +7,15 @@ Rails.application.routes.draw do
     base_controller: CookiesController,
     operations: { login: Mutations::Login, register: Mutations::Register },
     additional_mutations: { register_confirmed_user: Mutations::RegisterConfirmedUser },
-    additional_queries: { public_user: Resolvers::PublicUser }
+    additional_queries: { public_user: Resolvers::PublicUser },
+    allow_destroy: true
   )
 
   mount_graphql_devise_for(
     Admin,
     authenticatable_type: Types::CustomAdminType,
     skip:                 [:register],
+    allow_destroy:        true,
     operations:           {
       update_password_with_token: Mutations::ResetAdminPasswordWithToken
     },

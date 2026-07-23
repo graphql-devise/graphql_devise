@@ -2,6 +2,7 @@ pt-BR:
   graphql_devise:
     redirect_url_not_allowed: "Redirecionamento para '%{redirect_url}' não permitido."
     registration_failed: "Usuário não pôde ser registrado"
+    destroy_account_failed: "A conta não pôde ser excluída"
     resource_build_failed: "O recurso não pôde ser construído, execução interrompida."
     not_authenticated: "Usuário não logado."
     user_not_found: "Usuário não encontrado ou não logado."

@@ -10,7 +10,8 @@ module GraphqlDevise
       additional_queries:   OptionSanitizers::HashChecker.new(GraphQL::Schema::Resolver),
       additional_mutations: OptionSanitizers::HashChecker.new(GraphQL::Schema::Mutation),
       authenticatable_type: OptionSanitizers::ClassChecker.new(GraphQL::Schema::Member),
-      public_introspection: OptionSanitizers::BooleanChecker.new(true)
+      public_introspection: OptionSanitizers::BooleanChecker.new(true),
+      allow_destroy:        OptionSanitizers::BooleanChecker.new(false)
     }.freeze
   end
 end

@@ -117,7 +117,10 @@ module GraphqlDevise
         additional_operations: clean_options.additional_mutations,
         preparer:              MountMethod::OperationPreparers::MutationFieldSetter.new(authenticatable_type),
         selected_operations:   MountMethod::OperationSanitizer.call(
-          default: DefaultOperations::MUTATIONS, only: clean_options.only, skipped: clean_options.skip
+          default:       DefaultOperations::MUTATIONS,
+          only:          clean_options.only,
+          skipped:       clean_options.skip,
+          allow_destroy: clean_options.allow_destroy
         )
       ).call
     end

@@ -10,7 +10,8 @@ module GraphqlDevise
       update_password_with_token:      { klass: Mutations::UpdatePasswordWithToken, authenticatable: true },
       send_password_reset_with_token:  { klass: Mutations::SendPasswordResetWithToken, authenticatable: false },
       resend_confirmation_with_token:  { klass: Mutations::ResendConfirmationWithToken, authenticatable: false },
-      confirm_registration_with_token: { klass: Mutations::ConfirmRegistrationWithToken, authenticatable: true }
+      confirm_registration_with_token: { klass: Mutations::ConfirmRegistrationWithToken, authenticatable: true },
+      destroy_account:                 { klass: Mutations::DestroyAccount, authenticatable: true, allow_destroy: true }
     }.freeze
   end
 end
